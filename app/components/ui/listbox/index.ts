@@ -1,0 +1,83 @@
+import type { ListboxProps as PrimitiveListboxProps } from 'akaza-ui'
+import type * as Akaza from 'akaza-ui'
+import type { HTMLAttributes } from 'vue'
+
+import { resolveVariants, tv, type VariantProps } from '../../../utils/ui'
+import type { UiConfig } from '../ui.types'
+
+export const listboxVariants = tv({
+  slots: {
+    root: 'flex flex-col overflow-hidden rounded-lg border border-border bg-popover',
+    hiddenInput: 'sr-only',
+    filter:
+      'm-1 border border-input bg-background text-foreground shadow-none transition-colors duration-150 ease-interaction outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-akaza-focused:ring-2 data-akaza-focused:ring-ring data-akaza-invalid:border-destructive motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11',
+    content: 'max-h-72 overflow-auto p-1',
+    virtualWrapper: '',
+    empty: 'px-3 py-6 text-center text-sm text-muted-foreground',
+    groupLabel: 'px-2 py-1.5 text-xs font-medium text-muted-foreground',
+    separator: 'my-1 h-px bg-border',
+    option:
+      'flex items-center gap-2 rounded-md text-left text-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-akaza-highlighted:bg-muted data-[akaza-state=checked]:bg-muted data-[akaza-state=checked]:text-foreground motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11',
+    indicator: 'size-4 shrink-0 text-primary',
+    optionText: 'flex min-w-0 flex-1 flex-col',
+    optionLabel: 'truncate',
+    optionDescription: 'text-xs text-muted-foreground',
+  },
+  variants: {
+    size: {
+      xs: {
+        option: 'min-h-6 gap-1 rounded-[calc(var(--radius)*0.5)] px-2 py-1 text-xs leading-4',
+        filter: 'min-h-6 gap-1 rounded-[calc(var(--radius)*0.5)] px-2 py-1 text-xs leading-4',
+        indicator: 'size-3',
+      },
+      sm: {
+        option: 'min-h-7 gap-1 rounded-sm px-2.5 py-1 text-[13px] leading-4',
+        filter: 'min-h-7 gap-1 rounded-sm px-2.5 py-1 text-[13px] leading-4',
+        indicator: 'size-3.5',
+      },
+      md: {
+        option: 'min-h-8 gap-1.5 rounded-md px-3 py-1 text-sm leading-5',
+        filter: 'min-h-8 gap-1.5 rounded-md px-3 py-1 text-sm leading-5',
+        indicator: 'size-4',
+      },
+      lg: {
+        option: 'min-h-9 gap-2 rounded-lg px-3.5 py-1 text-sm leading-5',
+        filter: 'min-h-9 gap-2 rounded-lg px-3.5 py-1 text-sm leading-5',
+        indicator: 'size-4.5',
+      },
+      xl: {
+        option: 'min-h-10 gap-2.5 rounded-[calc(var(--radius)*1.2)] px-4 py-1 text-base leading-6',
+        filter: 'min-h-10 gap-2.5 rounded-[calc(var(--radius)*1.2)] px-4 py-1 text-base leading-6',
+        indicator: 'size-5',
+      },
+    },
+  },
+  defaultVariants: {
+    size: 'sm',
+  },
+})
+export type ListboxVariants = VariantProps<typeof listboxVariants>
+export type ListboxConfig = Pick<ListboxVariants, 'size'>
+export type ListboxSlots = InstanceType<typeof Akaza.Listbox>['$slots']
+export interface ListboxProps extends Omit<PrimitiveListboxProps, 'ui' | 'class' | 'size'> {
+  class?: HTMLAttributes['class']
+  ui?: Akaza.ListboxUi
+  size?: ListboxVariants['size']
+  modelValue?: Akaza.ListboxModelValue
+  search?: string
+}
+export function resolveListboxVariants(props: ListboxVariants, config: UiConfig): ListboxVariants {
+  return resolveVariants(
+    props,
+    config.components?.listbox,
+    config.defaults,
+    listboxVariants.variants,
+  )
+}
+export { default as Listbox } from './Listbox.vue'
+
+declare module '../ui.types' {
+  interface UiComponentConfig {
+    listbox?: ListboxConfig
+  }
+}

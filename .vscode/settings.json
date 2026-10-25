@@ -1,0 +1,16 @@
+{
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.oxc": "always",
+    "source.fixAll.eslint": "never",
+    "source.organizeImports": "never"
+  },
+  "eslint.enable": false,
+  "oxc.enable.oxfmt": true,
+  "oxc.enable.oxlint": true,
+  "[vue]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  },
+  "tailwindCSS.classFunctions": ["cn", "tv"]
+}

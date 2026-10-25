@@ -1,0 +1,99 @@
+---
+title: Date Range Picker
+description: Segmented date-range entry and an accessible range Calendar in one collision-aware popup.
+navigation:
+  icon: tabler:calendar-month
+---
+
+::component-example{name="date-range-picker" size-options="xs,sm,md,lg,xl" default-size="sm"}
+::
+
+## Usage
+
+```vue
+<script setup lang="ts">
+import { DateRangePicker } from '~/components/ui/date-range-picker'
+</script>
+
+<template>
+  <DateRangePicker aria-label="Project dates" />
+</template>
+```
+
+## Variants and defaults
+
+| Prop   | Values                       | Default |
+| ------ | ---------------------------- | ------- |
+| `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
+
+## Models
+
+| Model                 | Type                | Default                    | Description                               |
+| --------------------- | ------------------- | -------------------------- | ----------------------------------------- |
+| `v-model`             | `CalendarDateRange` | `{}`                       | Shared typed and calendar-selected range. |
+| `v-model:open`        | `boolean`           | `false`                    | Popup open state.                         |
+| `v-model:placeholder` | `CalendarDateValue` | selected endpoint or today | First visible calendar month.             |
+
+## Props
+
+Date Range Picker accepts Date Range Field props `id`, `name`, `startName`, `endName`, `locale`, `dir`, `minValue`, `maxValue`, `isDateUnavailable`, `allowNonContiguousRanges`, `maximumDays`, `fixedDate`, `required`, `disabled`, `readOnly`, `invalid`, `selectOnFocus`, `autoAdvance`, endpoint labels, and ARIA relationships.
+
+| Prop                            | Type                                     | Default               | Description                                          |
+| ------------------------------- | ---------------------------------------- | --------------------- | ---------------------------------------------------- |
+| `isDateDisabled`                | `(date) => boolean`                      | -                     | Calendar-only disabled-date rule.                    |
+| `calendarLabel`                 | `string`                                 | `"Choose date range"` | Trigger and popup accessible label.                  |
+| `closeLabel`                    | `string`                                 | -                     | Renders an explicit close button with this label.    |
+| `closeOnSelect`                 | `boolean`                                | `false`               | Closes after both endpoints are selected.            |
+| `weekStartsOn`                  | `"sun" \| "mon" \| ...`                  | locale default        | Explicit first weekday.                              |
+| `weekdayFormat`                 | `"narrow" \| "short" \| "long"`          | `"narrow"`            | Visible weekday format.                              |
+| `fixedWeeks`                    | `boolean`                                | `false`               | Renders six weeks per month for stable popup height. |
+| `numberOfMonths`                | `number`                                 | `1`                   | Adjacent month grids.                                |
+| `pagedNavigation`               | `boolean`                                | `false`               | Moves by `numberOfMonths`.                           |
+| `disableDaysOutsideCurrentView` | `boolean`                                | `false`               | Blocks selecting outside days.                       |
+| `nextPage`                      | `(placeholder) => CalendarDateValue`     | add month(s)          | Custom next page calculation.                        |
+| `prevPage`                      | `(placeholder) => CalendarDateValue`     | subtract month(s)     | Custom previous page calculation.                    |
+| `side`                          | `"top" \| "right" \| "bottom" \| "left"` | `"bottom"`            | Preferred popup side with collision flipping.        |
+| `align`                         | `"start" \| "center" \| "end"`           | `"start"`             | Popup alignment.                                     |
+| `sideOffset`                    | `number`                                 | `6`                   | Trigger-to-popup gap in pixels.                      |
+| `teleport`                      | `string \| false`                        | `"body"`              | Teleport target; `false` keeps popup beside root.    |
+| `ui`                            | `DateRangePickerUi`                      | -                     | Classes and nested field/calendar UI maps.           |
+
+## Slots
+
+| Slot            | Props                               | Description                                                      |
+| --------------- | ----------------------------------- | ---------------------------------------------------------------- |
+| `start-literal` | `value`                             | Start endpoint locale separator.                                 |
+| `separator`     | -                                   | Endpoint separator.                                              |
+| `end-literal`   | `value`                             | End endpoint locale separator.                                   |
+| `trigger`       | `isOpen`, `open`, `close`, `toggle` | Calendar trigger content. Actions are native event-handler safe. |
+| `calendar`      | `value`, `close`                    | Replaces built-in Calendar.                                      |
+| `previous`      | `disabled`                          | Built-in Calendar previous control content.                      |
+| `heading`       | `label`, `months`                   | Built-in Calendar heading.                                       |
+| `next`          | `disabled`                          | Built-in Calendar next control content.                          |
+| `weekday`       | `date`, `label`                     | Built-in weekday content.                                        |
+| `day`           | Complete `CalendarDay` state        | Built-in day button content.                                     |
+| `footer`        | `value`, `placeholder`              | Optional built-in Calendar footer.                               |
+| `close`         | `close`                             | Explicit close-button content.                                   |
+
+## Emits
+
+| Event                | Payload             | Description                                                     |
+| -------------------- | ------------------- | --------------------------------------------------------------- |
+| `update:modelValue`  | `CalendarDateRange` | Fires after accepted typed or calendar changes.                 |
+| `value-change`       | `(range, details)`  | Fires before value changes. `details.cancel()` prevents update. |
+| `value-commit`       | `(range, details)`  | Fires after accepted field or calendar commits.                 |
+| `update:open`        | `boolean`           | Fires after accepted popup state changes.                       |
+| `open-change`        | `(open, details)`   | Fires before popup changes. Cancelable.                         |
+| `update:placeholder` | `CalendarDateValue` | Fires after accepted visible-month changes.                     |
+| `placeholder-change` | `(date, details)`   | Fires before visible-month changes. Cancelable.                 |
+
+Open reasons include `trigger`, `select`, `escape`, `outside-click`, and `programmatic`. Value reasons match Date Range Field plus `calendar`.
+
+## Source
+
+Copy `DateRangePicker.vue` and `index.ts` into `components/ui/date-range-picker` after [installation](/getting-started/installation).
+
+Also copy [Date Range Field](/components/date-range-field), [Date Field](/components/date-field), [Calendar](/components/calendar); this recipe uses their styled parts.
+
+::component-source{name="date-range-picker"}
+::

@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "semi": false,
+  "singleQuote": true,
+  "sortImports": {},
+  "sortPackageJson": true,
+  "sortTailwindcss": {
+    "stylesheet": "./app/assets/main.css",
+    "functions": ["cn", "tv"]
+  },
+  "ignorePatterns": [
+    ".nuxt/**",
+    ".output/**",
+    ".data/**",
+    "node_modules/**",
+    "test-results/**",
+    "playwright-report/**",
+    ".taste-skill/**",
+    "akaza-ui/**",
+    "IPEX-Design-System.md",
+    "pnpm-lock.yaml"
+  ]
+}

@@ -1,0 +1,79 @@
+---
+title: Hover Preview Card
+description: Hover-triggered rich content preview for links, users, and entities.
+navigation:
+  icon: tabler:id
+---
+
+::component-example{name="hover-preview-card" width-options="xs,sm,md,lg,xl" default-width="md"}
+::
+
+## Usage
+
+```vue
+<script setup lang="ts">
+import { HoverPreviewCard } from '~/components/ui/hover-preview-card'
+import { Button } from '~/components/ui/button'
+</script>
+
+<template>
+  <HoverPreviewCard>
+    <template #trigger="{ triggerProps }"
+      ><Button v-bind="triggerProps">Open hover preview card</Button></template
+    >
+    <template #content>Details for the current project.</template>
+  </HoverPreviewCard>
+</template>
+```
+
+## Variants and defaults
+
+| Prop    | Values                       | Default |
+| ------- | ---------------------------- | ------- |
+| `width` | `xs`, `sm`, `md`, `lg`, `xl` | `md`    |
+
+`width` sets the floating surface width, independently of control size. The surface stays inside the viewport.
+
+## Props
+
+| Prop          | Type                                     | Default    | Description                                                       |
+| ------------- | ---------------------------------------- | ---------- | ----------------------------------------------------------------- |
+| `side`        | `"top" \| "right" \| "bottom" \| "left"` | `"bottom"` | Preferred side.                                                   |
+| `align`       | `"start" \| "center" \| "end"`           | `"center"` | Alignment on the cross-axis.                                      |
+| `sideOffset`  | `number`                                 | `8`        | Gap in px.                                                        |
+| `openDelay`   | `number`                                 | `600`      | Delay before opening.                                             |
+| `closeDelay`  | `number`                                 | `150`      | Delay before closing.                                             |
+| `disabled`    | `boolean`                                | `false`    | Prevents opening.                                                 |
+| `forceMount`  | `boolean`                                | `false`    | Keeps closed content mounted, hidden, and inert.                  |
+| `openOnClick` | `boolean`                                | `true`     | Toggles on touch/pen click. Mouse continues to use hover/focus.   |
+| `arrow`       | `boolean`                                | `false`    | Renders arrow element.                                            |
+| `ariaLabel`   | `string`                                 | —          | Adds labelled `role="dialog"` semantics for interactive previews. |
+| `teleport`    | `string \| false`                        | `"body"`   | Teleport target.                                                  |
+| `ui`          | `HoverPreviewCardUi`                     | —          | Classes for structural parts.                                     |
+
+## Slots
+
+| Slot      | Props                    | Description      |
+| --------- | ------------------------ | ---------------- |
+| `trigger` | `isOpen`, `triggerProps` | Trigger content. |
+| `content` | `close`                  | Preview content. |
+
+## Emits
+
+| Event         | Payload           | Description                      |
+| ------------- | ----------------- | -------------------------------- |
+| `open-change` | `(open, details)` | Fired before open state changes. |
+
+## Keyboard
+
+| Key           | Behavior                                                                      |
+| ------------- | ----------------------------------------------------------------------------- |
+| `Tab` / focus | Opens on trigger focus and remains open while focus is in trigger or content. |
+| `Escape`      | Closes the card and returns focus to trigger.                                 |
+
+## Source
+
+Copy `HoverPreviewCard.vue` and `index.ts` into `components/ui/hover-preview-card` after [installation](/getting-started/installation).
+
+::component-source{name="hover-preview-card"}
+::
