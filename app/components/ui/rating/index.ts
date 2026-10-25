@@ -7,40 +7,31 @@ import type { UiConfig } from '../ui.types'
 
 export const ratingVariants = tv({
   slots: {
-    root: 'inline-flex gap-1',
+    root: 'inline-flex cursor-pointer gap-1 select-none [--rating-target-size:var(--rating-icon-size)] data-akaza-disabled:cursor-default data-akaza-readonly:cursor-default pointer-coarse:[--rating-target-size:2.75rem]',
     hiddenInput: 'sr-only',
-    item: 'relative inline-flex text-dimmed outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50',
-    base: 'text-muted-foreground/40',
-    fill: 'text-warning',
-    fillIcon: 'size-full',
-    radio: 'sr-only',
+    item: 'relative inline-flex size-(--rating-target-size) shrink-0 text-dimmed',
+    base: 'pointer-events-none absolute inset-0 flex items-center justify-center text-muted-foreground/40',
+    fill: 'pointer-events-none absolute inset-y-0 overflow-hidden text-warning',
+    fillIcon: 'flex h-full w-(--rating-target-size) shrink-0 items-center justify-center',
+    radio:
+      'cursor-inherit absolute inset-y-0 m-0 h-full rounded-sm border-0 bg-transparent p-0 outline-none select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:pointer-events-none disabled:opacity-50',
   },
   variants: {
     size: {
       xs: {
-        item: 'size-3',
-        base: 'size-full',
-        root: 'gap-1',
+        root: 'gap-1 [--rating-icon-size:0.75rem]',
       },
       sm: {
-        item: 'size-3.5',
-        base: 'size-full',
-        root: 'gap-1',
+        root: 'gap-1 [--rating-icon-size:0.875rem]',
       },
       md: {
-        item: 'size-4',
-        base: 'size-full',
-        root: 'gap-1.5',
+        root: 'gap-1.5 [--rating-icon-size:1rem]',
       },
       lg: {
-        item: 'size-4.5',
-        base: 'size-full',
-        root: 'gap-2',
+        root: 'gap-2 [--rating-icon-size:1.125rem]',
       },
       xl: {
-        item: 'size-5',
-        base: 'size-full',
-        root: 'gap-2.5',
+        root: 'gap-2.5 [--rating-icon-size:1.25rem]',
       },
     },
   },

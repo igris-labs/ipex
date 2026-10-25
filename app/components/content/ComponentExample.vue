@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import { useOverlay, useToast, type OverlayInstance } from 'akaza-ui'
-import { computed, defineAsyncComponent, onBeforeUnmount, ref, watch } from 'vue'
+import { useOverlay, useToast, type MenuItem, type OverlayInstance } from 'akaza-ui'
+import { computed, defineAsyncComponent, onBeforeUnmount, reactive, ref, watch } from 'vue'
 
 import { Button } from '../ui/button'
+import { Checkbox } from '../ui/checkbox'
+import { Collapsible } from '../ui/collapsible'
 import { Dialog } from '../ui/dialog'
 import { Input } from '../ui/input'
 import { NavigationMenu } from '../ui/navigation-menu'
+import { NumberField } from '../ui/number-field'
 import { Select } from '../ui/select'
+import { exampleOptions, exampleAxes } from './example-options'
 
 const props = defineProps<{
   name: string
@@ -17,20 +21,99 @@ const props = defineProps<{
   defaultVariant?: string
   defaultWidth?: string
 }>()
+const activeSizeOptions = computed(
+  () => props.sizeOptions ?? exampleAxes[props.name]?.size?.join(','),
+)
+const activeVariantOptions = computed(
+  () => props.variantOptions ?? exampleAxes[props.name]?.variant?.join(','),
+)
+const activeWidthOptions = computed(
+  () => props.widthOptions ?? exampleAxes[props.name]?.width?.join(','),
+)
+const isDisclosure = computed(() => ['accordion', 'collapsible'].includes(props.name))
+const optionValues = ref<Record<string, string>>({})
+const optionDefinitions = computed(() =>
+  Object.entries({
+    ...exampleOptions[props.name],
+    ...Object.fromEntries(
+      Object.entries(exampleAxes[props.name] ?? {}).filter(
+        ([key]) => !['size', 'variant', 'width'].includes(key),
+      ),
+    ),
+  }).filter(
+    ([key]) =>
+      !(
+        isDisclosure.value &&
+        ['type', 'orientation', 'collapsible', 'disabled', 'unmountOnHide'].includes(key)
+      ),
+  ),
+)
+function optionLabel(key: string) {
+  return key.replace(/([A-Z])/g, ' $1').replace(/^./, (value) => value.toUpperCase())
+}
+function optionChoices(definition: import('./example-options').ExampleOption) {
+  return [
+    { value: '__default__', label: 'Default' },
+    ...(definition === 'boolean'
+      ? [
+          { value: 'true', label: 'On' },
+          { value: 'false', label: 'Off' },
+        ]
+      : Array.isArray(definition)
+        ? definition.map((value) => ({ value, label: value }))
+        : []),
+  ]
+}
+const optionProps = computed(() =>
+  Object.fromEntries(
+    optionDefinitions.value.flatMap(([key, definition]) => {
+      const value = optionValues.value[key]
+      if (
+        value === undefined ||
+        value === '__default__' ||
+        (definition === 'number' && value === '')
+      )
+        return []
+      return [
+        [
+          key,
+          definition === 'boolean'
+            ? value === 'true'
+            : definition === 'number'
+              ? Number(value)
+              : value,
+        ],
+      ]
+    }),
+  ),
+)
 const exampleSize = ref(props.defaultSize)
 const exampleVariant = ref(props.defaultVariant)
 const exampleWidth = ref(props.defaultWidth)
+const disclosure = reactive({
+  type: 'single',
+  orientation: 'vertical',
+  collapsible: true,
+  disabled: false,
+  unmountOnHide: false,
+})
+const disclosureToggles = computed(() => [
+  ...(props.name === 'accordion' ? [{ key: 'collapsible', label: 'Collapsible' } as const] : []),
+  { key: 'disabled', label: 'Disabled' } as const,
+  { key: 'unmountOnHide', label: 'Unmount on hide' } as const,
+])
 function optionsFor(values?: string) {
   return values?.split(',').map((value) => ({ value, label: value })) ?? []
 }
 const settings = computed(() => ({
-  ...(props.sizeOptions ? { size: exampleSize.value } : {}),
-  ...(props.variantOptions ? { variant: exampleVariant.value } : {}),
-  ...(props.widthOptions ? { width: exampleWidth.value } : {}),
+  ...(activeSizeOptions.value ? { size: exampleSize.value } : {}),
+  ...(activeVariantOptions.value ? { variant: exampleVariant.value } : {}),
+  ...(activeWidthOptions.value ? { width: exampleWidth.value } : {}),
 }))
 watch(
   () => props.name,
   () => {
+    optionValues.value = {}
     exampleSize.value = props.defaultSize
     exampleVariant.value = props.defaultVariant
     exampleWidth.value = props.defaultWidth
@@ -55,12 +138,30 @@ const options = [
   { value: 'tailwind', label: 'Tailwind CSS' },
   { value: 'akaza', label: 'Akaza UI' },
 ]
-const menu = [
+const menu: MenuItem[] = reactive([
   { label: 'Edit project', value: 'edit' },
   { label: 'Duplicate', value: 'duplicate' },
+  {
+    label: 'Move to',
+    value: 'move',
+    children: [
+      { label: 'Personal projects', value: 'move-personal' },
+      { label: 'Team projects', value: 'move-team' },
+    ],
+  },
+  { type: 'separator' },
+  {
+    type: 'checkbox',
+    label: 'Show archived',
+    value: 'show-archived',
+    checked: false,
+    onUpdateChecked: (checked: boolean) => {
+      menu.find((item) => item.value === 'show-archived')!.checked = checked
+    },
+  },
   { type: 'separator' },
   { label: 'Archive', value: 'archive' },
-]
+])
 const entries: Record<string, Record<string, unknown>> = {
   accordion: {
     items: [
@@ -76,7 +177,7 @@ const entries: Record<string, Record<string, unknown>> = {
       },
     ],
   },
-  avatar: { text: 'IL', alt: 'Igris Labs' },
+  avatar: { src: '/images/avatar.jpg', text: 'TM', alt: 'Team member' },
   calendar: { calendarLabel: 'Choose a date' },
   checkbox: {
     label: 'Include archived projects',
@@ -84,7 +185,7 @@ const entries: Record<string, Record<string, unknown>> = {
   },
   'checkbox-group': { options, legend: 'Frameworks', ariaLabel: 'Frameworks' },
   combobox: { options, placeholder: 'Choose a framework', ariaLabel: 'Framework' },
-  'context-menu': { items: menu },
+  'context-menu': { items: menu, teleport: 'body' },
   'data-table': {
     data: [
       { id: 'ipex', name: 'IPEX', status: 'In progress' },
@@ -107,20 +208,53 @@ const entries: Record<string, Record<string, unknown>> = {
   },
   drawer: { title: 'Project details', description: 'Keep the current page in view.' },
   editable: { ariaLabel: 'Project title' },
-  field: { label: 'Project name', description: 'Use a name your team can recognize.' },
-  fieldset: { legend: 'Project details', description: 'Set the name used across your workspace.' },
+  field: {
+    label: 'Project name',
+    description: 'Use a name your team can recognize.',
+    class: 'w-full',
+  },
+  fieldset: {
+    legend: 'Project details',
+    description: 'Set the name used across your workspace.',
+    class: 'w-full',
+  },
+  form: { class: 'w-full' },
   input: { ariaLabel: 'Project name', placeholder: 'Project name' },
   listbox: { options, ariaLabel: 'Frameworks', filterable: true },
-  menu: { items: menu },
+  menu: { items: menu, teleport: 'body' },
   menubar: {
+    teleport: 'body',
     items: [
-      { value: 'file', label: 'File', children: menu },
+      {
+        value: 'file',
+        label: 'File',
+        children: [
+          ...menu,
+          { type: 'separator' },
+          {
+            label: 'Open recent',
+            value: 'recent',
+            children: [
+              { label: 'IPEX docs', value: 'recent-docs' },
+              { label: 'Workspace', value: 'recent-workspace' },
+            ],
+          },
+        ],
+      },
       {
         value: 'edit',
         label: 'Edit',
         children: [
           { label: 'Undo', value: 'undo' },
           { label: 'Redo', value: 'redo' },
+          {
+            label: 'Find',
+            value: 'find',
+            children: [
+              { label: 'Find in project', value: 'find-project' },
+              { label: 'Replace in project', value: 'replace-project' },
+            ],
+          },
         ],
       },
     ],
@@ -130,7 +264,22 @@ const entries: Record<string, Record<string, unknown>> = {
   'navigation-menu': {
     items: [
       { label: 'Overview', value: 'overview' },
-      { label: 'Projects', value: 'projects' },
+      {
+        label: 'Projects',
+        value: 'projects',
+        children: [
+          {
+            label: 'All projects',
+            value: 'all-projects',
+            description: 'Browse your workspace projects.',
+          },
+          {
+            label: 'Archived projects',
+            value: 'archived-projects',
+            description: 'Review completed work.',
+          },
+        ],
+      },
       { label: 'Settings', value: 'settings' },
     ],
     ariaLabel: 'Project navigation',
@@ -139,7 +288,7 @@ const entries: Record<string, Record<string, unknown>> = {
   pagination: { total: 100, itemsPerPage: 10, ariaLabel: 'Project pages' },
   'pin-input': { length: 6, ariaLabel: 'Verification code' },
   'radio-group': { options, legend: 'Framework', ariaLabel: 'Framework' },
-  rating: { max: 5, ariaLabel: 'Rate this component' },
+  rating: { length: 5, ariaLabel: 'Rate this component' },
   select: { options, placeholder: 'Choose a framework', ariaLabel: 'Framework' },
   separator: { orientation: 'horizontal' },
   sidebar: {
@@ -147,7 +296,7 @@ const entries: Record<string, Record<string, unknown>> = {
     defaultSize: 200,
     ui: { root: 'h-64', panel: 'border border-border rounded-lg' },
   },
-  slider: { min: 0, max: 100, ariaLabel: 'Project progress' },
+  slider: { min: 0, max: 100, ariaLabel: 'Project progress', class: 'w-full' },
   stepper: {
     items: [
       { value: 'details', title: 'Details', content: 'Name the project.' },
@@ -190,6 +339,7 @@ const entries: Record<string, Record<string, unknown>> = {
     ariaLabel: 'Text formatting',
   },
   tree: {
+    class: 'w-fit min-w-48',
     items: [
       {
         id: 'components',
@@ -210,6 +360,7 @@ const entries: Record<string, Record<string, unknown>> = {
 }
 const values: Record<string, unknown> = {
   progress: 64,
+  collapsible: false,
   slider: 40,
   rating: 3,
   editable: 'IPEX project',
@@ -222,6 +373,60 @@ const values: Record<string, unknown> = {
   'navigation-menu': 'overview',
 }
 const model = ref<unknown>(values[props.name])
+const hasModelState = computed(() =>
+  ['checkbox', 'switch', 'toggle', 'progress'].includes(props.name),
+)
+const modelState = computed({
+  get: () =>
+    props.name === 'progress'
+      ? model.value == null
+        ? 'indeterminate'
+        : 'determinate'
+      : model.value === 'indeterminate'
+        ? 'indeterminate'
+        : model.value
+          ? 'checked'
+          : 'unchecked',
+  set: (state: string) => {
+    model.value =
+      props.name === 'progress'
+        ? state === 'indeterminate'
+          ? null
+          : 64
+        : state === 'indeterminate'
+          ? 'indeterminate'
+          : state === 'checked'
+  },
+})
+const modelStateOptions = computed(() =>
+  optionsFor(
+    props.name === 'progress'
+      ? 'determinate,indeterminate'
+      : props.name === 'checkbox'
+        ? 'unchecked,checked,indeterminate'
+        : 'unchecked,checked',
+  ),
+)
+const previewRevision = ref(0)
+const exampleKey = computed(() => `${props.name}:${previewRevision.value}`)
+
+watch(
+  () => [optionProps.value.multiple, optionProps.value.selectionMode, optionProps.value.type],
+  () => {
+    model.value =
+      optionProps.value.multiple ||
+      optionProps.value.selectionMode === 'multiple' ||
+      optionProps.value.type === 'multiple'
+        ? []
+        : values[props.name]
+  },
+)
+watch(
+  () => disclosure.type,
+  () => {
+    model.value = disclosure.type === 'multiple' ? [] : undefined
+  },
+)
 watch(
   () => props.name,
   (name) => {
@@ -231,21 +436,48 @@ watch(
 const toast = useToast()
 const overlays = useOverlay()
 let overlay: OverlayInstance<typeof Dialog> | undefined
+let disposeOverlayOnClose = true
 function openOverlay() {
-  overlay ??= overlays.create(Dialog, {
-    props: {
-      title: 'Programmatic dialog',
-      description: 'Opened through the IPEX OverlayProvider.',
-    },
-    destroyOnClose: true,
+  const { destroyOnClose, ...options } = optionProps.value
+  const dispose = destroyOnClose !== false
+  if (overlay && dispose !== disposeOverlayOnClose) {
+    overlay.unmount()
+    overlay = undefined
+  }
+  disposeOverlayOnClose = dispose
+  overlay ??= overlays.create(Dialog, { destroyOnClose: dispose })
+  return overlay.open({
+    ...settings.value,
+    title: String(options.title ?? 'Programmatic dialog'),
+    description: String(options.description ?? 'Opened through the IPEX OverlayProvider.'),
+    fullscreen: typeof options.fullscreen === 'boolean' ? options.fullscreen : undefined,
+    closeOnBackdropClick:
+      typeof options.closeOnBackdropClick === 'boolean' ? options.closeOnBackdropClick : undefined,
+    duration: typeof options.duration === 'number' ? options.duration : undefined,
   })
-  return overlay.open()
 }
+
 onBeforeUnmount(() => overlay?.unmount())
 const status = ref('')
+const buttonClicks = ref(0)
+function recordButtonClick() {
+  buttonClicks.value++
+  status.value = `Clicked ${buttonClicks.value} ${buttonClicks.value === 1 ? 'time' : 'times'}`
+}
 const demoProps = computed(() => ({
   ...entries[props.name],
   ...settings.value,
+  ...optionProps.value,
+  ...(isDisclosure.value
+    ? { disabled: disclosure.disabled, unmountOnHide: disclosure.unmountOnHide }
+    : {}),
+  ...(props.name === 'accordion'
+    ? {
+        type: disclosure.type,
+        orientation: disclosure.orientation,
+        collapsible: disclosure.collapsible,
+      }
+    : {}),
   ...(props.name === 'progress' ? { ariaLabel: 'Upload progress' } : {}),
 }))
 </script>
@@ -254,42 +486,166 @@ const demoProps = computed(() => ({
   <div
     data-ui
     data-testid="component-preview"
-    class="my-6 min-w-0 overflow-hidden rounded-lg border border-border/60 bg-background"
+    class="my-6 min-w-0 overflow-visible rounded-lg border border-border/60 bg-background"
   >
     <div
-      v-if="sizeOptions || variantOptions || widthOptions"
+      v-if="activeSizeOptions || activeVariantOptions || activeWidthOptions || isDisclosure"
       class="flex min-h-11 flex-wrap items-center gap-3 border-b border-border/60 px-3 py-2"
     >
-      <div v-if="sizeOptions" class="flex items-center gap-2 text-xs text-muted-foreground">
+      <div v-if="activeSizeOptions" class="flex items-center gap-2 text-xs text-muted-foreground">
         <span>Size</span
         ><Select
           v-model="exampleSize"
-          :options="optionsFor(sizeOptions)"
+          :options="optionsFor(activeSizeOptions)"
           size="xs"
+          class="min-w-16"
+          placeholder="Default"
           aria-label="Example size"
         />
       </div>
-      <div v-if="variantOptions" class="flex items-center gap-2 text-xs text-muted-foreground">
+      <div
+        v-if="activeVariantOptions"
+        class="flex items-center gap-2 text-xs text-muted-foreground"
+      >
         <span>Variant</span
         ><Select
           v-model="exampleVariant"
-          :options="optionsFor(variantOptions)"
+          :options="optionsFor(activeVariantOptions)"
           size="xs"
+          class="min-w-16"
+          placeholder="Default"
           aria-label="Example variant"
         />
       </div>
-      <div v-if="widthOptions" class="flex items-center gap-2 text-xs text-muted-foreground">
+      <div v-if="activeWidthOptions" class="flex items-center gap-2 text-xs text-muted-foreground">
         <span>Width</span
         ><Select
           v-model="exampleWidth"
-          :options="optionsFor(widthOptions)"
+          :options="optionsFor(activeWidthOptions)"
           size="xs"
+          class="min-w-16"
+          placeholder="Default"
           aria-label="Example width"
         />
       </div>
+      <div v-if="hasModelState" class="flex items-center gap-2 text-xs text-muted-foreground">
+        <span>State</span
+        ><Select
+          v-model="modelState"
+          :options="modelStateOptions"
+          size="xs"
+          aria-label="Example state"
+        />
+      </div>
+      <div v-if="name === 'progress'" class="flex items-center gap-2 text-xs text-muted-foreground">
+        <span>Value</span
+        ><NumberField
+          :model-value="typeof model === 'number' ? model : undefined"
+          :min="Number(optionProps.min ?? 0)"
+          :max="Number(optionProps.max ?? 100)"
+          size="xs"
+          aria-label="Example value"
+          @update:model-value="model = $event"
+        />
+      </div>
+      <template v-if="name === 'accordion'">
+        <div class="flex items-center gap-2 text-xs text-muted-foreground">
+          <span>Type</span>
+          <Select
+            v-model="disclosure.type"
+            :options="optionsFor('single,multiple')"
+            size="xs"
+            class="min-w-24"
+            aria-label="Example type"
+          />
+        </div>
+        <div class="flex items-center gap-2 text-xs text-muted-foreground">
+          <span>Orientation</span>
+          <Select
+            v-model="disclosure.orientation"
+            :options="optionsFor('vertical,horizontal')"
+            size="xs"
+            class="min-w-28"
+            aria-label="Example orientation"
+          />
+        </div>
+      </template>
+      <div v-if="isDisclosure" class="flex w-full flex-wrap items-center gap-x-4 gap-y-2">
+        <Checkbox
+          v-for="control in disclosureToggles"
+          :key="control.key"
+          v-model="disclosure[control.key]"
+          :label="control.label"
+          size="xs"
+        />
+      </div>
     </div>
-    <div class="flex min-h-56 min-w-0 items-center justify-center p-2 sm:p-6">
-      <div class="w-full max-w-md min-w-0">
+    <Collapsible
+      v-if="optionDefinitions.length"
+      data-testid="component-options"
+      :unmount-on-hide="true"
+      :ui="{
+        root: 'overflow-visible rounded-none border-0 border-b border-border/60 bg-transparent shadow-none',
+        trigger:
+          activeSizeOptions || activeVariantOptions || activeWidthOptions || isDisclosure
+            ? undefined
+            : 'rounded-t-lg',
+        contentWrapper: 'data-[akaza-state=open]:overflow-visible',
+        contentInner: 'overflow-visible',
+      }"
+    >
+      <template #trigger>Options and states</template>
+      <template #content>
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <label
+            v-for="[key, definition] in optionDefinitions"
+            :key="key"
+            class="flex min-w-0 flex-col gap-1.5 text-xs text-muted-foreground"
+          >
+            <span>{{ optionLabel(key) }}</span>
+            <NumberField
+              v-if="definition === 'number'"
+              :step="
+                ['step', 'value', 'min', 'max', 'low', 'high', 'optimum'].includes(key) ? 0.1 : 1
+              "
+              :model-value="
+                optionValues[key] == null || optionValues[key] === ''
+                  ? undefined
+                  : Number(optionValues[key])
+              "
+              @update:model-value="optionValues[key] = $event == null ? '' : String($event)"
+              :aria-label="`Example ${key}`"
+              size="xs"
+            />
+            <Input
+              v-else-if="definition === 'text'"
+              v-model="optionValues[key]"
+              type="text"
+              :aria-label="`Example ${key}`"
+              placeholder="Default"
+              size="xs"
+            />
+            <Select
+              v-else
+              v-model="optionValues[key]"
+              :options="optionChoices(definition)"
+              :aria-label="`Example ${key}`"
+              placeholder="Default"
+              size="xs"
+            />
+          </label>
+        </div>
+        <div class="mt-4 flex flex-wrap items-center gap-3">
+          <Button variant="soft" size="xs" @click="previewRevision++">Restart preview</Button>
+          <span class="text-xs text-muted-foreground">Restart to reapply initial props.</span>
+        </div>
+      </template>
+    </Collapsible>
+    <div
+      data-testid="demo-stage"
+      class="flex min-h-56 min-w-0 items-center justify-center p-2 sm:p-6"
+    >
+      <div :key="exampleKey" class="grid w-full max-w-md min-w-0 justify-items-center gap-3">
         <template v-if="name === 'toast'">
           <Button
             @click="
@@ -341,24 +697,30 @@ const demoProps = computed(() => ({
             ></template
           >
           <template #content
-            ><p class="max-w-64 text-sm leading-6">
-              Project details stay close to the current task.
-            </p></template
+            ><p class="max-w-64">Project details stay close to the current task.</p></template
           >
         </component>
-        <component v-else-if="name === 'collapsible'" :is="component">
+        <component
+          v-else-if="name === 'collapsible'"
+          :is="component"
+          v-model="model"
+          v-bind="demoProps"
+        >
           <template #trigger>Project details</template>
-          <p>Change the project name and visibility from this section.</p>
+          <template #content
+            ><p>Change the project name and visibility from this section.</p></template
+          >
         </component>
         <component v-else-if="name === 'context-menu'" :is="component" v-bind="demoProps"
           >Right-click here for project actions.</component
         >
         <component
           v-else-if="name === 'app-layout'"
-          scroll="page"
-          :viewport="false"
+          v-bind="demoProps"
+          :scroll="optionProps.scroll ?? 'page'"
+          :viewport="optionProps.viewport ?? false"
           :is="component"
-          :ui="{ root: 'min-h-56 overflow-hidden rounded-lg border border-border' }"
+          :ui="{ root: 'min-h-56 max-h-64 w-full overflow-hidden rounded-lg border border-border' }"
         >
           <template #header><span class="text-sm font-medium">IPEX workspace</span></template>
           <p class="p-4 text-sm text-muted-foreground">
@@ -386,11 +748,15 @@ const demoProps = computed(() => ({
           <Input aria-label="Project name" placeholder="Project name" />
           <Button v-if="name === 'form'" type="submit">Save project</Button>
         </component>
-        <template v-else-if="name === 'separator'"
-          ><p class="mb-4 text-sm">Project overview</p>
-          <component :is="component" v-bind="demoProps" />
-          <p class="mt-4 text-sm text-muted-foreground">Recent activity</p></template
+        <div
+          v-else-if="name === 'separator'"
+          class="flex w-full items-center gap-4"
+          :class="demoProps.orientation === 'vertical' ? 'h-16' : 'flex-col'"
         >
+          <p class="shrink-0 text-sm">Project overview</p>
+          <component :is="component" v-bind="demoProps" />
+          <p class="text-sm text-muted-foreground">Recent activity</p>
+        </div>
         <component v-else-if="name === 'tabs'" :is="component" v-model="model" v-bind="demoProps">
           <template #panel-overview
             ><p class="text-sm leading-6 text-muted-foreground">
@@ -403,12 +769,36 @@ const demoProps = computed(() => ({
             </p></template
           >
         </component>
+        <component
+          v-else-if="name === 'button'"
+          :is="component"
+          v-bind="demoProps"
+          data-testid="preview-button"
+          :aria-label="optionProps.shape === 'icon' ? 'Create project' : undefined"
+          @click="recordButtonClick"
+          ><svg
+            v-if="optionProps.shape === 'icon'"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            aria-hidden="true"
+          >
+            <path d="M12 5v14M5 12h14" /></svg
+          ><template v-else>Create project</template></component
+        >
         <component v-else :is="component" v-model="model" v-bind="demoProps"
           ><template v-if="name === 'toggle'" #default
             ><span class="font-semibold">B</span></template
           ></component
         >
-        <p v-if="status" role="status" class="mt-3 text-xs text-muted-foreground">{{ status }}</p>
+        <p
+          v-if="['form', 'button'].includes(name) || status"
+          role="status"
+          class="min-h-5 text-xs text-muted-foreground"
+        >
+          {{ status }}
+        </p>
       </div>
     </div>
   </div>

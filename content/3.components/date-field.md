@@ -20,6 +20,10 @@ import { DateField } from '~/components/ui/date-field'
 </template>
 ```
 
+## Typing and calendar selection
+
+Click a date segment to type or use the calendar button to choose a date. Focus and text selection use the neutral secondary fill with its paired foreground. A subtle ring marks the active segment. Slashes have their own spacing. The calendar opens outside the preview frame and follows the same size as the field.
+
 ## Variants and defaults
 
 | Prop      | Values                       | Default   |
@@ -45,7 +49,7 @@ import { DateField } from '~/components/ui/date-field'
 | `invalid`            | `boolean`                                | `false`                     | Forces invalid styling and ARIA state.                  |
 | `selectOnFocus`      | `boolean`                                | `true`                      | Selects current segment text when focused.              |
 | `autoAdvance`        | `boolean`                                | `true`                      | Moves focus after a segment reaches its maximum length. |
-| `showCalendar`       | `boolean`                                | `false`                     | Adds a trigger and positioned Calendar popup.           |
+| `showCalendar`       | `boolean`                                | `true`                      | Adds a trigger and positioned Calendar popup.           |
 | `calendarLabel`      | `string`                                 | `"Choose date"`             | Trigger and popup accessible label.                     |
 | `calendarSide`       | `"top" \| "right" \| "bottom" \| "left"` | `"bottom"`                  | Preferred popup side with collision flipping.           |
 | `calendarAlign`      | `"start" \| "center" \| "end"`           | `"start"`                   | Popup alignment against Date Field.                     |

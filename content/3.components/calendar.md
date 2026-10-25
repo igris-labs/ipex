@@ -33,10 +33,13 @@ import { Calendar } from '~/components/ui/calendar'
 | `v-model`             | `CalendarDateValue \| CalendarDateValue[] \| CalendarDateRange \| undefined` | `undefined`            | Selected single date, independent dates, or `{ start, end }` range according to `selectionMode`. |
 | `v-model:placeholder` | `CalendarDateValue`                                                          | selected date or today | Month used as the start of the visible view.                                                     |
 
+See [Range selection](/design-system/color#range-selection) for preview fills and primary-colored endpoints.
+
 ## Props
 
 | Prop                            | Type                                 | Default           | Description                                                                          |
 | ------------------------------- | ------------------------------------ | ----------------- | ------------------------------------------------------------------------------------ |
+| `rangeColor`                    | `"secondary" \| "accent"`            | `"secondary"`     | Preview and committed middle fill; endpoints use primary.                            |
 | `locale`                        | `string`                             | `"en-US"`         | Locale used for labels and week calculations.                                        |
 | `dir`                           | `"ltr" \| "rtl"`                     | `"ltr"`           | Reading direction and horizontal arrow behavior.                                     |
 | `calendarLabel`                 | `string`                             | `"Calendar"`      | Accessible root label prefix.                                                        |

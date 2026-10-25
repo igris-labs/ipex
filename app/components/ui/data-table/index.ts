@@ -10,7 +10,7 @@ export const dataTableVariants = tv({
     root: 'flex w-full min-w-0 flex-col gap-3 text-sm',
     toolbar: 'flex flex-wrap items-center gap-2',
     viewport: 'min-w-0 overflow-auto rounded-lg border border-border',
-    table: 'w-full border-collapse text-left',
+    table: 'w-full min-w-full border-collapse text-left',
     colgroup: '',
     col: '',
     caption: 'py-3 text-xs text-muted-foreground',
@@ -47,19 +47,14 @@ export const dataTableVariants = tv({
     pagination: 'flex items-center justify-end gap-2',
     liveRegion: 'sr-only',
     paginationRoot: '',
-    paginationList: 'flex items-center gap-1',
+    paginationList: '',
     paginationItem: '',
-    paginationFirst:
-      'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
-    paginationPrevious:
-      'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
-    paginationPage:
-      'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-[akaza-state=active]:bg-primary data-[akaza-state=active]:text-primary-foreground motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
-    paginationEllipsis: 'inline-flex items-center justify-center text-muted-foreground',
-    paginationNext:
-      'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
-    paginationLast:
-      'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
+    paginationFirst: '',
+    paginationPrevious: '',
+    paginationPage: '',
+    paginationEllipsis: '',
+    paginationNext: '',
+    paginationLast: '',
   },
   variants: {
     size: {

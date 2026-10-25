@@ -9,9 +9,9 @@ export const checkboxGroupVariants = tv({
   slots: {
     root: 'flex flex-col gap-2',
     input: 'sr-only',
-    legend: 'mb-2 text-sm font-medium text-highlighted',
+    legend: 'mb-1 text-sm font-medium text-highlighted',
     parentItem: 'mb-1 border-b border-border pb-2',
-    item: 'py-1',
+    item: 'py-0',
     checkbox: '',
   },
   variants: {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, useTemplateRef, watch } from 'vue'
 
 interface TocLink {
   id: string
@@ -10,6 +10,14 @@ interface TocLink {
 const props = defineProps<{ links: TocLink[] }>()
 const links = computed(() => props.links.flatMap((link) => [link, ...(link.children ?? [])]))
 const active = ref('')
+const navigation = useTemplateRef<HTMLElement>('navigation')
+const indicator = ref({ top: 0, height: 0 })
+function measureIndicator() {
+  const current = navigation.value?.querySelector<HTMLElement>('[aria-current="location"]')
+  indicator.value = { top: current?.offsetTop ?? 0, height: current?.offsetHeight ?? 0 }
+}
+useResizeObserver(navigation, measureIndicator)
+watch(active, measureIndicator, { flush: 'post' })
 let frame = 0
 function update() {
   frame = 0
@@ -18,8 +26,7 @@ function update() {
     .filter((heading): heading is HTMLElement => Boolean(heading))
   let current = headings[0]
   for (const heading of headings) {
-    if (heading.getBoundingClientRect().top <= Math.max(112, window.innerHeight * 0.4))
-      current = heading
+    if (heading.getBoundingClientRect().top <= 112) current = heading
   }
   if (
     window.scrollY > 0 &&
@@ -41,9 +48,16 @@ onUnmounted(() => {
   window.removeEventListener('resize', schedule)
   cancelAnimationFrame(frame)
 })
-watch(links, () => {
-  if (import.meta.client) schedule()
-})
+watch(
+  links,
+  () => {
+    if (import.meta.client) {
+      schedule()
+      measureIndicator()
+    }
+  },
+  { flush: 'post' },
+)
 </script>
 
 <template>
@@ -64,17 +78,29 @@ watch(links, () => {
         <path d="M8 6h12M8 12h12M8 18h12M3 6h.01M3 12h.01M3 18h.01" /></svg
       >On this page
     </h2>
-    <nav class="flex max-w-52 flex-col border-l border-border" aria-label="Page sections">
+    <nav
+      ref="navigation"
+      class="relative flex max-w-52 flex-col border-l border-border"
+      aria-label="Page sections"
+    >
+      <span
+        aria-hidden="true"
+        data-testid="toc-indicator"
+        class="pointer-events-none absolute top-0 -left-px w-px bg-foreground transition-[transform,height,opacity] duration-180 ease-interaction motion-reduce:transition-none"
+        :style="{
+          transform: `translateY(${indicator.top}px)`,
+          height: `${indicator.height}px`,
+          opacity: indicator.height ? 1 : 0,
+        }"
+      />
       <a
         v-for="link in links"
         :key="link.id"
         :href="`#${link.id}`"
         :aria-current="active === link.id ? 'location' : undefined"
-        class="-ml-px min-h-7 border-l px-3 py-1 text-xs leading-5 outline-none hover:text-highlighted focus-visible:outline-2 focus-visible:outline-ring"
+        class="min-h-7 px-3 py-1 text-xs leading-5 transition-colors duration-150 ease-interaction outline-none hover:text-highlighted focus-visible:outline-2 focus-visible:outline-ring motion-reduce:transition-none"
         :class="[
-          active === link.id
-            ? 'border-foreground text-highlighted'
-            : 'border-transparent text-muted-foreground',
+          active === link.id ? 'text-highlighted' : 'text-muted-foreground',
           link.depth > 2 ? 'pl-5' : '',
         ]"
         >{{ link.text }}</a

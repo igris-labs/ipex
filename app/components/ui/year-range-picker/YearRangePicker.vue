@@ -50,7 +50,7 @@ const mergedUi = computed(() => {
   )
 })
 const primitiveProps = computed(() => {
-  const { class: _class, ui: _ui, size: _size, ...native } = props
+  const { class: _class, ui: _ui, size: _size, rangeColor: _rangeColor, ...native } = props
   return native
 })
 const primitive = useTemplateRef<InstanceType<typeof Primitive>>('primitive')

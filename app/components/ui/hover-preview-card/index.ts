@@ -11,42 +11,32 @@ export const hoverPreviewCardVariants = tv({
     trigger:
       'rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
     content:
-      'z-50 max-w-[calc(100vw-2rem)] min-w-40 overflow-hidden rounded-lg border border-border bg-popover p-4 text-sm leading-6 text-popover-foreground shadow-lg motion-reduce:transition-none',
+      'z-50 w-max max-w-[min(20rem,calc(100vw-2rem))] overflow-hidden rounded-lg border border-border bg-popover p-3 text-sm leading-6 text-popover-foreground shadow-lg motion-reduce:transition-none',
     arrow: 'fill-popover stroke-border',
   },
   variants: {
-    width: {
-      xs: {
-        content: 'w-[min(20rem,calc(100vw-2rem))] max-w-none',
-      },
-      sm: {
-        content: 'w-[min(24rem,calc(100vw-2rem))] max-w-none',
-      },
-      md: {
-        content: 'w-[min(32rem,calc(100vw-2rem))] max-w-none',
-      },
-      lg: {
-        content: 'w-[min(40rem,calc(100vw-2rem))] max-w-none',
-      },
-      xl: {
-        content: 'w-[min(48rem,calc(100vw-2rem))] max-w-none',
-      },
+    size: {
+      xs: { content: 'rounded-[calc(var(--radius)*0.5+4px)] text-xs leading-4' },
+      sm: { content: 'rounded-lg text-[13px] leading-5' },
+      md: { content: 'rounded-[calc(var(--radius)*0.8+4px)] text-sm leading-6' },
+      lg: { content: 'rounded-xl text-sm leading-6' },
+      xl: { content: 'rounded-[calc(var(--radius)*1.2+4px)] text-base leading-7' },
     },
   },
   defaultVariants: {
-    width: 'md',
+    size: 'md',
   },
 })
 export type HoverPreviewCardVariants = VariantProps<typeof hoverPreviewCardVariants>
-export type HoverPreviewCardConfig = Pick<HoverPreviewCardVariants, 'width'>
+export type HoverPreviewCardConfig = Pick<HoverPreviewCardVariants, 'size'>
 export type HoverPreviewCardSlots = InstanceType<typeof Akaza.HoverPreviewCard>['$slots']
 export interface HoverPreviewCardProps extends Omit<
   PrimitiveHoverPreviewCardProps,
-  'ui' | 'class' | 'width'
+  'ui' | 'class' | 'size'
 > {
   class?: HTMLAttributes['class']
   ui?: Akaza.HoverPreviewCardUi
-  width?: HoverPreviewCardVariants['width']
+  size?: HoverPreviewCardVariants['size']
   modelValue?: boolean
 }
 export function resolveHoverPreviewCardVariants(

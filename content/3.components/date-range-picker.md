@@ -5,7 +5,7 @@ navigation:
   icon: tabler:calendar-month
 ---
 
-::component-example{name="date-range-picker" size-options="xs,sm,md,lg,xl" default-size="sm"}
+::component-example{name="date-range-picker" size-options="xs,sm,md,lg,xl" default-size="sm" default-variant="outline"}
 ::
 
 ## Usage
@@ -20,11 +20,16 @@ import { DateRangePicker } from '~/components/ui/date-range-picker'
 </template>
 ```
 
+## Typing and calendar selection
+
+Click a date segment to type or use the calendar button to choose a date. Focus and text selection use the neutral secondary fill with its paired foreground. A subtle ring marks the active segment. Slashes have their own spacing. The calendar opens outside the preview frame and follows the same size as the field.
+
 ## Variants and defaults
 
-| Prop   | Values                       | Default |
-| ------ | ---------------------------- | ------- |
-| `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
+| Prop      | Values                       | Default   |
+| --------- | ---------------------------- | --------- |
+| `size`    | `xs`, `sm`, `md`, `lg`, `xl` | `sm`      |
+| `variant` | `outline`, `soft`, `bare`    | `outline` |
 
 ## Models
 
@@ -34,29 +39,32 @@ import { DateRangePicker } from '~/components/ui/date-range-picker'
 | `v-model:open`        | `boolean`           | `false`                    | Popup open state.                         |
 | `v-model:placeholder` | `CalendarDateValue` | selected endpoint or today | First visible calendar month.             |
 
+See [Range selection](/design-system/color#range-selection) for preview fills and primary-colored endpoints.
+
 ## Props
 
 Date Range Picker accepts Date Range Field props `id`, `name`, `startName`, `endName`, `locale`, `dir`, `minValue`, `maxValue`, `isDateUnavailable`, `allowNonContiguousRanges`, `maximumDays`, `fixedDate`, `required`, `disabled`, `readOnly`, `invalid`, `selectOnFocus`, `autoAdvance`, endpoint labels, and ARIA relationships.
 
-| Prop                            | Type                                     | Default               | Description                                          |
-| ------------------------------- | ---------------------------------------- | --------------------- | ---------------------------------------------------- |
-| `isDateDisabled`                | `(date) => boolean`                      | -                     | Calendar-only disabled-date rule.                    |
-| `calendarLabel`                 | `string`                                 | `"Choose date range"` | Trigger and popup accessible label.                  |
-| `closeLabel`                    | `string`                                 | -                     | Renders an explicit close button with this label.    |
-| `closeOnSelect`                 | `boolean`                                | `false`               | Closes after both endpoints are selected.            |
-| `weekStartsOn`                  | `"sun" \| "mon" \| ...`                  | locale default        | Explicit first weekday.                              |
-| `weekdayFormat`                 | `"narrow" \| "short" \| "long"`          | `"narrow"`            | Visible weekday format.                              |
-| `fixedWeeks`                    | `boolean`                                | `false`               | Renders six weeks per month for stable popup height. |
-| `numberOfMonths`                | `number`                                 | `1`                   | Adjacent month grids.                                |
-| `pagedNavigation`               | `boolean`                                | `false`               | Moves by `numberOfMonths`.                           |
-| `disableDaysOutsideCurrentView` | `boolean`                                | `false`               | Blocks selecting outside days.                       |
-| `nextPage`                      | `(placeholder) => CalendarDateValue`     | add month(s)          | Custom next page calculation.                        |
-| `prevPage`                      | `(placeholder) => CalendarDateValue`     | subtract month(s)     | Custom previous page calculation.                    |
-| `side`                          | `"top" \| "right" \| "bottom" \| "left"` | `"bottom"`            | Preferred popup side with collision flipping.        |
-| `align`                         | `"start" \| "center" \| "end"`           | `"start"`             | Popup alignment.                                     |
-| `sideOffset`                    | `number`                                 | `6`                   | Trigger-to-popup gap in pixels.                      |
-| `teleport`                      | `string \| false`                        | `"body"`              | Teleport target; `false` keeps popup beside root.    |
-| `ui`                            | `DateRangePickerUi`                      | -                     | Classes and nested field/calendar UI maps.           |
+| Prop                            | Type                                     | Default               | Description                                               |
+| ------------------------------- | ---------------------------------------- | --------------------- | --------------------------------------------------------- |
+| `rangeColor`                    | `"secondary" \| "accent"`                | `"secondary"`         | Preview and committed middle fill; endpoints use primary. |
+| `isDateDisabled`                | `(date) => boolean`                      | -                     | Calendar-only disabled-date rule.                         |
+| `calendarLabel`                 | `string`                                 | `"Choose date range"` | Trigger and popup accessible label.                       |
+| `closeLabel`                    | `string`                                 | -                     | Renders an explicit close button with this label.         |
+| `closeOnSelect`                 | `boolean`                                | `true`                | Closes after both endpoints are selected.                 |
+| `weekStartsOn`                  | `"sun" \| "mon" \| ...`                  | locale default        | Explicit first weekday.                                   |
+| `weekdayFormat`                 | `"narrow" \| "short" \| "long"`          | `"narrow"`            | Visible weekday format.                                   |
+| `fixedWeeks`                    | `boolean`                                | `false`               | Renders six weeks per month for stable popup height.      |
+| `numberOfMonths`                | `number`                                 | `1`                   | Adjacent month grids.                                     |
+| `pagedNavigation`               | `boolean`                                | `false`               | Moves by `numberOfMonths`.                                |
+| `disableDaysOutsideCurrentView` | `boolean`                                | `false`               | Blocks selecting outside days.                            |
+| `nextPage`                      | `(placeholder) => CalendarDateValue`     | add month(s)          | Custom next page calculation.                             |
+| `prevPage`                      | `(placeholder) => CalendarDateValue`     | subtract month(s)     | Custom previous page calculation.                         |
+| `side`                          | `"top" \| "right" \| "bottom" \| "left"` | `"bottom"`            | Preferred popup side with collision flipping.             |
+| `align`                         | `"start" \| "center" \| "end"`           | `"start"`             | Popup alignment.                                          |
+| `sideOffset`                    | `number`                                 | `6`                   | Trigger-to-popup gap in pixels.                           |
+| `teleport`                      | `string \| false`                        | `"body"`              | Teleport target; `false` keeps popup beside root.         |
+| `ui`                            | `DateRangePickerUi`                      | -                     | Classes and nested field/calendar UI maps.                |
 
 ## Slots
 

@@ -63,6 +63,28 @@ defineExpose({
     v-bind="{ ...primitiveProps, ...attrs }"
     :ui="mergedUi"
   >
+    <template v-if="!$slots.empty" #empty
+      ><svg
+        class="block size-(--rating-icon-size)"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.75"
+        aria-hidden="true"
+      >
+        <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z" /></svg
+    ></template>
+    <template v-if="!$slots.filled" #filled
+      ><svg
+        class="block size-(--rating-icon-size)"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        stroke="currentColor"
+        stroke-width="1.75"
+        aria-hidden="true"
+      >
+        <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z" /></svg
+    ></template>
     <template v-for="(_, name) in $slots" #[name]="scope"
       ><slot :name="name as keyof RatingSlots" v-bind="scope ?? {}"
     /></template>

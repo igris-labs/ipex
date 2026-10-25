@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Dialog as Primitive } from 'akaza-ui'
-import { computed, useAttrs, useTemplateRef } from 'vue'
+import { computed, onMounted, ref, useAttrs, useTemplateRef } from 'vue'
 
 import { cn } from '../../../utils/ui'
 import uiConfig from '../ui.config'
@@ -23,6 +23,11 @@ const props = withDefaults(defineProps<DialogProps>(), {
 })
 defineSlots<DialogSlots>()
 const attrs = useAttrs()
+// Programmatic overlays mount open; let Akaza mount closed so its entrance transition runs.
+const mounted = ref(false)
+onMounted(() => {
+  mounted.value = true
+})
 const styles = computed(() => dialogVariants(resolveDialogVariants(props, uiConfig)))
 const mergedUi = computed(() => {
   const overrides = props.ui as Record<string, string | undefined> | undefined
@@ -35,7 +40,7 @@ const mergedUi = computed(() => {
 })
 const primitiveProps = computed(() => {
   const { class: _class, ui: _ui, width: _width, ...native } = props
-  return native
+  return { ...native, modelValue: props.modelValue === true ? mounted.value : props.modelValue }
 })
 const primitive = useTemplateRef<InstanceType<typeof Primitive>>('primitive')
 defineExpose({

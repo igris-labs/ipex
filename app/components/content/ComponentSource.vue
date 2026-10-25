@@ -37,9 +37,14 @@ watch(
 )
 </script>
 <template>
-  <Tabs v-model="active" :items="files ?? []" aria-label="Component source files">
+  <Tabs
+    v-model="active"
+    :items="files ?? []"
+    aria-label="Component source files"
+    :ui="{ root: 'gap-2' }"
+  >
     <template v-for="file in files" :key="file.value" #[`panel-${file.value}`]
-      ><DocsCode :code="file.code" :filename="file.filename"
+      ><DocsCode class="my-0!" :code="file.code" :filename="file.filename"
     /></template>
   </Tabs>
 </template>

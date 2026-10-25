@@ -12,7 +12,7 @@ export const meterVariants = tv({
     value: 'text-xs text-muted-foreground tabular-nums',
     track: 'overflow-hidden rounded-full bg-muted',
     indicator:
-      'h-full rounded-full bg-primary transition-colors duration-150 ease-interaction data-[akaza-state=critical]:bg-destructive data-[akaza-state=suboptimal]:bg-warning motion-reduce:transition-none',
+      'h-full rounded-full bg-primary transition-[width,background-color] duration-200 ease-interaction data-[akaza-state=critical]:bg-destructive data-[akaza-state=suboptimal]:bg-warning motion-reduce:transition-none',
   },
   variants: {
     size: {

@@ -20,6 +20,8 @@ import { Separator } from '~/components/ui/separator'
 </template>
 ```
 
+For a vertical separator, give its flex container a defined height, such as `h-16`. Horizontal separators fill the available width.
+
 ## Variants and defaults
 
 | Prop      | Values             | Default   |

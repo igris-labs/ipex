@@ -33,26 +33,29 @@ import { YearRangePicker } from '~/components/ui/year-range-picker'
 | `v-model`             | `CalendarDateRange` | `{}`                    | Optional start and end years normalized to January 1. |
 | `v-model:placeholder` | `CalendarDateValue` | selected start or today | First visible year.                                   |
 
+See [Range selection](/design-system/color#range-selection) for preview fills and primary-colored endpoints.
+
 ## Props
 
-| Prop                       | Type                                 | Default               | Description                             |
-| -------------------------- | ------------------------------------ | --------------------- | --------------------------------------- |
-| `locale`                   | `string`                             | `"en-US"`             | Locale used for labels.                 |
-| `dir`                      | `"ltr" \| "rtl"`                     | `"ltr"`               | Reading direction.                      |
-| `calendarLabel`            | `string`                             | `"Year range picker"` | Accessible root label.                  |
-| `columns`                  | `number`                             | `3`                   | Visual grid columns.                    |
-| `yearsPerPage`             | `number`                             | `12`                  | Visible years and paging distance.      |
-| `allowNonContiguousRanges` | `boolean`                            | `false`               | Allows blocked interior years.          |
-| `maximumYears`             | `number`                             | —                     | Maximum inclusive range length.         |
-| `fixedDate`                | `"start" \| "end"`                   | —                     | Keeps one endpoint fixed.               |
-| `disabled`                 | `boolean`                            | `false`               | Disables paging and selection.          |
-| `readOnly`                 | `boolean`                            | `false`               | Allows navigation but blocks selection. |
-| `initialFocus`             | `boolean`                            | `false`               | Focuses selected/current year on mount. |
-| `minValue` / `maxValue`    | `CalendarDateValue`                  | —                     | Selection and paging boundaries.        |
-| `isYearDisabled`           | `(date) => boolean`                  | —                     | Marks years disabled.                   |
-| `isYearUnavailable`        | `(date) => boolean`                  | —                     | Marks years unavailable.                |
-| `nextPage` / `prevPage`    | `(placeholder) => CalendarDateValue` | page arithmetic       | Custom page calculations.               |
-| `ui`                       | `YearRangePickerUi`                  | —                     | Classes for generated parts.            |
+| Prop                       | Type                                 | Default               | Description                                               |
+| -------------------------- | ------------------------------------ | --------------------- | --------------------------------------------------------- |
+| `rangeColor`               | `"secondary" \| "accent"`            | `"secondary"`         | Preview and committed middle fill; endpoints use primary. |
+| `locale`                   | `string`                             | `"en-US"`             | Locale used for labels.                                   |
+| `dir`                      | `"ltr" \| "rtl"`                     | `"ltr"`               | Reading direction.                                        |
+| `calendarLabel`            | `string`                             | `"Year range picker"` | Accessible root label.                                    |
+| `columns`                  | `number`                             | `3`                   | Visual grid columns.                                      |
+| `yearsPerPage`             | `number`                             | `12`                  | Visible years and paging distance.                        |
+| `allowNonContiguousRanges` | `boolean`                            | `false`               | Allows blocked interior years.                            |
+| `maximumYears`             | `number`                             | —                     | Maximum inclusive range length.                           |
+| `fixedDate`                | `"start" \| "end"`                   | —                     | Keeps one endpoint fixed.                                 |
+| `disabled`                 | `boolean`                            | `false`               | Disables paging and selection.                            |
+| `readOnly`                 | `boolean`                            | `false`               | Allows navigation but blocks selection.                   |
+| `initialFocus`             | `boolean`                            | `false`               | Focuses selected/current year on mount.                   |
+| `minValue` / `maxValue`    | `CalendarDateValue`                  | —                     | Selection and paging boundaries.                          |
+| `isYearDisabled`           | `(date) => boolean`                  | —                     | Marks years disabled.                                     |
+| `isYearUnavailable`        | `(date) => boolean`                  | —                     | Marks years unavailable.                                  |
+| `nextPage` / `prevPage`    | `(placeholder) => CalendarDateValue` | page arithmetic       | Custom page calculations.                                 |
+| `ui`                       | `YearRangePickerUi`                  | —                     | Classes for generated parts.                              |
 
 ## Slots
 

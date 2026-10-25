@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { DateRangePicker as Primitive } from 'akaza-ui'
-import { computed, useAttrs, useTemplateRef } from 'vue'
+import { computed, nextTick, useAttrs, useTemplateRef } from 'vue'
 
 import { cn, mergeRecipeSlots } from '../../../utils/ui'
 import { calendarVariants } from '../calendar'
-import { dateFieldVariants } from '../date-field'
+import { dateFieldVariants, resolveDateFieldVariants } from '../date-field'
 import { dateRangeFieldVariants } from '../date-range-field'
 import uiConfig from '../ui.config'
 import {
@@ -43,7 +43,7 @@ const props = withDefaults(defineProps<DateRangePickerProps>(), {
   ariaDescribedby: undefined,
   calendarLabel: undefined,
   closeLabel: undefined,
-  closeOnSelect: undefined,
+  closeOnSelect: true,
   weekStartsOn: undefined,
   weekdayFormat: undefined,
   fixedWeeks: undefined,
@@ -55,7 +55,7 @@ const props = withDefaults(defineProps<DateRangePickerProps>(), {
   side: undefined,
   align: undefined,
   sideOffset: undefined,
-  teleport: undefined,
+  teleport: 'body',
   ui: undefined,
   modelValue: undefined,
   open: undefined,
@@ -81,33 +81,57 @@ const mergedUi = computed(() => {
       ...mergeRecipeSlots(dateRangeFieldVariants({ size: resolved.value.size }), props.ui?.field),
       startField: {
         ...mergeRecipeSlots(
-          dateFieldVariants({ size: resolved.value.size }),
+          dateFieldVariants(resolveDateFieldVariants(resolved.value, uiConfig)),
           props.ui?.field?.startField,
         ),
         calendar: mergeRecipeSlots(
-          calendarVariants({ size: resolved.value.size }),
+          calendarVariants({ size: resolved.value.size, rangeColor: resolved.value.rangeColor }),
           props.ui?.field?.startField?.calendar,
         ),
       },
       endField: {
         ...mergeRecipeSlots(
-          dateFieldVariants({ size: resolved.value.size }),
+          dateFieldVariants(resolveDateFieldVariants(resolved.value, uiConfig)),
           props.ui?.field?.endField,
         ),
         calendar: mergeRecipeSlots(
-          calendarVariants({ size: resolved.value.size }),
+          calendarVariants({ size: resolved.value.size, rangeColor: resolved.value.rangeColor }),
           props.ui?.field?.endField?.calendar,
         ),
       },
     },
-    calendar: mergeRecipeSlots(calendarVariants({ size: resolved.value.size }), props.ui?.calendar),
+    calendar: mergeRecipeSlots(
+      calendarVariants({ size: resolved.value.size, rangeColor: resolved.value.rangeColor }),
+      {
+        ...props.ui?.calendar,
+        root: cn(styles.value.calendar(), props.ui?.calendar?.root),
+      },
+    ),
   }
 })
 const primitiveProps = computed(() => {
-  const { class: _class, ui: _ui, size: _size, ...native } = props
+  const {
+    class: _class,
+    ui: _ui,
+    size: _size,
+    rangeColor: _rangeColor,
+    variant: _variant,
+    ...native
+  } = props
   return native
 })
 const primitive = useTemplateRef<InstanceType<typeof Primitive>>('primitive')
+async function onFieldClick(event: MouseEvent) {
+  const target = event.target as HTMLElement
+  if (!props.disabled && !props.readOnly && target.closest('.akaza-date-field-segments')) {
+    primitive.value?.open(event)
+    // Calendar initial focus belongs to its button; clicking a segment must keep typing focus.
+    await nextTick()
+    await nextTick()
+    target.focus({ preventScroll: true })
+  }
+}
+
 defineExpose({
   get clear() {
     return primitive.value!.clear
@@ -135,6 +159,7 @@ defineExpose({
     ref="primitive"
     v-bind="{ ...primitiveProps, ...attrs }"
     :ui="mergedUi"
+    @click="onFieldClick"
   >
     <template v-for="(_, name) in $slots" #[name]="scope"
       ><slot :name="name as keyof DateRangePickerSlots" v-bind="scope ?? {}"

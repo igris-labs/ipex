@@ -7,9 +7,9 @@ import type { UiConfig } from '../ui.types'
 
 export const dialogVariants = tv({
   slots: {
-    overlay: 'fixed inset-0 bg-scrim',
+    overlay: 'fixed inset-0 bg-scrim motion-reduce:transition-none',
     content:
-      'max-w-[calc(100vw-2rem)] rounded-xl border border-border bg-popover text-popover-foreground shadow-xl outline-none',
+      'max-w-[calc(100vw-2rem)] rounded-xl border border-border bg-popover text-popover-foreground shadow-xl outline-none data-akaza-fullscreen:h-dvh data-akaza-fullscreen:w-screen data-akaza-fullscreen:max-w-none data-akaza-fullscreen:overflow-auto data-akaza-fullscreen:rounded-none motion-reduce:transition-none',
     header: 'flex flex-col gap-1.5 border-b border-border px-4 py-3',
     title: 'text-base font-semibold text-highlighted',
     description: 'text-sm leading-6 text-muted-foreground',

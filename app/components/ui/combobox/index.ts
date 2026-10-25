@@ -9,7 +9,7 @@ export const comboboxVariants = tv({
   slots: {
     root: 'relative flex flex-wrap items-center gap-1.5',
     input:
-      'min-w-0 flex-1 border border-input bg-background text-foreground shadow-none transition-colors duration-150 ease-interaction outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-akaza-focused:ring-2 data-akaza-focused:ring-ring data-akaza-invalid:border-destructive motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11',
+      'min-w-0 flex-1 border border-input bg-background text-foreground shadow-none transition-colors duration-150 ease-interaction outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:focus-visible:ring-destructive/25 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-akaza-focused:ring-2 data-akaza-focused:ring-ring aria-invalid:data-akaza-focused:ring-destructive/25 data-akaza-invalid:border-destructive data-akaza-invalid:focus-visible:ring-destructive/25 data-akaza-invalid:data-akaza-focused:ring-destructive/25 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11',
     tags: 'flex flex-wrap gap-1',
     tag: 'inline-flex items-center gap-1 rounded border border-border bg-muted px-1.5 py-0.5 text-xs',
     tagLabel: 'truncate',
@@ -26,13 +26,13 @@ export const comboboxVariants = tv({
     groupLabel: 'px-2 py-1.5 text-xs font-medium text-muted-foreground',
     separator: 'my-1 h-px bg-border',
     option:
-      'flex items-center gap-2 rounded-md text-left text-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-akaza-highlighted:bg-muted data-[akaza-state=checked]:bg-muted data-[akaza-state=checked]:text-foreground motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11',
-    indicator: 'size-4 shrink-0 text-primary',
+      'relative isolate flex cursor-pointer items-center gap-2 rounded-md text-left text-foreground transition-colors duration-150 ease-interaction outline-none select-none before:pointer-events-none before:absolute before:inset-x-0 before:inset-y-px before:-z-10 before:rounded-[inherit] before:transition-colors before:duration-150 before:ease-interaction hover:before:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-akaza-highlighted:before:bg-muted data-[akaza-state=checked]:text-foreground data-[akaza-state=checked]:before:bg-muted motion-reduce:transition-none motion-reduce:before:transition-none [@media(pointer:coarse)]:min-h-11',
+    indicator: 'order-last ms-auto size-4 shrink-0 text-primary',
     optionText: 'flex min-w-0 flex-1 flex-col',
     optionLabel: 'truncate',
     optionDescription: 'text-xs text-muted-foreground',
     create:
-      'flex items-center gap-2 rounded-md text-left text-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-akaza-highlighted:bg-muted data-[akaza-state=checked]:bg-muted data-[akaza-state=checked]:text-foreground motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11',
+      'flex cursor-pointer items-center gap-2 rounded-md text-left text-foreground transition-colors duration-150 ease-interaction outline-none select-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-akaza-highlighted:bg-muted data-[akaza-state=checked]:bg-muted data-[akaza-state=checked]:text-foreground motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11',
   },
   variants: {
     size: {

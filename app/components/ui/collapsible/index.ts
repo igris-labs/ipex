@@ -7,35 +7,46 @@ import type { UiConfig } from '../ui.types'
 
 export const collapsibleVariants = tv({
   slots: {
-    root: 'w-full',
+    root: 'w-full overflow-hidden rounded-lg border border-border bg-background shadow-none',
     trigger:
-      'group flex w-full items-center justify-between gap-2 text-left font-medium text-highlighted transition-colors duration-150 ease-interaction outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none',
-    icon: 'size-4 shrink-0 text-muted-foreground transition-transform group-data-[akaza-state=open]:rotate-180 motion-reduce:transition-none',
-    contentWrapper: 'overflow-hidden',
-    contentInner: 'min-h-0',
-    content: 'pt-3 text-muted-foreground',
+      'flex w-full items-center justify-between rounded-none text-left font-medium text-highlighted transition-colors duration-150 ease-interaction outline-none hover:bg-foreground/5 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-[akaza-state=open]:bg-foreground/3 motion-reduce:transition-none pointer-coarse:min-h-11',
+    icon: 'shrink-0 rotate-0 transform-none text-muted-foreground transition-transform duration-180 ease-interaction data-[akaza-state=open]:rotate-180 motion-reduce:transition-none',
+    contentWrapper:
+      'grid grid-rows-[0fr] overflow-hidden transition-[grid-template-rows] duration-180 ease-interaction data-[akaza-state=open]:grid-rows-[1fr] motion-reduce:transition-none',
+    contentInner: 'min-h-0 overflow-hidden',
+    content: 'text-muted-foreground',
   },
   variants: {
     size: {
       xs: {
-        trigger: 'rounded-[calc(var(--radius)*0.5)] py-2 text-xs leading-4',
+        root: 'rounded-[calc(var(--radius)*0.5+4px)]',
+        trigger: 'min-h-10 gap-1 px-3 py-2 text-xs leading-4',
         icon: 'size-3',
+        content: 'px-3 pt-1 pb-3 text-xs leading-5',
       },
       sm: {
-        trigger: 'rounded-sm py-2.5 text-[13px] leading-4',
+        root: 'rounded-lg',
+        trigger: 'min-h-11 gap-1 px-4 py-2.5 text-[13px] leading-4',
         icon: 'size-3.5',
+        content: 'px-4 pt-2 pb-4 text-[13px] leading-5',
       },
       md: {
-        trigger: 'rounded-md py-3 text-sm leading-5',
+        root: 'rounded-[calc(var(--radius)*0.8+4px)]',
+        trigger: 'min-h-12 gap-1.5 px-5 py-3 text-sm leading-5',
         icon: 'size-4',
+        content: 'px-5 pt-2 pb-5 text-sm leading-6',
       },
       lg: {
-        trigger: 'rounded-lg py-3.5 text-sm leading-5',
+        root: 'rounded-xl',
+        trigger: 'min-h-13 gap-2 px-6 py-3.5 text-sm leading-5',
         icon: 'size-4.5',
+        content: 'px-6 pt-3 pb-6 text-sm leading-6',
       },
       xl: {
-        trigger: 'rounded-[calc(var(--radius)*1.2)] py-4 text-base leading-6',
+        root: 'rounded-[calc(var(--radius)*1.2+4px)]',
+        trigger: 'min-h-14 gap-2.5 px-7 py-4 text-base leading-6',
         icon: 'size-5',
+        content: 'px-7 pt-3 pb-7 text-base leading-7',
       },
     },
   },

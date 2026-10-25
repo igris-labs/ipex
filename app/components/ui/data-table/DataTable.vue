@@ -4,6 +4,7 @@ import type * as Akaza from 'akaza-ui'
 import { computed, useAttrs, useTemplateRef } from 'vue'
 
 import { cn } from '../../../utils/ui'
+import { Pagination } from '../pagination'
 import uiConfig from '../ui.config'
 import {
   dataTableVariants,
@@ -58,7 +59,8 @@ const props = withDefaults(defineProps<DataTableProps<T>>(), {
 })
 defineSlots<DataTableSlots<T>>()
 const attrs = useAttrs()
-const styles = computed(() => dataTableVariants(resolveDataTableVariants(props, uiConfig)))
+const resolved = computed(() => resolveDataTableVariants(props, uiConfig))
+const styles = computed(() => dataTableVariants(resolved.value))
 const mergedUi = computed(() => {
   const overrides = props.ui as Record<string, string | undefined> | undefined
   return Object.fromEntries(
@@ -68,6 +70,21 @@ const mergedUi = computed(() => {
     ]),
   )
 })
+const paginationUi = computed(() =>
+  Object.fromEntries(
+    ['root', 'list', 'item', 'first', 'previous', 'page', 'ellipsis', 'next', 'last'].map(
+      (part) => [part, mergedUi.value[`pagination${part[0]!.toUpperCase()}${part.slice(1)}`]],
+    ),
+  ),
+)
+function setPaginationPage(
+  setPage: (page: number, event?: Event) => boolean,
+  page: number,
+  details: Akaza.AkazaChangeEventDetails,
+) {
+  details.cancel()
+  setPage(page, details.event)
+}
 const primitiveProps = computed(() => {
   const { class: _class, ui: _ui, size: _size, ...native } = props
   return native
@@ -122,6 +139,20 @@ defineExpose({
     v-bind="{ ...primitiveProps, ...attrs }"
     :ui="mergedUi"
   >
+    <template v-if="!$slots.pagination" #pagination="scope">
+      <Pagination
+        :model-value="scope.page"
+        :total="manualPagination ? (rowCount ?? data.length) : scope.table.filteredRowCount.value"
+        :items-per-page="scope.pageSize"
+        :size="resolved.size ?? 'md'"
+        :show-edges="true"
+        :ui="paginationUi"
+        @value-change="
+          (page: number, details: Akaza.AkazaChangeEventDetails) =>
+            setPaginationPage(scope.setPage, page, details)
+        "
+      />
+    </template>
     <template v-for="(_, name) in $slots" #[name]="scope"
       ><slot :name="name as keyof DataTableSlots<T>" v-bind="scope ?? {}"
     /></template>

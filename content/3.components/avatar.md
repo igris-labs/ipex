@@ -20,6 +20,18 @@ import { Avatar } from '~/components/ui/avatar'
 </template>
 ```
 
+## Images and fallbacks
+
+Supply `src` for a portrait and `text` for the fallback. The fallback also appears when the image cannot load. Set `alt` to identify the person, or use an empty string when adjacent text already provides their name.
+
+::avatar-examples
+::
+
+```vue
+<Avatar src="/images/team-member.jpg" alt="Team member" text="TM" />
+<Avatar text="IL" alt="Igris Labs" />
+```
+
 ## Variants and defaults
 
 | Prop   | Values                       | Default |

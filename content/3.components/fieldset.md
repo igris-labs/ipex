@@ -23,6 +23,24 @@ import { Input } from '~/components/ui/input'
 </template>
 ```
 
+## Grouped controls
+
+Wrap related fields in a Fieldset. The legend names the group, while descriptions explain what the fields have in common. Disabling the fieldset disables its nested controls.
+
+::field-examples{example="fieldset"}
+::
+
+```vue
+<Fieldset
+  legend="Project settings"
+  description="Choose how the project appears."
+  :disabled="saving"
+>
+  <Field label="Project name" required><Input v-model="name" /></Field>
+  <Field label="Visibility"><Select v-model="visibility" :options="options" /></Field>
+</Fieldset>
+```
+
 ## Props
 
 | Prop          | Type         | Default | Description                                             |

@@ -23,6 +23,37 @@ import { AppLayout } from '~/components/ui/app-layout'
 </template>
 ```
 
+## Workspace layout
+
+AppLayout has IPEX styling for the header, footer, side regions, and skip link. Use the left slot for navigation. Set `viewport` to `false` when a parent supplies the height, as these embedded previews do.
+
+::layout-examples{example="workspace"}
+::
+
+```vue
+<AppLayout :viewport="false" scroll="page">
+  <template #header>Workspace</template>
+  <template #left><ProjectNavigation /></template>
+  <ProjectList />
+  <template #footer>2 projects</template>
+</AppLayout>
+```
+
+## Inspector layout
+
+Add a right region for details that belong beside the current task. The `layout` prop controls which regions the header and footer span.
+
+::layout-examples{example="inspector"}
+::
+
+```vue
+<AppLayout :layout="{ header: 'full', footer: 'content' }">
+  <template #left><ProjectNavigation /></template>
+  <ProjectList />
+  <template #right><ProjectDetails /></template>
+</AppLayout>
+```
+
 ## Props
 
 | Prop           | Type                  | Default             | Description                                                                               |

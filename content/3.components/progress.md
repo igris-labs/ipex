@@ -20,6 +20,17 @@ import { Progress } from '~/components/ui/progress'
 </template>
 ```
 
+## Values and orientation
+
+Bind the value with `v-model`. Set it to `null` for indeterminate progress. The preview exposes a value control and orientation under **Options and states**.
+
+```vue
+<Progress v-model="completed" :max="100" aria-label="Upload progress" />
+<Progress v-model="completed" orientation="vertical" aria-label="Upload progress" />
+```
+
+Vertical progress fills from the bottom and keeps the selected thickness. Width and height changes transition over 200ms; reduced motion disables the transition and indeterminate pulse.
+
 ## Variants and defaults
 
 | Prop   | Values                       | Default |

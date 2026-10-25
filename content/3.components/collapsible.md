@@ -18,10 +18,26 @@ import { Collapsible } from '~/components/ui/collapsible'
 <template>
   <Collapsible>
     <template #trigger>Project details</template>
-    <p>Details for the current project.</p>
+    <template #content><p>Details for the current project.</p></template>
   </Collapsible>
 </template>
 ```
+
+Use the `content` slot for the expandable body. Header height, icon, text, radius, and body padding follow the selected size. Expansion respects reduced motion.
+
+## Appearance and sizing
+
+A single rounded border contains the disclosure. It uses the same header and body spacing as Accordion. The open header has a light tint, and body text aligns with its label. Focus stays inside the outer border.
+
+| Size | Header height | Horizontal padding | Text | Icon |
+| ---- | ------------- | ------------------ | ---- | ---- |
+| xs   | 40px          | 12px               | 12px | 12px |
+| sm   | 44px          | 16px               | 13px | 14px |
+| md   | 48px          | 20px               | 14px | 16px |
+| lg   | 52px          | 24px               | 14px | 18px |
+| xl   | 56px          | 28px               | 16px | 20px |
+
+These headers have 16px more height than compact controls to support longer labels and the expanded body. Coarse-pointer targets stay at least 44px tall.
 
 ## Variants and defaults
 
@@ -31,12 +47,15 @@ import { Collapsible } from '~/components/ui/collapsible'
 
 ## Props
 
-| Prop            | Type            | Default | Description                              |
-| --------------- | --------------- | ------- | ---------------------------------------- |
-| `disabled`      | `boolean`       | `false` | Prevents the panel from being toggled.   |
-| `unmountOnHide` | `boolean`       | `false` | Remove content from the DOM when closed. |
-| `as`            | `string`        | `"div"` | Root element tag.                        |
-| `ui`            | `CollapsibleUi` | —       | CSS class overrides.                     |
+| Prop            | Type                                   | Default | Description                                                                              |
+| --------------- | -------------------------------------- | ------- | ---------------------------------------------------------------------------------------- |
+| `modelValue`    | `boolean`                              | `false` | Controlled open state through `v-model`.                                                 |
+| `size`          | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | `"sm"`  | Coordinated header and content sizing. Shared UI configuration can override the default. |
+| `class`         | `HTMLAttributes['class']`              | —       | Classes merged into the root recipe.                                                     |
+| `disabled`      | `boolean`                              | `false` | Prevents the panel from being toggled.                                                   |
+| `unmountOnHide` | `boolean`                              | `false` | Remove content from the DOM when closed.                                                 |
+| `as`            | `string`                               | `"div"` | Root element tag.                                                                        |
+| `ui`            | `CollapsibleUi`                        | —       | CSS class overrides.                                                                     |
 
 ## Slots
 
@@ -48,9 +67,10 @@ import { Collapsible } from '~/components/ui/collapsible'
 
 ## Emits
 
-| Event         | Payload                    | Description                        |
-| ------------- | -------------------------- | ---------------------------------- |
-| `open-change` | `[open: boolean, details]` | Fired when the open state changes. |
+| Event               | Payload                    | Description                        |
+| ------------------- | -------------------------- | ---------------------------------- |
+| `update:modelValue` | `[open: boolean]`          | Updates the controlled open state. |
+| `open-change`       | `[open: boolean, details]` | Fired when the open state changes. |
 
 ## Exposed methods
 

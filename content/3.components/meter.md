@@ -20,6 +20,8 @@ import { Meter } from '~/components/ui/meter'
 </template>
 ```
 
+Value changes animate the bar width over 200ms. Reduced motion applies the new value immediately. Use **Options and states** to change `value`, bounds, and thresholds.
+
 ## Variants and defaults
 
 | Prop   | Values                       | Default |

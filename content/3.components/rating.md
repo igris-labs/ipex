@@ -20,6 +20,8 @@ import { Rating } from '~/components/ui/rating'
 </template>
 ```
 
+Rating uses SVG stars with a clipped fill for fractional values. The native radio buttons cover the star area and retain keyboard interaction. Coarse pointers get a 44px target around each star while the icon follows the selected size. Set `step="0.5"` to try half ratings.
+
 ## Variants and defaults
 
 | Prop   | Values                       | Default |

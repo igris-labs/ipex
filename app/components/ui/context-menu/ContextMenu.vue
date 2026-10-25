@@ -59,6 +59,46 @@ defineExpose({
     v-bind="{ ...primitiveProps, ...attrs }"
     :ui="mergedUi"
   >
+    <template v-if="!$slots.item" #item="{ item, hasSubmenu }">
+      <span :class="mergedUi.itemLabel">{{ item.label }}</span>
+      <svg
+        v-if="hasSubmenu"
+        :class="mergedUi.submenuIndicator"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="m9 6 6 6-6 6" />
+      </svg>
+    </template>
+    <template v-if="!$slots['checkbox-item']" #checkbox-item="{ item, checked }">
+      <span :class="mergedUi.itemLabel">{{ item.label }}</span>
+      <svg
+        :class="[mergedUi.indicator, checked ? 'opacity-100' : 'opacity-0']"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="m5 12 4 4L19 6" />
+      </svg>
+    </template>
+    <template v-if="!$slots['radio-item']" #radio-item="{ item, checked }">
+      <span :class="mergedUi.itemLabel">{{ item.label }}</span>
+      <svg
+        :class="[mergedUi.indicator, checked ? 'opacity-100' : 'opacity-0']"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="m5 12 4 4L19 6" />
+      </svg>
+    </template>
     <template v-for="(_, name) in $slots" #[name]="scope"
       ><slot :name="name as keyof ContextMenuSlots" v-bind="scope ?? {}"
     /></template>

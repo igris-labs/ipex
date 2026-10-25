@@ -88,7 +88,7 @@ const items = [
 | `Escape`                | Closes submenu level or whole menu.                                 |
 | Printable characters    | Typeahead focuses first matching item within 500 ms buffer.         |
 
-Opening focuses first enabled item. Trigger keyboard activation comes from trigger element supplied by user; apply `triggerProps` and use a native button.
+Opening with a pointer focuses the menu panel without highlighting an item. Arrow keys then move through items. Keyboard activation focuses the first enabled item. Trigger keyboard activation comes from trigger element supplied by user; apply `triggerProps` and use a native button.
 
 ## Source
 

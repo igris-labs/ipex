@@ -87,12 +87,12 @@
     --popover-foreground: var(--foreground);
     --primary: oklch(24.35% 0 0);
     --primary-foreground: oklch(100% 0 0);
-    --secondary: oklch(53.99% 0.1906 257.5);
-    --secondary-foreground: oklch(100% 0 0);
+    --secondary: oklch(94.91% 0 0);
+    --secondary-foreground: var(--foreground);
     --muted: oklch(97.61% 0 0);
     --muted-foreground: oklch(49.62% 0 0);
     /* Accent is an opt-in action color, separate from neutral surfaces. */
-    --accent: oklch(54.1% 0.281 293.009);
+    --accent: oklch(53.99% 0.1906 257.5);
     --accent-foreground: oklch(100% 0 0);
     --destructive: oklch(57.05% 0.2094 32);
     --destructive-foreground: oklch(100% 0 0);
@@ -144,7 +144,7 @@
     --secondary-foreground: var(--foreground);
     --muted: color-mix(in srgb, var(--color-neutral-50) 8%, var(--background));
     --muted-foreground: color-mix(in srgb, var(--color-neutral-500) 70%, var(--color-neutral-50));
-    --accent: oklch(70.2% 0.183 293.541);
+    --accent: oklch(70% 0.16 257.5);
     --accent-foreground: var(--color-neutral-950);
     --destructive: color-mix(in srgb, var(--color-red-600) 90%, var(--color-neutral-50));
     --destructive-foreground: oklch(100% 0 0);

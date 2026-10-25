@@ -33,27 +33,30 @@ import { MonthRangePicker } from '~/components/ui/month-range-picker'
 | `v-model`             | `CalendarDateRange` | `{}`                    | Optional normalized `start` and `end` months. |
 | `v-model:placeholder` | `CalendarDateValue` | selected start or today | Year displayed by grid.                       |
 
+See [Range selection](/design-system/color#range-selection) for preview fills and primary-colored endpoints.
+
 ## Props
 
-| Prop                       | Type                                 | Default                | Description                              |
-| -------------------------- | ------------------------------------ | ---------------------- | ---------------------------------------- |
-| `locale`                   | `string`                             | `"en-US"`              | Locale used for labels.                  |
-| `dir`                      | `"ltr" \| "rtl"`                     | `"ltr"`                | Reading direction and horizontal arrows. |
-| `calendarLabel`            | `string`                             | `"Month range picker"` | Accessible root label.                   |
-| `columns`                  | `number`                             | `3`                    | Number of month columns.                 |
-| `allowNonContiguousRanges` | `boolean`                            | `false`                | Allows blocked interior months.          |
-| `maximumMonths`            | `number`                             | —                      | Maximum inclusive range length.          |
-| `fixedDate`                | `"start" \| "end"`                   | —                      | Keeps one endpoint fixed.                |
-| `disabled`                 | `boolean`                            | `false`                | Disables paging and selection.           |
-| `readOnly`                 | `boolean`                            | `false`                | Allows navigation but blocks selection.  |
-| `initialFocus`             | `boolean`                            | `false`                | Focuses selected/current month on mount. |
-| `minValue`                 | `CalendarDateValue`                  | —                      | Earliest selectable month.               |
-| `maxValue`                 | `CalendarDateValue`                  | —                      | Latest selectable month.                 |
-| `isMonthDisabled`          | `(date) => boolean`                  | —                      | Marks months disabled.                   |
-| `isMonthUnavailable`       | `(date) => boolean`                  | —                      | Marks months unavailable.                |
-| `nextPage`                 | `(placeholder) => CalendarDateValue` | add one year           | Custom next page.                        |
-| `prevPage`                 | `(placeholder) => CalendarDateValue` | subtract one year      | Custom previous page.                    |
-| `ui`                       | `MonthRangePickerUi`                 | —                      | Classes for generated parts.             |
+| Prop                       | Type                                 | Default                | Description                                               |
+| -------------------------- | ------------------------------------ | ---------------------- | --------------------------------------------------------- |
+| `rangeColor`               | `"secondary" \| "accent"`            | `"secondary"`          | Preview and committed middle fill; endpoints use primary. |
+| `locale`                   | `string`                             | `"en-US"`              | Locale used for labels.                                   |
+| `dir`                      | `"ltr" \| "rtl"`                     | `"ltr"`                | Reading direction and horizontal arrows.                  |
+| `calendarLabel`            | `string`                             | `"Month range picker"` | Accessible root label.                                    |
+| `columns`                  | `number`                             | `3`                    | Number of month columns.                                  |
+| `allowNonContiguousRanges` | `boolean`                            | `false`                | Allows blocked interior months.                           |
+| `maximumMonths`            | `number`                             | —                      | Maximum inclusive range length.                           |
+| `fixedDate`                | `"start" \| "end"`                   | —                      | Keeps one endpoint fixed.                                 |
+| `disabled`                 | `boolean`                            | `false`                | Disables paging and selection.                            |
+| `readOnly`                 | `boolean`                            | `false`                | Allows navigation but blocks selection.                   |
+| `initialFocus`             | `boolean`                            | `false`                | Focuses selected/current month on mount.                  |
+| `minValue`                 | `CalendarDateValue`                  | —                      | Earliest selectable month.                                |
+| `maxValue`                 | `CalendarDateValue`                  | —                      | Latest selectable month.                                  |
+| `isMonthDisabled`          | `(date) => boolean`                  | —                      | Marks months disabled.                                    |
+| `isMonthUnavailable`       | `(date) => boolean`                  | —                      | Marks months unavailable.                                 |
+| `nextPage`                 | `(placeholder) => CalendarDateValue` | add one year           | Custom next page.                                         |
+| `prevPage`                 | `(placeholder) => CalendarDateValue` | subtract one year      | Custom previous page.                                     |
+| `ui`                       | `MonthRangePickerUi`                 | —                      | Classes for generated parts.                              |
 
 ## Slots
 

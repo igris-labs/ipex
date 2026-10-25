@@ -7,17 +7,19 @@ import type { UiConfig } from '../ui.types'
 
 export const dateRangePickerVariants = tv({
   slots: {
-    root: 'inline-flex flex-wrap items-center gap-2',
+    root: 'inline-flex flex-wrap items-center gap-2 max-sm:flex-nowrap',
     field: '',
     trigger:
       'inline-flex size-7 shrink-0 items-center justify-center gap-1.5 rounded-md border border-input text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
     content:
       'z-50 max-w-[calc(100vw-2rem)] min-w-40 overflow-hidden rounded-lg border border-border bg-popover p-1 text-popover-foreground shadow-lg motion-reduce:transition-none',
-    calendar: 'border-0',
+    calendar: 'border-0 bg-transparent shadow-none',
     close:
       'inline-flex w-full shrink-0 items-center justify-center gap-1.5 rounded-md border-t border-border py-2 text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
   },
   variants: {
+    rangeColor: { secondary: {}, accent: {} },
+    variant: { outline: {}, soft: {}, bare: {} },
     size: {
       xs: {
         trigger: 'size-6 rounded-[calc(var(--radius)*0.5)] [&_svg]:size-3',
@@ -46,7 +48,7 @@ export const dateRangePickerVariants = tv({
   },
 })
 export type DateRangePickerVariants = VariantProps<typeof dateRangePickerVariants>
-export type DateRangePickerConfig = Pick<DateRangePickerVariants, 'size'>
+export type DateRangePickerConfig = Pick<DateRangePickerVariants, 'size' | 'variant' | 'rangeColor'>
 export type DateRangePickerSlots = InstanceType<typeof Akaza.DateRangePicker>['$slots']
 export interface DateRangePickerProps extends Omit<
   PrimitiveDateRangePickerProps,
@@ -55,6 +57,8 @@ export interface DateRangePickerProps extends Omit<
   class?: HTMLAttributes['class']
   ui?: Akaza.DateRangePickerUi
   size?: DateRangePickerVariants['size']
+  rangeColor?: DateRangePickerVariants['rangeColor']
+  variant?: DateRangePickerVariants['variant']
   modelValue?: Akaza.CalendarDateRange
   open?: boolean
   placeholder?: Akaza.CalendarDateValue

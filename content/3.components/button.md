@@ -8,7 +8,7 @@ navigation:
 ::button-examples
 ::
 
-## Installation
+## Usage
 
 Follow the [shared installation steps](/getting-started/installation), then copy the files under [Source](#source) into your application. Import the styled Button from its local folder.
 
@@ -16,6 +16,10 @@ Follow the [shared installation steps](/getting-started/installation), then copy
 <script setup lang="ts">
 import { Button } from '~/components/ui/button'
 </script>
+
+<template>
+  <Button @click="createProject">Create project</Button>
+</template>
 ```
 
 ## Variants
@@ -31,7 +35,7 @@ Choose `solid`, `soft`, `subtle`, `outline`, `ghost`, or `link`. Primary and acc
 
 ## Colors
 
-Choose primary, secondary, accent, info, success, warning, or destructive. Accent defaults to violet and remains separate from primary and secondary. Soft, subtle, outline, and ghost use matching emphasis text, tints, and borders as defined in [Action colors](/design-system/color#action-colors). Use the preview controls to inspect each color with each variant.
+Choose primary, secondary, accent, info, success, warning, or destructive. Accent defaults to blue and remains separate from primary and secondary. Soft, subtle, outline, and ghost use matching emphasis text, tints, and borders as defined in [Action colors](/design-system/color#action-colors). Use the preview controls to inspect each color with each variant.
 
 ::button-examples{example="colors"}
 ::
@@ -91,7 +95,7 @@ Pass `as="a"` and `href` to use Akaza's alternate root. For Nuxt routing, pass t
 ::button-examples{example="links"}
 ::
 
-## API
+## Props
 
 | Prop                  | Values                                                          | Fallback |
 | --------------------- | --------------------------------------------------------------- | -------- |

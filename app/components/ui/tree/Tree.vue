@@ -122,6 +122,19 @@ defineExpose({
     v-bind="{ ...primitiveProps, ...attrs }"
     :ui="mergedUi"
   >
+    <template v-if="!$slots.toggle" #toggle="{ node }">
+      <svg
+        :class="mergedUi.toggleIcon"
+        :data-akaza-state="node.isExpanded ? 'expanded' : 'collapsed'"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.75"
+        aria-hidden="true"
+      >
+        <path d="m9 5 7 7-7 7" />
+      </svg>
+    </template>
     <template v-for="(_, name) in $slots" #[name]="scope"
       ><slot :name="name as keyof TreeSlots<T>" v-bind="scope ?? {}"
     /></template>

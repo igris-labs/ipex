@@ -12,7 +12,7 @@ import { NavigationMenu } from '../components/ui/navigation-menu'
 import { Sidebar } from '../components/ui/sidebar'
 
 const navigationLinkClass =
-  'flex min-h-7.5 w-full items-center gap-2.5 rounded-md border-0 px-2.5 py-0.5 text-[13px] text-muted-foreground outline-none transition-colors duration-150 hover:bg-foreground/7 hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring data-akaza-active:bg-foreground/10 data-akaza-active:font-medium data-akaza-active:text-highlighted motion-reduce:transition-none'
+  'flex min-h-7.5 w-full items-center gap-2.5 rounded-md border-0 px-2.5 py-0.5 text-[13px] text-muted-foreground outline-none transition-colors duration-150 hover:bg-transparent hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring data-akaza-active:bg-foreground/10 data-akaza-active:font-medium data-akaza-active:text-highlighted motion-reduce:transition-none'
 
 const route = useRoute()
 const sidebar = useSidebar(useTemplateRef<SidebarController>('navigation'))
@@ -140,7 +140,7 @@ const currentCategory = computed(
           content-mode="inline"
           aria-label="Documentation"
           :ui="{
-            list: 'flex w-full flex-col items-stretch gap-0 [&>li:has(>.akaza-navigation-menu-group-label):not(:first-child)]:mt-7',
+            list: 'before:bg-foreground/6.5 data-[ipex-highlight-active=true]:before:opacity-0 flex w-full flex-col items-stretch gap-0 [&>li:has(>.akaza-navigation-menu-group-label):not(:first-child)]:mt-5',
             item: 'w-full [&:has(>a)]:py-0.5',
             link: navigationLinkClass,
             inlineLink: navigationLinkClass,

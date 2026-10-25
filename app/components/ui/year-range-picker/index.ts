@@ -15,12 +15,20 @@ export const yearRangePickerVariants = tv({
     next: 'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
     grid: 'grid gap-1',
     gridRow: 'grid grid-cols-[repeat(var(--akaza-period-picker-columns),minmax(0,1fr))] gap-1',
-    cell: 'p-0.5 text-center data-akaza-in-range:bg-primary/10 [@media(pointer:coarse)]:p-0',
+    cell: 'p-0.5 text-center [@media(pointer:coarse)]:p-0',
     cellTrigger:
-      'inline-flex items-center justify-center text-sm transition-colors duration-150 ease-interaction outline-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-akaza-outside-view:text-dimmed data-akaza-selected:bg-primary data-akaza-selected:text-primary-foreground data-akaza-today:font-semibold data-akaza-today:underline data-akaza-unavailable:line-through motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
+      'inline-flex items-center justify-center text-sm transition-colors duration-150 ease-interaction outline-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-akaza-highlighted:bg-(--range-fill) data-akaza-highlighted:text-(--range-foreground) data-akaza-outside-view:text-dimmed data-akaza-selected:bg-primary data-akaza-selected:text-primary-foreground data-akaza-in-range:data-akaza-selected:bg-(--range-fill) data-akaza-in-range:data-akaza-selected:text-(--range-foreground) data-akaza-range-end:data-akaza-in-range:data-akaza-selected:bg-primary data-akaza-range-end:data-akaza-in-range:data-akaza-selected:text-primary-foreground data-akaza-range-start:data-akaza-in-range:data-akaza-selected:bg-primary data-akaza-range-start:data-akaza-in-range:data-akaza-selected:text-primary-foreground data-akaza-today:font-semibold data-akaza-today:underline data-akaza-unavailable:line-through motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
     footer: 'pt-2 text-xs text-muted-foreground',
   },
   variants: {
+    rangeColor: {
+      secondary: {
+        root: '[--range-fill:var(--secondary)] [--range-foreground:var(--secondary-foreground)]',
+      },
+      accent: {
+        root: '[--range-fill:color-mix(in_oklab,var(--accent)_15%,transparent)] [--range-foreground:light-dark(oklch(from_var(--accent)_min(l,0.48)_c_h),var(--accent))]',
+      },
+    },
     size: {
       xs: {
         cellTrigger: 'h-6 min-w-14 rounded-[calc(var(--radius)*0.5)] px-2 text-xs leading-4',
@@ -56,10 +64,11 @@ export const yearRangePickerVariants = tv({
   },
   defaultVariants: {
     size: 'sm',
+    rangeColor: 'secondary',
   },
 })
 export type YearRangePickerVariants = VariantProps<typeof yearRangePickerVariants>
-export type YearRangePickerConfig = Pick<YearRangePickerVariants, 'size'>
+export type YearRangePickerConfig = Pick<YearRangePickerVariants, 'size' | 'rangeColor'>
 export type YearRangePickerSlots = InstanceType<typeof Akaza.YearRangePicker>['$slots']
 export interface YearRangePickerProps extends Omit<
   PrimitiveYearRangePickerProps,
@@ -68,6 +77,7 @@ export interface YearRangePickerProps extends Omit<
   class?: HTMLAttributes['class']
   ui?: Akaza.YearRangePickerUi
   size?: YearRangePickerVariants['size']
+  rangeColor?: YearRangePickerVariants['rangeColor']
   modelValue?: Akaza.CalendarDateRange
   placeholder?: Akaza.CalendarDateValue
 }

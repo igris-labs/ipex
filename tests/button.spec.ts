@@ -115,7 +115,7 @@ test('accent stays chromatic and soft buttons use a color tint in both themes', 
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   const variants = page.locator('[aria-label="Color preview variant"]')
-  await variants.getByRole('button', { name: 'soft', exact: true }).click()
+  await variants.getByRole('tab', { name: 'soft', exact: true }).click()
   const accent = page.getByTestId('color-accent')
   for (const theme of ['light', 'dark']) {
     if (theme === 'dark') await page.getByRole('button', { name: 'Use dark theme' }).click()
@@ -147,7 +147,7 @@ test('accent stays chromatic and soft buttons use a color tint in both themes', 
     await accent.hover()
     await expect
       .poll(() => accent.evaluate((el) => getComputedStyle(el).backgroundColor))
-      .toMatch(/\/ 0\.2\)/)
+      .toMatch(/\/ 0\.15\)/)
     await page.mouse.move(0, 0)
   }
 })
@@ -160,7 +160,7 @@ for (const theme of ['light', 'dark']) {
     if (theme === 'dark') await page.getByRole('button', { name: 'Use dark theme' }).click()
     const variants = page.locator('[aria-label="Color preview variant"]')
     for (const variant of ['soft', 'subtle', 'outline', 'ghost']) {
-      await variants.getByRole('button', { name: variant, exact: true }).click()
+      await variants.getByRole('tab', { name: variant, exact: true }).click()
       for (const color of [
         'primary',
         'secondary',
@@ -206,11 +206,25 @@ for (const theme of ['light', 'dark']) {
               text,
               background,
               border,
+              primaryText: pixel(
+                getComputedStyle(document.querySelector('[data-testid="color-primary"]')!).color,
+              ),
               contrast: (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05),
             }
           })
+          if (color === 'secondary') expect(paint.text).not.toEqual(paint.primaryText)
           const tinted = variant === 'soft' || variant === 'subtle'
-          const opacity = hover ? (tinted ? 0.2 : 0.1) : tinted ? 0.1 : 0
+          const opacity = hover
+            ? tinted
+              ? 0.15
+              : variant === 'ghost'
+                ? theme === 'dark'
+                  ? 0.08
+                  : 0.05
+                : 0.1
+            : tinted
+              ? 0.1
+              : 0
           const label = `${theme}/${variant}/${color}/${hover ? 'hover' : 'rest'}`
           expect.soft(paint.background[3], label).toBeCloseTo(Math.round(opacity * 255), 0)
           if (opacity > 0) {
@@ -222,7 +236,7 @@ for (const theme of ['light', 'dark']) {
           expect
             .soft(paint.border[3], label)
             .toBeCloseTo(
-              Math.round((variant === 'subtle' ? 0.2 : variant === 'outline' ? 0.5 : 0) * 255),
+              Math.round((variant === 'subtle' ? 0.2 : variant === 'outline' ? 0.2 : 0) * 255),
               0,
             )
           expect.soft(paint.contrast, label).toBeGreaterThanOrEqual(4.5)
@@ -231,6 +245,39 @@ for (const theme of ['light', 'dark']) {
     }
   })
 }
+
+test('soft and subtle backgrounds transition on hover and respect reduced motion', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  const backgroundTransitions = (button: import('@playwright/test').Locator) =>
+    button.evaluate((el) =>
+      el
+        .getAnimations()
+        .filter(
+          (animation) => (animation as CSSTransition).transitionProperty === 'background-color',
+        )
+        .map((animation) => animation.effect!.getTiming().duration),
+    )
+  for (const variant of ['soft', 'subtle']) {
+    const button = page.getByTestId(`variant-${variant}`)
+    await page.mouse.move(0, 0)
+    await button.hover()
+    expect(await backgroundTransitions(button)).toEqual([200])
+    await button.evaluate((el) =>
+      Promise.all(el.getAnimations().map((animation) => animation.finished)),
+    )
+    await page.mouse.move(0, 0)
+    expect(await backgroundTransitions(button)).toEqual([200])
+    await button.evaluate((el) =>
+      Promise.all(el.getAnimations().map((animation) => animation.finished)),
+    )
+  }
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  const button = page.getByTestId('variant-soft')
+  await button.hover()
+  expect(await backgroundTransitions(button)).toEqual([])
+})
 
 test('forwards clicks once and preserves async Promises, width, and disabled behavior', async ({
   page,
@@ -270,13 +317,12 @@ test('supports keyboard activation, theme switching, copyable source, and reduce
   await page.mouse.up()
   await expect(page.getByRole('tab', { name: 'Button.vue' })).toBeVisible()
   await page.getByRole('tab', { name: 'index.ts', exact: true }).click()
-  await expect(page.getByRole('tabpanel').filter({ visible: true })).toContainText(
+  await expect(page.getByRole('tabpanel', { name: 'index.ts', exact: true })).toContainText(
     'export const buttonVariants',
   )
   await context.grantPermissions(['clipboard-read', 'clipboard-write'])
   await page
-    .getByRole('tabpanel')
-    .filter({ visible: true })
+    .getByRole('tabpanel', { name: 'index.ts', exact: true })
     .getByRole('button', { name: 'Copy code' })
     .click()
   expect(await page.evaluate(() => navigator.clipboard.readText())).toContain(
@@ -315,7 +361,9 @@ test('matches reference sizing and separates shared installation from component 
   expect(box?.x).toBe(384)
   await expect(prose).toHaveCSS('font-size', '15px')
   await expect(prose.locator('h2').first()).toHaveCSS('font-size', '20px')
-  await expect(page.getByRole('tab')).toHaveCount(2)
+  await expect(
+    page.getByRole('tablist', { name: 'Component source files' }).getByRole('tab'),
+  ).toHaveCount(2)
   await page.goto('/getting-started/installation')
   for (const file of ['ui.config.ts', 'ui.types.ts', 'app/assets/main.css', 'app/utils/ui.ts']) {
     await expect(page.getByTestId('docs-prose')).toContainText(file)
@@ -351,7 +399,7 @@ test('highlights Markdown and component source in both themes without changing c
   await page.getByRole('button', { name: 'Use dark theme' }).click()
   await expect.poll(tokenColors).not.toEqual(light)
   await page.getByRole('tab', { name: 'index.ts', exact: true }).click()
-  const panel = page.getByRole('tabpanel').filter({ visible: true })
+  const panel = page.getByRole('tabpanel', { name: 'index.ts', exact: true })
   await expect(panel.locator('pre')).toContainText('export const buttonVariants')
   await expect(panel.locator('pre span[class]').first()).toBeAttached()
   await context.grantPermissions(['clipboard-read', 'clipboard-write'])
@@ -363,4 +411,60 @@ test('highlights Markdown and component source in both themes without changing c
   const markdown = page.getByTestId('docs-prose').locator('pre').first()
   await expect(markdown).toContainText('pnpm add akaza-ui')
   expect(await markdown.locator('span').count()).toBeGreaterThan(2)
+})
+
+test('secondary stays neutral and IPEX blue accent keeps readable tactile fills in both themes', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  for (const theme of ['light', 'dark']) {
+    if (theme === 'dark') await page.getByRole('button', { name: 'Use dark theme' }).click()
+    const paint = await page.getByTestId('color-accent').evaluate((el) => {
+      const style = getComputedStyle(el)
+      const canvas = document.createElement('canvas')
+      canvas.width = canvas.height = 1
+      const context = canvas.getContext('2d')!
+      const pixel = (color: string) => {
+        context.clearRect(0, 0, 1, 1)
+        context.fillStyle = color
+        context.fillRect(0, 0, 1, 1)
+        return Array.from(context.getImageData(0, 0, 1, 1).data).slice(0, 3)
+      }
+      const luminance = (rgb: number[]) =>
+        rgb
+          .map((value) => {
+            const channel = value / 255
+            return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
+          })
+          .reduce((sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index]!, 0)
+      const contrast = (a: number[], b: number[]) =>
+        (Math.max(luminance(a), luminance(b)) + 0.05) /
+        (Math.min(luminance(a), luminance(b)) + 0.05)
+      const accent = style.getPropertyValue('--accent')
+      const probe = document.createElement('span')
+      probe.style.backgroundColor = style.getPropertyValue('--button-color')
+      document.body.append(probe)
+      const material = getComputedStyle(probe).backgroundColor
+      probe.remove()
+      const text = pixel(style.color)
+      const secondary = getComputedStyle(document.querySelector('[data-testid="color-secondary"]')!)
+      return {
+        secondary: pixel(secondary.backgroundColor),
+        accent: pixel(accent),
+        contrast: [
+          `oklch(from ${material} clamp(0, calc(l + 0.1165), 1) calc(c * 0.82) h)`,
+          `oklch(from ${material} clamp(0, calc(l - 0.0214), 1) calc(c * 0.96) h)`,
+          `oklch(from ${material} clamp(0, calc(l + 0.1432), 1) calc(c * 0.78) h)`,
+          `oklch(from ${material} clamp(0, calc(l + 0.0292), 1) calc(c * 0.9) h)`,
+        ].map((fill) => contrast(text, pixel(fill))),
+      }
+    })
+    expect(Math.max(...paint.secondary) - Math.min(...paint.secondary)).toBeLessThanOrEqual(1)
+    expect(paint.accent[2]).toBeGreaterThan(paint.accent[1]! + 40)
+    expect(paint.accent[2]).toBeGreaterThan(paint.accent[0]! + 60)
+    if (theme === 'light')
+      for (const [index, value] of [9, 105, 218].entries())
+        expect(Math.abs(paint.accent[index]! - value)).toBeLessThanOrEqual(1)
+    for (const contrast of paint.contrast) expect(contrast).toBeGreaterThanOrEqual(4.5)
+  }
 })

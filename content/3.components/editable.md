@@ -20,6 +20,10 @@ import { Editable } from '~/components/ui/editable'
 </template>
 ```
 
+## Editing behavior
+
+Click the preview or Edit to begin. Submit commits the draft; Cancel restores the previous value. The preview, input, and action buttons share the selected size. Open **Options and states** to try activation mode, submit mode, multiline input, disabled, and read-only states.
+
 ## Variants and defaults
 
 | Prop      | Values                       | Default   |

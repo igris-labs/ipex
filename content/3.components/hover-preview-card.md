@@ -5,7 +5,7 @@ navigation:
   icon: tabler:id
 ---
 
-::component-example{name="hover-preview-card" width-options="xs,sm,md,lg,xl" default-width="md"}
+::component-example{name="hover-preview-card" size-options="xs,sm,md,lg,xl" default-size="md"}
 ::
 
 ## Usage
@@ -28,11 +28,11 @@ import { Button } from '~/components/ui/button'
 
 ## Variants and defaults
 
-| Prop    | Values                       | Default |
-| ------- | ---------------------------- | ------- |
-| `width` | `xs`, `sm`, `md`, `lg`, `xl` | `md`    |
+| Prop   | Values                       | Default |
+| ------ | ---------------------------- | ------- |
+| `size` | `xs`, `sm`, `md`, `lg`, `xl` | `md`    |
 
-`width` sets the floating surface width, independently of control size. The surface stays inside the viewport.
+Width fits the content by default, capped at 20rem and the viewport. Panel padding stays at 12px across sizes. `size` controls text size, line height, and corner radius. The default trigger gap is 4px. Use `class` or `ui.content` to set an explicit width when needed. Child components retain their own size props.
 
 ## Props
 
@@ -40,7 +40,7 @@ import { Button } from '~/components/ui/button'
 | ------------- | ---------------------------------------- | ---------- | ----------------------------------------------------------------- |
 | `side`        | `"top" \| "right" \| "bottom" \| "left"` | `"bottom"` | Preferred side.                                                   |
 | `align`       | `"start" \| "center" \| "end"`           | `"center"` | Alignment on the cross-axis.                                      |
-| `sideOffset`  | `number`                                 | `8`        | Gap in px.                                                        |
+| `sideOffset`  | `number`                                 | `4`        | Gap in px.                                                        |
 | `openDelay`   | `number`                                 | `600`      | Delay before opening.                                             |
 | `closeDelay`  | `number`                                 | `150`      | Delay before closing.                                             |
 | `disabled`    | `boolean`                                | `false`    | Prevents opening.                                                 |

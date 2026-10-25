@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { DateField as Primitive } from 'akaza-ui'
-import { computed, useAttrs, useTemplateRef } from 'vue'
+import { computed, nextTick, useAttrs, useTemplateRef } from 'vue'
 
 import { cn, mergeRecipeSlots } from '../../../utils/ui'
 import { calendarVariants } from '../calendar'
@@ -29,12 +29,12 @@ const props = withDefaults(defineProps<DateFieldProps>(), {
   invalid: undefined,
   selectOnFocus: undefined,
   autoAdvance: undefined,
-  showCalendar: undefined,
+  showCalendar: true,
   calendarLabel: undefined,
   calendarSide: undefined,
   calendarAlign: undefined,
   calendarSideOffset: undefined,
-  calendarTeleport: undefined,
+  calendarTeleport: 'body',
   ariaLabel: undefined,
   ariaLabelledby: undefined,
   ariaDescribedby: undefined,
@@ -58,7 +58,10 @@ const mergedUi = computed(() => {
   )
   return {
     ...flat,
-    calendar: mergeRecipeSlots(calendarVariants({ size: resolved.value.size }), props.ui?.calendar),
+    calendar: mergeRecipeSlots(calendarVariants({ size: resolved.value.size }), {
+      ...props.ui?.calendar,
+      root: cn(styles.value.calendar(), props.ui?.calendar?.root),
+    }),
   }
 })
 const primitiveProps = computed(() => {
@@ -66,6 +69,22 @@ const primitiveProps = computed(() => {
   return native
 })
 const primitive = useTemplateRef<InstanceType<typeof Primitive>>('primitive')
+async function onFieldClick(event: MouseEvent) {
+  const target = event.target as HTMLElement
+  if (
+    props.showCalendar &&
+    !props.disabled &&
+    !props.readOnly &&
+    target.closest('.akaza-date-field-segments')
+  ) {
+    primitive.value?.openCalendar(event)
+    // Calendar initial focus belongs to its button; clicking a segment must keep typing focus.
+    await nextTick()
+    await nextTick()
+    target.focus({ preventScroll: true })
+  }
+}
+
 defineExpose({
   get validationState() {
     return primitive.value!.validationState
@@ -96,6 +115,7 @@ defineExpose({
     ref="primitive"
     v-bind="{ ...primitiveProps, ...attrs }"
     :ui="mergedUi"
+    @click="onFieldClick"
   >
     <template v-for="(_, name) in $slots" #[name]="scope"
       ><slot :name="name as keyof DateFieldSlots" v-bind="scope ?? {}"

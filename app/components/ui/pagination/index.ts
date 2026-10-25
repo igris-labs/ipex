@@ -5,78 +5,71 @@ import type { HTMLAttributes } from 'vue'
 import { resolveVariants, tv, type VariantProps } from '../../../utils/ui'
 import type { UiConfig } from '../ui.types'
 
+const paginationControl =
+  'cursor-pointer select-none inline-flex min-h-(--pagination-size) min-w-(--pagination-size) shrink-0 items-center justify-center rounded-(--pagination-radius) px-1 py-1 text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-foreground/5 hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-40 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-40 motion-reduce:transition-none pointer-coarse:min-h-11 pointer-coarse:min-w-11 [&_svg]:size-(--pagination-icon) [&_svg]:shrink-0'
+
 export const paginationVariants = tv({
   slots: {
-    root: '',
-    list: 'flex items-center gap-1',
-    item: '',
-    first:
-      'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
-    previous:
-      'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
-    page: 'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-[akaza-state=active]:bg-primary data-[akaza-state=active]:text-primary-foreground motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
-    ellipsis: 'inline-flex items-center justify-center text-muted-foreground',
-    next: 'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
-    last: 'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
+    root: 'relative isolate max-w-full overflow-x-auto',
+    list: 'relative flex w-max items-center gap-1 p-1 pointer-coarse:gap-0.5',
+    item: 'relative z-10 flex shrink-0',
+    first: paginationControl,
+    previous: paginationControl,
+    next: paginationControl,
+    last: paginationControl,
+    page: `${paginationControl} w-[max(var(--pagination-size),calc(var(--pagination-digits,1)*1ch+0.5rem))] tabular-nums data-[akaza-state=active]:bg-foreground/10 data-[akaza-state=active]:text-highlighted data-[akaza-state=active]:transition-none pointer-coarse:w-[max(2.75rem,calc(var(--pagination-digits,1)*1ch+0.5rem))]`,
+    ellipsis:
+      'inline-flex min-h-(--pagination-size) w-[max(var(--pagination-size),calc(var(--pagination-digits,1)*1ch+0.5rem))] items-center justify-center text-dimmed pointer-coarse:min-h-11 pointer-coarse:min-w-11',
+    indicator:
+      'pointer-events-none absolute top-0 left-0 rounded-(--pagination-radius) bg-foreground/10 transition-[transform,width,height] duration-180 ease-interaction motion-reduce:transition-none',
   },
   variants: {
+    variant: {
+      soft: {},
+      solid: {
+        page: 'data-[akaza-state=active]:bg-primary data-[akaza-state=active]:text-primary-foreground',
+        indicator: 'bg-primary',
+      },
+      subtle: {
+        page: 'data-[akaza-state=active]:bg-foreground/5',
+        indicator: 'border border-foreground/20 bg-foreground/5',
+      },
+      outline: {
+        page: 'data-[akaza-state=active]:bg-transparent',
+        indicator: 'border border-foreground/30 bg-transparent',
+      },
+    },
     size: {
       xs: {
-        first: 'min-h-6 gap-1 rounded-[calc(var(--radius)*0.5)] px-2 py-1 text-xs leading-4',
-        previous: 'min-h-6 gap-1 rounded-[calc(var(--radius)*0.5)] px-2 py-1 text-xs leading-4',
-        page: 'min-h-6 gap-1 rounded-[calc(var(--radius)*0.5)] px-2 py-1 text-xs leading-4',
-        next: 'min-h-6 gap-1 rounded-[calc(var(--radius)*0.5)] px-2 py-1 text-xs leading-4',
-        last: 'min-h-6 gap-1 rounded-[calc(var(--radius)*0.5)] px-2 py-1 text-xs leading-4',
-        ellipsis: 'min-h-6 gap-1 rounded-[calc(var(--radius)*0.5)] px-2 py-1 text-xs leading-4',
+        root: 'text-xs leading-4 [--pagination-icon:0.75rem] [--pagination-radius:calc(var(--radius)*0.5)] [--pagination-size:1.5rem]',
       },
       sm: {
-        first: 'min-h-7 gap-1 rounded-sm px-2.5 py-1 text-[13px] leading-4',
-        previous: 'min-h-7 gap-1 rounded-sm px-2.5 py-1 text-[13px] leading-4',
-        page: 'min-h-7 gap-1 rounded-sm px-2.5 py-1 text-[13px] leading-4',
-        next: 'min-h-7 gap-1 rounded-sm px-2.5 py-1 text-[13px] leading-4',
-        last: 'min-h-7 gap-1 rounded-sm px-2.5 py-1 text-[13px] leading-4',
-        ellipsis: 'min-h-7 gap-1 rounded-sm px-2.5 py-1 text-[13px] leading-4',
+        root: 'text-[13px] leading-4 [--pagination-icon:0.875rem] [--pagination-radius:var(--radius-sm)] [--pagination-size:1.75rem]',
       },
       md: {
-        first: 'min-h-8 gap-1.5 rounded-md px-3 py-1 text-sm leading-5',
-        previous: 'min-h-8 gap-1.5 rounded-md px-3 py-1 text-sm leading-5',
-        page: 'min-h-8 gap-1.5 rounded-md px-3 py-1 text-sm leading-5',
-        next: 'min-h-8 gap-1.5 rounded-md px-3 py-1 text-sm leading-5',
-        last: 'min-h-8 gap-1.5 rounded-md px-3 py-1 text-sm leading-5',
-        ellipsis: 'min-h-8 gap-1.5 rounded-md px-3 py-1 text-sm leading-5',
+        root: 'text-sm leading-5 [--pagination-icon:1rem] [--pagination-radius:var(--radius-md)] [--pagination-size:2rem]',
       },
       lg: {
-        first: 'min-h-9 gap-2 rounded-lg px-3.5 py-1 text-sm leading-5',
-        previous: 'min-h-9 gap-2 rounded-lg px-3.5 py-1 text-sm leading-5',
-        page: 'min-h-9 gap-2 rounded-lg px-3.5 py-1 text-sm leading-5',
-        next: 'min-h-9 gap-2 rounded-lg px-3.5 py-1 text-sm leading-5',
-        last: 'min-h-9 gap-2 rounded-lg px-3.5 py-1 text-sm leading-5',
-        ellipsis: 'min-h-9 gap-2 rounded-lg px-3.5 py-1 text-sm leading-5',
+        root: 'text-sm leading-5 [--pagination-icon:1.125rem] [--pagination-radius:var(--radius-lg)] [--pagination-size:2.25rem]',
       },
       xl: {
-        first: 'min-h-10 gap-2.5 rounded-[calc(var(--radius)*1.2)] px-4 py-1 text-base leading-6',
-        previous:
-          'min-h-10 gap-2.5 rounded-[calc(var(--radius)*1.2)] px-4 py-1 text-base leading-6',
-        page: 'min-h-10 gap-2.5 rounded-[calc(var(--radius)*1.2)] px-4 py-1 text-base leading-6',
-        next: 'min-h-10 gap-2.5 rounded-[calc(var(--radius)*1.2)] px-4 py-1 text-base leading-6',
-        last: 'min-h-10 gap-2.5 rounded-[calc(var(--radius)*1.2)] px-4 py-1 text-base leading-6',
-        ellipsis:
-          'min-h-10 gap-2.5 rounded-[calc(var(--radius)*1.2)] px-4 py-1 text-base leading-6',
+        root: 'text-base leading-6 [--pagination-icon:1.25rem] [--pagination-radius:calc(var(--radius)*1.2)] [--pagination-size:2.5rem]',
       },
     },
   },
-  defaultVariants: {
-    size: 'sm',
-  },
+  defaultVariants: { size: 'sm', variant: 'soft' },
 })
 export type PaginationVariants = VariantProps<typeof paginationVariants>
-export type PaginationConfig = Pick<PaginationVariants, 'size'>
+export type PaginationConfig = Pick<PaginationVariants, 'size' | 'variant'>
 export type PaginationSlots = InstanceType<typeof Akaza.Pagination>['$slots']
 export interface PaginationProps extends Omit<PrimitivePaginationProps, 'ui' | 'class' | 'size'> {
   class?: HTMLAttributes['class']
-  ui?: Akaza.PaginationUi
+  ui?: Akaza.PaginationUi & { indicator?: string }
   size?: PaginationVariants['size']
+  variant?: PaginationVariants['variant']
   modelValue?: number
+  'onValue-change'?: (page: number, details: Akaza.AkazaChangeEventDetails) => void
+  'onUpdate:modelValue'?: (page: number) => void
 }
 export function resolvePaginationVariants(
   props: PaginationVariants,

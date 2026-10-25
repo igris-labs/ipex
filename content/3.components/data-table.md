@@ -23,6 +23,69 @@ const columns = [{ accessor: 'name' as const, header: 'Project' }]
 </template>
 ```
 
+## Sorting and selection
+
+Click a column heading to sort. Add a selection column and bind `selection` to stable row keys. Selection remains independent of sorting and pagination.
+
+::data-table-examples{example="selection"}
+::
+
+```vue
+<DataTable
+  v-model:selection="selectedIds"
+  :data="projects"
+  :columns="[
+    { id: 'select', type: 'selection' },
+    { accessor: 'name', header: 'Project', sortable: true },
+  ]"
+  row-key="id"
+  selection-mode="multiple"
+/>
+```
+
+## Filtering and pagination
+
+Bind `globalFilter` to your search input. Enable `paginate` and bind the one-based page and page size. For server data, use the manual filtering and pagination props instead.
+
+::data-table-examples{example="filtering"}
+::
+
+```vue
+<Input v-model="search" aria-label="Search projects" />
+<DataTable
+  v-model:global-filter="search"
+  v-model:pagination="pagination"
+  :data="projects"
+  :columns="columns"
+  row-key="id"
+  paginate
+/>
+```
+
+## Expanded details
+
+Add an expander column and `isRowExpandable` for rows with detail content. Use the `expanded` slot to render those details.
+
+::data-table-examples{example="expansion"}
+::
+
+```vue
+<DataTable :data="projects" :columns="columns" row-key="id" :is-row-expandable="() => true">
+  <template #expanded="{ row }">Owner: {{ row.original.owner }}</template>
+</DataTable>
+```
+
+## Empty, loading, and error states
+
+Use the state picker to inspect each result. Supply an actionable error message when loading fails; distinguish it from an empty result.
+
+::data-table-examples{example="states"}
+::
+
+```vue
+<DataTable :data="projects" :columns="columns" row-key="id" :loading="pending" :error="error" />
+```
+
 ## Variants and defaults
 
 | Prop   | Values                       | Default |
@@ -143,6 +206,8 @@ Every model emits its `update:*` event after an accepted change. The paired `*-c
 Pointer dragging and touch Pointer Events use the same resize and reorder actions. The table does not add spreadsheet-style arrow navigation to ordinary data cells; native table reading and normal document tab order remain intact.
 
 ## Source
+
+Copy the [Pagination component](/components/pagination#source) alongside DataTable. The default table footer uses that shared component, including its sizing, sliding marker, and reduced-motion behavior. A `pagination` slot can replace the footer.
 
 Copy `DataTable.vue` and `index.ts` into `components/ui/data-table` after [installation](/getting-started/installation).
 

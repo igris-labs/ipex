@@ -16,7 +16,7 @@ defineOptions({ inheritAttrs: false })
 const props = withDefaults(defineProps<PopoverProps>(), {
   side: undefined,
   align: undefined,
-  sideOffset: undefined,
+  sideOffset: 4,
   teleport: undefined,
   transition: undefined,
   ui: undefined,
@@ -35,7 +35,7 @@ const mergedUi = computed(() => {
   )
 })
 const primitiveProps = computed(() => {
-  const { class: _class, ui: _ui, width: _width, ...native } = props
+  const { class: _class, ui: _ui, size: _size, ...native } = props
   return native
 })
 const primitive = useTemplateRef<InstanceType<typeof Primitive>>('primitive')

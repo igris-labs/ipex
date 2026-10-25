@@ -25,6 +25,8 @@ const items = [
 </template>
 ```
 
+Flyouts sit 2px from their trigger. Flyout links stack their title above the description. The hover highlight slides between top-level controls in 180ms and follows keyboard focus. Hovering a link without children closes the previous flyout. Reduced motion disables the slide.
+
 ## Variants and defaults
 
 | Prop   | Values                       | Default |
@@ -55,7 +57,7 @@ const items = [
 | `disabled`        | `boolean`                        | `false`        | Disables trigger interaction.                                                                                     |
 | `openDelay`       | `number`                         | `80`           | Pointer-open delay in milliseconds.                                                                               |
 | `closeDelay`      | `number`                         | `150`          | Pointer-close delay in milliseconds.                                                                              |
-| `sideOffset`      | `number`                         | `8`            | Distance between a flyout and its trigger.                                                                        |
+| `sideOffset`      | `number`                         | `2`            | Distance between a flyout and its trigger.                                                                        |
 | `teleport`        | `string \| false`                | automatic      | Flyout Teleport target. Defaults to `body` for collapsed vertical navigation and no Teleport otherwise.           |
 | `ariaLabel`       | `string`                         | `"Primary"`    | Accessible nav label.                                                                                             |
 | `ui`              | `NavigationMenuUi`               | —              | Classes for structural parts.                                                                                     |

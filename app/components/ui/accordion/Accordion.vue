@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<AccordionProps>(), {
   contentKey: undefined,
   disabledKey: undefined,
   type: undefined,
-  collapsible: undefined,
+  collapsible: true,
   disabled: undefined,
   orientation: undefined,
   unmountOnHide: undefined,

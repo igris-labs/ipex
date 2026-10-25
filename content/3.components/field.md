@@ -23,6 +23,32 @@ import { Input } from '~/components/ui/input'
 </template>
 ```
 
+## Required, invalid, and disabled fields
+
+Field provides the label, description, validation message, and shared state for its control. Set `invalid` after your validation runs. The preview lets you inspect each state.
+
+::field-examples{example="states"}
+::
+
+```vue
+<Field label="Email address" required :invalid="!!emailError" :error="emailError">
+  <Input v-model="email" placeholder="you@example.com" />
+</Field>
+```
+
+## Other controls
+
+The same field structure works with selects and checkboxes. Give a checkbox its own action label; use the Field label to describe the setting.
+
+::field-examples{example="controls"}
+::
+
+```vue
+<Field label="Visibility" description="Choose who can open this project.">
+  <Select v-model="visibility" :options="visibilityOptions" />
+</Field>
+```
+
 ## Props
 
 | Prop          | Type                         | Default     | Description                                           |

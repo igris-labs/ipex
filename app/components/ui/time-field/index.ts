@@ -7,12 +7,13 @@ import type { UiConfig } from '../ui.types'
 
 export const timeFieldVariants = tv({
   slots: {
-    root: 'inline-flex items-center border border-input bg-background text-foreground shadow-none transition-colors duration-150 ease-interaction outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-akaza-focused:ring-2 data-akaza-focused:ring-ring data-akaza-invalid:border-destructive motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11',
+    root: 'inline-flex items-center border border-input bg-background text-foreground shadow-none transition-colors duration-150 ease-interaction outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:focus-visible:ring-destructive/25 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-akaza-focused:ring-2 data-akaza-focused:ring-ring aria-invalid:data-akaza-focused:ring-destructive/25 data-akaza-invalid:border-destructive data-akaza-invalid:focus-visible:ring-destructive/25 data-akaza-invalid:data-akaza-focused:ring-destructive/25 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11',
     segments: 'inline-flex items-center',
     segment:
-      'rounded px-0.5 tabular-nums focus:bg-primary focus:text-primary-foreground focus:outline-none',
+      'rounded px-0.5 tabular-nums transition-colors duration-150 ease-interaction outline-none selection:bg-secondary selection:text-secondary-foreground focus:bg-secondary focus:text-secondary-foreground focus:ring-1 focus:ring-secondary-foreground/20 motion-reduce:transition-none',
     literal: 'text-muted-foreground',
-    dayPeriod: 'rounded px-1 font-medium focus:bg-primary focus:text-primary-foreground',
+    dayPeriod:
+      'rounded px-1 font-medium transition-colors duration-150 ease-interaction outline-none focus:bg-secondary focus:text-secondary-foreground focus:ring-1 focus:ring-secondary-foreground/20 motion-reduce:transition-none',
     timeZone: 'pl-1 text-xs text-muted-foreground',
     hiddenInput: 'sr-only',
   },

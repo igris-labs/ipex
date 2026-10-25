@@ -5,7 +5,7 @@ import { Button } from './ui/button'
 import { Field } from './ui/field'
 import { Form } from './ui/form'
 import { Input } from './ui/input'
-import { ToggleGroup } from './ui/toggle-group'
+import { Tabs } from './ui/tabs'
 
 const name = ref('IPEX docs')
 const mode = ref('details')
@@ -34,40 +34,42 @@ function reset() {
       }}</span>
     </div>
     <Form class="gap-0" @submit="create">
-      <div class="flex justify-start px-5 pt-5">
-        <ToggleGroup
+      <div class="px-5 pt-5">
+        <Tabs
           v-model="mode"
-          :options="[
+          :items="[
             { value: 'details', label: 'Details' },
             { value: 'review', label: 'Review' },
           ]"
-          :allow-empty="false"
           size="sm"
           aria-label="Example view"
-        />
-      </div>
-      <div class="flex min-h-44 flex-col justify-center px-5 py-6">
-        <Field
-          v-if="mode === 'details'"
-          label="Project name"
-          description="Use a name your team can recognize."
-          name="project"
-          required
+          :ui="{ root: 'gap-0', panels: 'flex min-h-44 flex-col justify-center py-6' }"
         >
-          <Input v-model="name" size="md" required :maxlength="60" placeholder="Project name" />
-        </Field>
-        <dl v-else class="space-y-4 text-sm">
-          <div class="flex items-start justify-between gap-4">
-            <dt class="text-muted-foreground">Project</dt>
-            <dd class="max-w-60 text-right font-medium break-words">
-              {{ name.trim() || 'Untitled project' }}
-            </dd>
-          </div>
-          <div class="flex items-start justify-between gap-4">
-            <dt class="text-muted-foreground">Workspace</dt>
-            <dd>Igris Labs</dd>
-          </div>
-        </dl>
+          <template #panel-details>
+            <Field
+              label="Project name"
+              description="Use a name your team can recognize."
+              name="project"
+              required
+            >
+              <Input v-model="name" size="md" required :maxlength="60" placeholder="Project name" />
+            </Field>
+          </template>
+          <template #panel-review>
+            <dl class="space-y-4 text-sm">
+              <div class="flex items-start justify-between gap-4">
+                <dt class="text-muted-foreground">Project</dt>
+                <dd class="max-w-60 text-right font-medium break-words">
+                  {{ name.trim() || 'Untitled project' }}
+                </dd>
+              </div>
+              <div class="flex items-start justify-between gap-4">
+                <dt class="text-muted-foreground">Workspace</dt>
+                <dd>Igris Labs</dd>
+              </div>
+            </dl>
+          </template>
+        </Tabs>
       </div>
       <div
         class="flex min-h-16 flex-wrap items-center justify-between gap-4 border-t border-border px-5 py-4"

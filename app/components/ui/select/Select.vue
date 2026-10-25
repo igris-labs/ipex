@@ -59,6 +59,35 @@ const primitiveProps = computed(() => {
 </script>
 <template>
   <component :is="Primitive" v-bind="{ ...primitiveProps, ...attrs }" :ui="mergedUi">
+    <template v-if="!$slots.trigger" #trigger="scope">
+      <span v-if="scope.selectedLabel" :class="mergedUi.value" class="akaza-select-value">
+        <slot
+          name="value"
+          :option="scope.selectedOption"
+          :options="scope.selectedOptions"
+          :value="scope.selectedValue"
+          :values="scope.selectedValues"
+          :label="scope.selectedLabel"
+          >{{ scope.selectedLabel }}</slot
+        >
+      </span>
+      <span v-else :class="mergedUi.placeholder" class="akaza-select-placeholder">{{
+        scope.placeholder
+      }}</span>
+      <svg
+        :class="mergedUi.icon"
+        class="akaza-select-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+    </template>
     <template v-for="(_, name) in $slots" #[name]="scope"
       ><slot :name="name as keyof SelectSlots" v-bind="scope ?? {}"
     /></template>

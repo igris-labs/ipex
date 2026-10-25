@@ -41,7 +41,7 @@ const example = `<Field label="Project name" name="project">
         </p>
         <div class="mt-8 flex flex-wrap gap-3">
           <Button :as="nuxtLink" to="/getting-started/installation" size="lg">Get started</Button>
-          <Button :as="nuxtLink" to="/design-system/principles" variant="outline" size="lg"
+          <Button :as="nuxtLink" to="/design-system/principles" variant="soft" size="lg"
             >Explore the system</Button
           >
         </div>

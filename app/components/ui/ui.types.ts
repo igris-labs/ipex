@@ -13,6 +13,7 @@ export interface UiComponentConfig {}
 
 export interface UiConfig {
   defaults?: {
+    rangeColor?: 'secondary' | 'accent' | null
     size?: PrimitiveSize | null
     variant?:
       | 'default'

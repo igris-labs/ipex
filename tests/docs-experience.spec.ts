@@ -1,4 +1,13 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
+
+async function ready(page: Page) {
+  await page.waitForFunction(() => {
+    const root = document.getElementById('__nuxt') as HTMLElement & {
+      __vue_app__?: { config: { globalProperties: { $nuxt?: { isHydrating: boolean } } } }
+    }
+    return root?.__vue_app__?.config.globalProperties.$nuxt?.isHydrating === false
+  })
+}
 
 test('explains the system and exposes distinct, rounded content navigation', async ({ page }) => {
   await page.goto('/getting-started/introduction')
@@ -35,17 +44,12 @@ test('landing example supports editing, review, execution, and reset on mobile',
 }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
-  await page.waitForFunction(() => {
-    const root = document.getElementById('__nuxt') as HTMLElement & {
-      __vue_app__?: { config: { globalProperties: { $nuxt?: { isHydrating: boolean } } } }
-    }
-    return root?.__vue_app__?.config.globalProperties.$nuxt?.isHydrating === false
-  })
+  await ready(page)
   const name = page.getByRole('textbox', { name: 'Project name' })
   await name.fill('')
   await expect(page.getByRole('button', { name: 'Create project', exact: true })).toBeDisabled()
   await name.fill('Operations')
-  await page.getByRole('button', { name: 'Review', exact: true }).click()
+  await page.getByRole('tab', { name: 'Review', exact: true }).click()
   await expect(page.locator('dd').first()).toHaveText('Operations')
   await page.getByRole('button', { name: 'Create project', exact: true }).click()
   await expect(
@@ -54,4 +58,80 @@ test('landing example supports editing, review, execution, and reset on mobile',
   await page.getByRole('button', { name: 'Reset example', exact: true }).click()
   await expect(name).toHaveValue('IPEX docs')
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
+})
+
+test('table of contents marker slides, follows scrolling, and resizes with labels', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto('/getting-started/installation')
+  const sections = page.getByRole('navigation', { name: 'Page sections', exact: true })
+  const indicator = page.getByTestId('toc-indicator')
+  const active = sections.locator('[aria-current="location"]')
+  const alignment = () =>
+    indicator.evaluate((el) => {
+      const selected = el.parentElement!.querySelector('[aria-current="location"]')!
+      const a = el.getBoundingClientRect()
+      const b = selected.getBoundingClientRect()
+      return Math.max(Math.abs(a.top - b.top), Math.abs(a.height - b.height))
+    })
+  await expect(indicator).toHaveCSS('opacity', '1')
+  await expect.poll(alignment).toBeLessThan(1)
+  await sections.getByRole('link', { name: 'UI configuration', exact: true }).click()
+  await expect(active).toHaveAttribute('href', '#ui-configuration')
+  expect(
+    await indicator.evaluate((el) =>
+      el.getAnimations().map((animation) => (animation as CSSTransition).transitionProperty),
+    ),
+  ).toContain('transform')
+  await expect.poll(alignment).toBeLessThan(1)
+  await sections.evaluate((el) => {
+    el.style.width = '100px'
+  })
+  await expect(indicator).toHaveCSS('height', '48px')
+  await expect.poll(alignment).toBeLessThan(1)
+  await page.evaluate(() => document.getElementById('packages')!.scrollIntoView())
+  await expect(active).toHaveAttribute('href', '#packages')
+  await expect.poll(alignment).toBeLessThan(1)
+  const light = await indicator.evaluate((el) => getComputedStyle(el).backgroundColor)
+  await page.getByRole('button', { name: 'Use dark theme' }).click()
+  await expect
+    .poll(() => indicator.evaluate((el) => getComputedStyle(el).backgroundColor))
+    .not.toEqual(light)
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await expect(indicator).toHaveCSS('transition-property', 'none')
+  await page
+    .locator('aside')
+    .first()
+    .getByRole('link', { name: 'Introduction', exact: true })
+    .click()
+  await expect(page.getByRole('heading', { name: 'Introduction', exact: true })).toBeVisible()
+  await expect(active).toHaveAttribute('href', '#the-experience')
+  await expect.poll(alignment).toBeLessThan(1)
+})
+
+test('home views and button variant pickers use the shared sliding tabs', async ({ page }) => {
+  await page.goto('/')
+  await ready(page)
+  const home = page.getByRole('tablist', { name: 'Example view', exact: true })
+  await expect(home.locator('.akaza-tab-indicator')).toHaveCSS('transition-duration', '0.18s')
+  await home.getByRole('tab', { name: 'Details', exact: true }).focus()
+  await page.keyboard.press('ArrowRight')
+  await expect(home.getByRole('tab', { name: 'Review', exact: true })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  )
+  await expect(page.getByRole('tabpanel', { name: 'Review', exact: true })).toContainText(
+    'Igris Labs',
+  )
+  await page.goto('/components/button')
+  await ready(page)
+  const picker = page.getByRole('tablist', { name: 'Color preview variant', exact: true })
+  await expect(picker.locator('.akaza-tab-indicator')).toHaveCSS('transition-duration', '0.18s')
+  await picker.getByRole('tab', { name: 'soft', exact: true }).click()
+  await expect(picker.getByRole('tab', { name: 'soft', exact: true })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  )
+  await expect(page.getByTestId('color-primary')).toHaveCount(1)
 })

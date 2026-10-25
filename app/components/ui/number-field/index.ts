@@ -12,38 +12,38 @@ export const numberFieldVariants = tv({
     decrement:
       'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
     input:
-      'min-w-0 flex-1 border-0 bg-transparent text-center tabular-nums outline-none placeholder:text-muted-foreground',
+      'min-w-0 flex-1 [appearance:textfield] border-0 bg-transparent text-center tabular-nums outline-none placeholder:text-muted-foreground [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none',
     increment:
       'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
   },
   variants: {
     size: {
       xs: {
-        root: 'h-6 gap-1 rounded-[calc(var(--radius)*0.5)] px-2 text-xs leading-4',
+        root: 'h-6 rounded-[calc(var(--radius)*0.5)] text-xs leading-4',
         input: 'h-6 gap-1 rounded-[calc(var(--radius)*0.5)] px-2 text-xs leading-4',
         decrement: 'h-6 gap-1 rounded-[calc(var(--radius)*0.5)] px-2 text-xs leading-4',
         increment: 'h-6 gap-1 rounded-[calc(var(--radius)*0.5)] px-2 text-xs leading-4',
       },
       sm: {
-        root: 'h-7 gap-1 rounded-sm px-2.5 text-[13px] leading-4',
+        root: 'h-7 rounded-sm text-[13px] leading-4',
         input: 'h-7 gap-1 rounded-sm px-2.5 text-[13px] leading-4',
         decrement: 'h-7 gap-1 rounded-sm px-2.5 text-[13px] leading-4',
         increment: 'h-7 gap-1 rounded-sm px-2.5 text-[13px] leading-4',
       },
       md: {
-        root: 'h-8 gap-1.5 rounded-md px-3 text-sm leading-5',
+        root: 'h-8 rounded-md text-sm leading-5',
         input: 'h-8 gap-1.5 rounded-md px-3 text-sm leading-5',
         decrement: 'h-8 gap-1.5 rounded-md px-3 text-sm leading-5',
         increment: 'h-8 gap-1.5 rounded-md px-3 text-sm leading-5',
       },
       lg: {
-        root: 'h-9 gap-2 rounded-lg px-3.5 text-sm leading-5',
+        root: 'h-9 rounded-lg text-sm leading-5',
         input: 'h-9 gap-2 rounded-lg px-3.5 text-sm leading-5',
         decrement: 'h-9 gap-2 rounded-lg px-3.5 text-sm leading-5',
         increment: 'h-9 gap-2 rounded-lg px-3.5 text-sm leading-5',
       },
       xl: {
-        root: 'h-10 gap-2.5 rounded-[calc(var(--radius)*1.2)] px-4 text-base leading-6',
+        root: 'h-10 rounded-[calc(var(--radius)*1.2)] text-base leading-6',
         input: 'h-10 gap-2.5 rounded-[calc(var(--radius)*1.2)] px-4 text-base leading-6',
         decrement: 'h-10 gap-2.5 rounded-[calc(var(--radius)*1.2)] px-4 text-base leading-6',
         increment: 'h-10 gap-2.5 rounded-[calc(var(--radius)*1.2)] px-4 text-base leading-6',
@@ -57,6 +57,8 @@ export const numberFieldVariants = tv({
       soft: {
         root: 'border-transparent bg-muted',
         input: 'border-transparent bg-muted',
+        decrement: 'hover:bg-foreground/8',
+        increment: 'hover:bg-foreground/8',
       },
       bare: {
         root: 'border-transparent bg-transparent focus-visible:ring-0 data-akaza-focused:ring-0',

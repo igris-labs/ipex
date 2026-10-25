@@ -16,7 +16,7 @@ defineOptions({ inheritAttrs: false })
 const props = withDefaults(defineProps<HoverPreviewCardProps>(), {
   side: undefined,
   align: undefined,
-  sideOffset: undefined,
+  sideOffset: 4,
   openDelay: undefined,
   closeDelay: undefined,
   disabled: undefined,
@@ -43,7 +43,7 @@ const mergedUi = computed(() => {
   )
 })
 const primitiveProps = computed(() => {
-  const { class: _class, ui: _ui, width: _width, ...native } = props
+  const { class: _class, ui: _ui, size: _size, ...native } = props
   return native
 })
 </script>

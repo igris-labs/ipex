@@ -3,6 +3,7 @@ import { Editable as Primitive } from 'akaza-ui'
 import { computed, useAttrs, useTemplateRef } from 'vue'
 
 import { cn } from '../../../utils/ui'
+import { buttonVariants } from '../button'
 import uiConfig from '../ui.config'
 import {
   editableVariants,
@@ -43,7 +44,19 @@ const mergedUi = computed(() => {
   return Object.fromEntries(
     Object.entries(styles.value).map(([part, style]) => [
       part,
-      cn(style(), overrides?.[part], part === 'root' ? props.class : undefined),
+      cn(
+        style(),
+        ['edit', 'submit', 'cancel'].includes(part)
+          ? buttonVariants({
+              size: resolveEditableVariants(props, uiConfig).size,
+              color: 'primary',
+              variant: part === 'submit' ? 'solid' : 'ghost',
+            }).root()
+          : undefined,
+        part === 'input' && props.multiline ? 'h-auto min-h-20 py-2' : undefined,
+        overrides?.[part],
+        part === 'root' ? props.class : undefined,
+      ),
     ]),
   )
 })
