@@ -9,7 +9,7 @@ export const appLayoutVariants = tv({
   slots: {
     root: 'bg-background text-foreground',
     skipLink:
-      'rounded-md bg-primary px-3 py-2 text-primary-foreground focus:outline-2 focus:outline-ring',
+      'rounded-md bg-primary px-3 py-2 text-primary-foreground focus:outline-1 focus:outline-ring',
     header: 'z-20 flex h-12 items-center border-b border-border bg-background px-3',
     left: 'bg-background',
     main: 'min-w-0 outline-none',

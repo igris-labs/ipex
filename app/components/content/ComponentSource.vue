@@ -38,6 +38,7 @@ watch(
 </script>
 <template>
   <Tabs
+    unmount-on-hide
     v-model="active"
     :items="files ?? []"
     aria-label="Component source files"

@@ -98,7 +98,7 @@
     --destructive-foreground: oklch(100% 0 0);
     --border: oklch(17.76% 0 0 / 0.08);
     --input: oklch(17.76% 0 0 / 0.1);
-    --ring: oklch(49.62% 0 0);
+    --ring: oklch(60% 0 0);
     --chart-1: var(--color-blue-700);
     --chart-2: var(--color-emerald-600);
     --chart-3: var(--color-amber-600);

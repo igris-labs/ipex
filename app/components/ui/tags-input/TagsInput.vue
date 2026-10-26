@@ -80,6 +80,30 @@ defineExpose({
     v-bind="{ ...primitiveProps, ...attrs }"
     :ui="mergedUi"
   >
+    <template v-if="!$slots.delete" #delete>
+      <svg
+        class="size-(--tag-icon-size)"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="m6 6 12 12M6 18 18 6" />
+      </svg>
+    </template>
+    <template v-if="!$slots.clear" #clear>
+      <svg
+        class="size-(--tag-icon-size)"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="m6 6 12 12M6 18 18 6" />
+      </svg>
+    </template>
     <template v-for="(_, name) in $slots" #[name]="scope"
       ><slot :name="name as keyof TagsInputSlots" v-bind="scope ?? {}"
     /></template>

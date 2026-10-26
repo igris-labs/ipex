@@ -24,7 +24,7 @@ const classes = computed(() => cn(heading({ level: props.level }), props.class))
     <a
       v-if="id"
       :href="`#${id}`"
-      class="group rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      class="group rounded-sm outline-none focus-visible:ring-1 focus-visible:ring-ring"
     >
       <span
         class="absolute top-0 -left-6 hidden items-center pr-2 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none lg:inline-flex"

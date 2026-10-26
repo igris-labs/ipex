@@ -7,7 +7,7 @@ import type { UiConfig } from '../ui.types'
 
 export const toggleVariants = tv({
   slots: {
-    root: 'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md border border-transparent text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-[akaza-state=on]:border-primary data-[akaza-state=on]:bg-linear-to-b data-[akaza-state=on]:from-primary/85 data-[akaza-state=on]:to-primary data-[akaza-state=on]:text-primary-foreground data-[akaza-state=on]:shadow-[0_1px_2px_oklch(0_0_0/0.14),inset_0_1px_0_oklch(1_0_0/0.14)] motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
+    root: 'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md border border-transparent text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-[akaza-state=on]:border-primary data-[akaza-state=on]:bg-linear-to-b data-[akaza-state=on]:from-primary/85 data-[akaza-state=on]:to-primary data-[akaza-state=on]:text-primary-foreground data-[akaza-state=on]:shadow-[0_1px_2px_oklch(0_0_0/0.14),inset_0_1px_0_oklch(1_0_0/0.14)] motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
   },
   variants: {
     size: {
@@ -28,7 +28,9 @@ export const toggleVariants = tv({
       },
     },
     variant: {
-      soft: {},
+      soft: {
+        root: 'bg-primary/7.5 text-primary hover:bg-primary/11.25',
+      },
       outline: {
         root: 'border border-input',
       },

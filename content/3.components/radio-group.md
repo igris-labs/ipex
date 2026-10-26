@@ -31,6 +31,8 @@ const options = [
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
+Radio Group uses 8, 10, 12, 14, and 16px spacing for xs through xl. Selection fades and scales the inner dot over 180ms; reduced motion disables the transition.
+
 ## Props
 
 | Prop              | Type                         | Default         | Description                                            |

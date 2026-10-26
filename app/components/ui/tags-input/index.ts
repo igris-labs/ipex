@@ -7,32 +7,47 @@ import type { UiConfig } from '../ui.types'
 
 export const tagsInputVariants = tv({
   slots: {
-    root: 'flex flex-wrap items-center gap-1.5 border border-input bg-background text-foreground shadow-none transition-colors duration-150 ease-interaction outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:focus-visible:ring-destructive/25 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-akaza-focused:ring-2 data-akaza-focused:ring-ring aria-invalid:data-akaza-focused:ring-destructive/25 data-akaza-invalid:border-destructive data-akaza-invalid:focus-visible:ring-destructive/25 data-akaza-invalid:data-akaza-focused:ring-destructive/25 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11',
+    root: 'flex w-full min-w-0 flex-wrap items-center gap-1.5 border border-input bg-background text-foreground shadow-none transition-colors duration-150 ease-interaction outline-none placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:focus-visible:ring-destructive/25 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-akaza-focused:ring-1 data-akaza-focused:ring-ring aria-invalid:data-akaza-focused:ring-destructive/25 data-akaza-invalid:border-destructive data-akaza-invalid:focus-visible:ring-destructive/25 data-akaza-invalid:data-akaza-focused:ring-destructive/25 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11',
     hiddenInput: 'sr-only',
-    item: 'inline-flex items-center gap-1 rounded border border-border bg-muted px-1.5 py-0.5 text-xs',
-    itemText: 'truncate',
+    item: 'inline-flex max-w-full min-w-0 items-center border border-border bg-muted',
+    itemText: 'min-w-0 truncate',
     delete:
-      'inline-flex size-4 shrink-0 items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
+      'inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
     input: 'min-w-16 flex-1 bg-transparent outline-none placeholder:text-muted-foreground',
     clear:
-      'inline-flex size-5 shrink-0 items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
+      'inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-muted hover:text-highlighted focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
   },
   variants: {
     size: {
       xs: {
-        root: 'min-h-6 gap-1 rounded-[calc(var(--radius)*0.5)] px-2 text-xs leading-4',
+        root: 'min-h-6 gap-0.5 rounded-[calc(var(--radius)*0.5)] p-px text-xs leading-4 [--tag-icon-size:12px]',
+        item: 'min-h-5 gap-0.5 rounded-[max(2px,calc(var(--radius)*0.5-2px))] p-px ps-1 text-xs leading-4',
+        delete: 'size-3 rounded-sm',
+        clear: 'size-3 rounded-sm',
       },
       sm: {
-        root: 'min-h-7 gap-1 rounded-sm px-2.5 text-[13px] leading-4',
+        root: 'min-h-7 gap-0.75 rounded-sm p-0.5 text-[13px] leading-4 [--tag-icon-size:14px]',
+        item: 'min-h-5.5 gap-0.75 rounded-[max(2px,calc(var(--radius)*0.6-3px))] p-0.5 ps-1.5 text-[13px] leading-4',
+        delete: 'size-3.5 rounded-sm',
+        clear: 'size-3.5 rounded-sm',
       },
       md: {
-        root: 'min-h-8 gap-1.5 rounded-md px-3 text-sm leading-5',
+        root: 'min-h-8 gap-1 rounded-md p-0.75 text-sm leading-5 [--tag-icon-size:16px]',
+        item: 'min-h-6 gap-1 rounded-[max(2px,calc(var(--radius)*0.8-4px))] p-px ps-1.5 text-sm leading-5',
+        delete: 'size-4 rounded-sm',
+        clear: 'size-4 rounded-sm',
       },
       lg: {
-        root: 'min-h-9 gap-2 rounded-lg px-3.5 text-sm leading-5',
+        root: 'min-h-9 gap-1 rounded-lg p-0.75 text-sm leading-5 [--tag-icon-size:18px]',
+        item: 'min-h-7 gap-1 rounded-[max(2px,calc(var(--radius)-4px))] p-0.75 ps-2 text-sm leading-5',
+        delete: 'size-4.5 rounded-md',
+        clear: 'size-4.5 rounded-md',
       },
       xl: {
-        root: 'min-h-10 gap-2.5 rounded-[calc(var(--radius)*1.2)] px-4 text-base leading-6',
+        root: 'min-h-10 gap-1.5 rounded-[calc(var(--radius)*1.2)] p-0.75 text-base leading-6 [--tag-icon-size:20px]',
+        item: 'min-h-8 gap-1.5 rounded-[max(2px,calc(var(--radius)*1.2-4px))] p-0.75 ps-2 text-base leading-6',
+        delete: 'size-5 rounded-md',
+        clear: 'size-5 rounded-md',
       },
     },
     variant: {

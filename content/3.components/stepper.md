@@ -25,6 +25,8 @@ const items = [
 </template>
 ```
 
+Panels share one grid area by default, reserving room for the tallest retained panel and fading in over 180ms. Inactive panels stay hidden from interaction. If you enable `unmountOnHide`, use `ui.panels` to reserve any minimum height your layout needs.
+
 ## Variants and defaults
 
 | Prop   | Values                       | Default |

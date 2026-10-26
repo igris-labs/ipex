@@ -14,7 +14,7 @@ export const ratingVariants = tv({
     fill: 'pointer-events-none absolute inset-y-0 overflow-hidden text-warning',
     fillIcon: 'flex h-full w-(--rating-target-size) shrink-0 items-center justify-center',
     radio:
-      'cursor-inherit absolute inset-y-0 m-0 h-full rounded-sm border-0 bg-transparent p-0 outline-none select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:pointer-events-none disabled:opacity-50',
+      'cursor-inherit absolute inset-y-0 m-0 h-full rounded-sm border-0 bg-transparent p-0 outline-none select-none focus-visible:outline-1 focus-visible:outline-offset-1 focus-visible:outline-ring focus-visible:outline-solid disabled:pointer-events-none disabled:opacity-50',
   },
   variants: {
     size: {

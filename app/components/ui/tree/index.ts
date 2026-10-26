@@ -7,7 +7,7 @@ import type { UiConfig } from '../ui.types'
 
 export const treeVariants = tv({
   slots: {
-    root: 'w-full text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+    root: 'w-full text-sm outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background',
     viewport: 'max-h-96 overflow-auto',
     virtualWrapper: '',
     item: '',
@@ -15,9 +15,9 @@ export const treeVariants = tv({
     indent: 'shrink-0',
     content: 'flex min-w-0 flex-1 items-center gap-(--tree-gap) self-stretch rounded-[inherit]',
     selection:
-      'data-akaza-focused:ring-2 data-akaza-focused:ring-ring data-akaza-selected:bg-info/10',
+      'data-akaza-focused:ring-1 data-akaza-focused:ring-ring data-akaza-selected:bg-info/10',
     toggle:
-      'inline-flex size-(--tree-toggle-size) shrink-0 cursor-pointer items-center justify-center rounded-sm text-muted-foreground transition-colors duration-150 ease-interaction outline-none select-none hover:bg-foreground/5 hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 motion-reduce:transition-none',
+      'inline-flex size-(--tree-toggle-size) shrink-0 cursor-pointer items-center justify-center rounded-sm text-muted-foreground transition-colors duration-150 ease-interaction outline-none select-none hover:bg-foreground/5 hover:text-highlighted focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 motion-reduce:transition-none',
     leafSpacer: 'h-0 min-h-0 w-[calc(var(--tree-toggle-size)+var(--tree-gap))] shrink-0',
     toggleIcon:
       'size-(--tree-icon-size) shrink-0 rotate-0 transform-none transition-transform duration-150 ease-interaction data-[akaza-state=expanded]:rotate-90 motion-reduce:transition-none rtl:rotate-180 rtl:data-[akaza-state=expanded]:rotate-90',

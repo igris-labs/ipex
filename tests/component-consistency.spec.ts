@@ -43,7 +43,7 @@ for (const name of ['accordion', 'collapsible']) {
       await expect(region).toHaveCSS('height', '0px')
       await expect(region).toHaveAttribute('inert', '')
       await expect(trigger).toHaveCSS('outline-style', 'solid')
-      await expect(trigger).toHaveCSS('outline-width', '2px')
+      await expect(trigger).toHaveCSS('outline-width', '1px')
     }
   })
 }

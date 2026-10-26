@@ -80,7 +80,7 @@ async function copyLink() {
           <NuxtLink
             v-if="adjacent?.[0]"
             :to="adjacent[0].path"
-            class="group flex items-center gap-3 rounded-md border border-border px-4 py-3 text-sm hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring"
+            class="group flex items-center gap-3 rounded-md border border-border px-4 py-3 text-sm hover:bg-muted focus-visible:outline-1 focus-visible:outline-ring"
           >
             <svg
               class="size-4 shrink-0 text-muted-foreground"
@@ -102,7 +102,7 @@ async function copyLink() {
           <NuxtLink
             v-if="adjacent?.[1]"
             :to="adjacent[1].path"
-            class="group flex items-center justify-end gap-3 rounded-md border border-border px-4 py-3 text-right text-sm hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring sm:col-start-2"
+            class="group flex items-center justify-end gap-3 rounded-md border border-border px-4 py-3 text-right text-sm hover:bg-muted focus-visible:outline-1 focus-visible:outline-ring sm:col-start-2"
           >
             <span class="min-w-0"
               ><span class="block text-xs text-muted-foreground">Next</span

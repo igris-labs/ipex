@@ -48,6 +48,15 @@ const primitiveProps = computed(() => {
   return native
 })
 const primitive = useTemplateRef<InstanceType<typeof Primitive>>('primitive')
+function syncPanels() {
+  primitive.value?.$el
+    ?.querySelectorAll<HTMLElement>(':scope > .akaza-stepper-panels > .akaza-stepper-panel')
+    .forEach((panel) => {
+      const inactive = panel.dataset.akazaState !== 'active'
+      panel.inert = inactive
+      panel.setAttribute('aria-hidden', String(inactive))
+    })
+}
 defineExpose({
   get goToStep() {
     return primitive.value!.goToStep
@@ -72,6 +81,8 @@ defineExpose({
     ref="primitive"
     v-bind="{ ...primitiveProps, ...attrs }"
     :ui="mergedUi"
+    @vue:mounted="syncPanels"
+    @vue:updated="syncPanels"
   >
     <template v-for="(_, name) in $slots" #[name]="scope"
       ><slot :name="name as keyof StepperSlots" v-bind="scope ?? {}"

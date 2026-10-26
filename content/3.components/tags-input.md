@@ -27,6 +27,18 @@ import { TagsInput } from '~/components/ui/tags-input'
 | `size`    | `xs`, `sm`, `md`, `lg`, `xl` | `sm`      |
 | `variant` | `outline`, `soft`, `bare`    | `outline` |
 
+Size scales the tags and the field together. The text-side inset balances the visible space around the remove icon; increasing size grows the tag rather than adding empty space around it.
+
+| Size | Field minimum | Tag height | Text | Remove icon |
+| ---- | ------------- | ---------- | ---- | ----------- |
+| xs   | 24px          | 20px       | 12px | 12px        |
+| sm   | 28px          | 22px       | 13px | 14px        |
+| md   | 32px          | 24px       | 14px | 16px        |
+| lg   | 36px          | 28px       | 14px | 18px        |
+| xl   | 40px          | 32px       | 16px | 20px        |
+
+The field grows when tags wrap. Touch removal targets remain at least 44px while their icons keep the selected size.
+
 ## Models
 
 | Model           | Type               | Default | Description               |

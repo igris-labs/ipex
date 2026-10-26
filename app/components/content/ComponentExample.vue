@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useOverlay, useToast, type MenuItem, type OverlayInstance } from 'akaza-ui'
+import { useOverlay, type MenuItem, type OverlayInstance } from 'akaza-ui'
 import { computed, defineAsyncComponent, onBeforeUnmount, reactive, ref, watch } from 'vue'
 
 import { Button } from '../ui/button'
@@ -10,7 +10,9 @@ import { Input } from '../ui/input'
 import { NavigationMenu } from '../ui/navigation-menu'
 import { NumberField } from '../ui/number-field'
 import { Select } from '../ui/select'
+import type { ToastProps } from '../ui/toast'
 import { exampleOptions, exampleAxes } from './example-options'
+import ToastExamples from './ToastExamples.vue'
 
 const props = defineProps<{
   name: string
@@ -331,8 +333,14 @@ const entries: Record<string, Record<string, unknown>> = {
   },
   toolbar: {
     items: [
-      { label: 'Bold', value: 'bold' },
-      { label: 'Italic', value: 'italic' },
+      {
+        type: 'group',
+        label: 'Text style',
+        children: [
+          { label: 'Bold', value: 'bold' },
+          { label: 'Italic', value: 'italic' },
+        ],
+      },
       { type: 'separator' },
       { label: 'Link', value: 'link' },
     ],
@@ -433,7 +441,6 @@ watch(
     model.value = values[name]
   },
 )
-const toast = useToast()
 const overlays = useOverlay()
 let overlay: OverlayInstance<typeof Dialog> | undefined
 let disposeOverlayOnClose = true
@@ -646,18 +653,7 @@ const demoProps = computed(() => ({
       class="flex min-h-56 min-w-0 items-center justify-center p-2 sm:p-6"
     >
       <div :key="exampleKey" class="grid w-full max-w-md min-w-0 justify-items-center gap-3">
-        <template v-if="name === 'toast'">
-          <Button
-            @click="
-              toast.add({
-                title: 'Project saved',
-                description: 'Your changes are available to your team.',
-              })
-            "
-            >Show notification</Button
-          >
-          <component :is="component" />
-        </template>
+        <ToastExamples v-if="name === 'toast'" v-bind="demoProps as ToastProps" />
         <template v-else-if="name === 'overlay-provider'">
           <Button @click="openOverlay()">Open dialog</Button>
           <component :is="component" />

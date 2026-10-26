@@ -6,7 +6,7 @@ import { resolveVariants, tv, type VariantProps } from '../../../utils/ui'
 import type { UiConfig } from '../ui.types'
 
 const paginationControl =
-  'cursor-pointer select-none inline-flex min-h-(--pagination-size) min-w-(--pagination-size) shrink-0 items-center justify-center rounded-(--pagination-radius) px-1 py-1 text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-foreground/5 hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-40 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-40 motion-reduce:transition-none pointer-coarse:min-h-11 pointer-coarse:min-w-11 [&_svg]:size-(--pagination-icon) [&_svg]:shrink-0'
+  'cursor-pointer select-none inline-flex min-h-(--pagination-size) min-w-(--pagination-size) shrink-0 items-center justify-center rounded-(--pagination-radius) px-1 py-1 text-muted-foreground transition-colors duration-150 ease-interaction outline-none hover:bg-foreground/5 hover:text-highlighted focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-40 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-40 motion-reduce:transition-none pointer-coarse:min-h-11 pointer-coarse:min-w-11 [&_svg]:size-(--pagination-icon) [&_svg]:shrink-0'
 
 export const paginationVariants = tv({
   slots: {

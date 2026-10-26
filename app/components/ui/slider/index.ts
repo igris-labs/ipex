@@ -12,7 +12,7 @@ export const sliderVariants = tv({
     track: 'relative w-full rounded-full bg-muted',
     range: 'absolute rounded-full bg-primary',
     thumb:
-      'rounded-full border border-border bg-background shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50',
+      'rounded-full border border-border bg-background shadow-sm outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50',
   },
   variants: {
     size: {

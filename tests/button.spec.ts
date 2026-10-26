@@ -304,7 +304,7 @@ test('supports keyboard activation, theme switching, copyable source, and reduce
   const button = page.getByTestId('preview-button')
   await page.keyboard.press('Tab')
   await button.focus()
-  await expect(button).toHaveCSS('outline-width', '2px')
+  await expect(button).toHaveCSS('outline-width', '1px')
   await page.keyboard.press('Space')
   await expect(page.getByText('Clicked 1 time', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'Use dark theme' }).click()

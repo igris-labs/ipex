@@ -7,14 +7,14 @@ import type { UiConfig } from '../ui.types'
 
 export const tabsVariants = tv({
   slots: {
-    root: 'flex min-w-0 flex-col gap-4 data-[akaza-orientation=vertical]:flex-row data-[akaza-orientation=vertical]:items-start',
+    root: 'flex w-full min-w-0 flex-col gap-4 data-[akaza-orientation=vertical]:flex-row data-[akaza-orientation=vertical]:items-start',
     list: 'relative isolate flex w-fit max-w-full items-center gap-1 overflow-x-auto bg-muted p-1 shadow-none aria-[orientation=vertical]:flex-col aria-[orientation=vertical]:items-stretch',
-    tab: 'relative z-10 inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 font-medium text-muted-foreground transition-colors duration-150 ease-interaction outline-none select-none hover:text-highlighted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-[akaza-state=active]:text-highlighted motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
+    tab: 'relative z-10 inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 font-medium text-muted-foreground transition-colors duration-150 ease-interaction outline-none select-none hover:text-highlighted focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-akaza-disabled:pointer-events-none data-akaza-disabled:opacity-50 data-[akaza-state=active]:text-highlighted motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11',
     indicator:
       'absolute bg-background shadow-none transition-[left,width,top,height] duration-180 ease-interaction in-aria-[orientation=horizontal]:inset-y-1 in-aria-[orientation=vertical]:inset-x-1 motion-reduce:transition-none',
-    panels: 'min-w-0',
+    panels: 'grid min-w-0 flex-1',
     panel:
-      'outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+      'invisible col-start-1 row-start-1 block! min-w-0 opacity-0 transition-opacity duration-180 ease-interaction outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background data-[akaza-state=active]:visible data-[akaza-state=active]:opacity-100 motion-reduce:transition-none',
   },
   variants: {
     size: {

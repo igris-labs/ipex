@@ -98,7 +98,7 @@ watch(
         :key="link.id"
         :href="`#${link.id}`"
         :aria-current="active === link.id ? 'location' : undefined"
-        class="min-h-7 px-3 py-1 text-xs leading-5 transition-colors duration-150 ease-interaction outline-none hover:text-highlighted focus-visible:outline-2 focus-visible:outline-ring motion-reduce:transition-none"
+        class="min-h-7 px-3 py-1 text-xs leading-5 transition-colors duration-150 ease-interaction outline-none hover:text-highlighted focus-visible:outline-1 focus-visible:outline-ring motion-reduce:transition-none"
         :class="[
           active === link.id ? 'text-highlighted' : 'text-muted-foreground',
           link.depth > 2 ? 'pl-5' : '',

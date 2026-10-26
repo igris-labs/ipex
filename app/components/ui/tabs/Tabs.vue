@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Tabs as Primitive } from 'akaza-ui'
-import { computed, useAttrs } from 'vue'
+import { computed, useAttrs, useTemplateRef } from 'vue'
 
 import { cn } from '../../../utils/ui'
 import uiConfig from '../ui.config'
@@ -19,6 +19,16 @@ const props = withDefaults(defineProps<TabsProps>(), {
 })
 defineSlots<TabsSlots>()
 const attrs = useAttrs()
+const primitive = useTemplateRef<InstanceType<typeof Primitive>>('primitive')
+function syncPanels() {
+  primitive.value?.$el
+    ?.querySelectorAll<HTMLElement>(':scope > .akaza-tab-panels > .akaza-tab-panel')
+    .forEach((panel) => {
+      const inactive = panel.dataset.akazaState !== 'active'
+      panel.inert = inactive
+      panel.setAttribute('aria-hidden', String(inactive))
+    })
+}
 const styles = computed(() => tabsVariants(resolveTabsVariants(props, uiConfig)))
 const mergedUi = computed(() => {
   const overrides = props.ui as Record<string, string | undefined> | undefined
@@ -35,7 +45,14 @@ const primitiveProps = computed(() => {
 })
 </script>
 <template>
-  <component :is="Primitive" v-bind="{ ...primitiveProps, ...attrs }" :ui="mergedUi">
+  <component
+    :is="Primitive"
+    ref="primitive"
+    v-bind="{ ...primitiveProps, ...attrs }"
+    :ui="mergedUi"
+    @vue:mounted="syncPanels"
+    @vue:updated="syncPanels"
+  >
     <template v-for="(_, name) in $slots" #[name]="scope"
       ><slot :name="name as keyof TabsSlots" v-bind="scope ?? {}"
     /></template>

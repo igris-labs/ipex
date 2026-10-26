@@ -25,6 +25,8 @@ const options = [
 </template>
 ```
 
+Single selection moves one shared pressed indicator between items, including vertical groups. Multiple selection keeps a separate pressed fill on each selected item. Reduced motion disables sliding.
+
 ## Variants and defaults
 
 | Prop      | Values                       | Default |

@@ -9,7 +9,7 @@ export const tooltipVariants = tv({
   slots: {
     root: 'inline-flex',
     trigger:
-      'rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+      'rounded-sm outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background',
     content:
       'z-50 max-w-64 max-w-[calc(100vw-2rem)] rounded-md border border-border bg-popover px-2 py-1 text-xs leading-5 text-popover-foreground shadow-md',
     arrow: 'fill-popover stroke-border',

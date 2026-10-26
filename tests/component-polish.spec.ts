@@ -662,3 +662,245 @@ test('docs sidebar uses a subtle sliding hover without changing row geometry', a
   await expect(list).toHaveAttribute('data-ipex-highlight-active', 'true')
   await expect.poll(() => list.evaluate((el) => getComputedStyle(el, '::before').opacity)).toBe('0')
 })
+
+test('radio groups have comfortable size spacing and animate selection feedback', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  const stage = await open(page, 'radio-group')
+  const radios = stage.getByRole('radio')
+  for (const [size, gap] of [
+    ['xs', 8],
+    ['sm', 10],
+    ['md', 12],
+    ['lg', 14],
+    ['xl', 16],
+  ] as const) {
+    await choose(page, 'size', size)
+    const first = await radios.nth(0).boundingBox()
+    const second = await radios.nth(1).boundingBox()
+    expect(second!.y - first!.y - first!.height).toBe(gap)
+  }
+  await radios.first().click()
+  await expect(radios.first()).toHaveAttribute('aria-checked', 'true')
+  await radios.nth(1).click()
+  await expect(radios.nth(1)).toHaveAttribute('aria-checked', 'true')
+  const indicator = radios.nth(1).locator('.akaza-radio-group-indicator')
+  await expect
+    .poll(() =>
+      indicator.evaluate((el) =>
+        el
+          .getAnimations({ subtree: true })
+          .some((animation) => animation.effect?.getTiming().duration === 180),
+      ),
+    )
+    .toBe(true)
+  await expect
+    .poll(() => indicator.evaluate((el) => getComputedStyle(el, '::after').opacity))
+    .toBe('1')
+  await expect
+    .poll(() => indicator.evaluate((el) => getComputedStyle(el, '::after').scale))
+    .toBe('1')
+  await radios.nth(1).press('ArrowDown')
+  await expect(radios.nth(2)).toHaveAttribute('aria-checked', 'true')
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await radios.first().click()
+  const reduced = radios.first().locator('.akaza-radio-group-indicator')
+  await expect(reduced).toHaveCSS('transition-property', 'none')
+  expect(await reduced.evaluate((el) => getComputedStyle(el, '::after').transitionProperty)).toBe(
+    'none',
+  )
+})
+
+test('stepper keeps its guides and controls stable while selection transitions', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  const stage = await open(page, 'stepper')
+  const stepper = stage.locator('.akaza-stepper')
+  const list = stepper.locator('.akaza-stepper-list')
+  const next = stage.getByRole('button', { name: 'Next', exact: true })
+  const before = await list.boundingBox()
+  const controls = await next.boundingBox()
+  const panels = stepper.locator('.akaza-stepper-panel')
+  // A taller later step must reserve space without revealing inactive content.
+  await panels.nth(1).evaluate((el) => {
+    ;(el as HTMLElement).style.minHeight = '96px'
+  })
+  await expect(panels.nth(1)).toBeHidden()
+  await expect(panels.nth(1)).toHaveAttribute('inert', '')
+  await expect(panels.nth(1)).toHaveAttribute('aria-hidden', 'true')
+  const reserved = await list.boundingBox()
+  const reservedControls = await next.boundingBox()
+  await next.click()
+  const active = stepper.locator('.akaza-stepper-item[data-akaza-state="active"]')
+  await expect(active).toContainText('Review')
+  const indicator = active.locator('.akaza-stepper-indicator')
+  await expect.poll(() => indicator.evaluate((el) => el.getAnimations().length)).toBeGreaterThan(0)
+  await expect.poll(() => matchesToken(indicator, '--primary')).toBe(true)
+  const after = await list.boundingBox()
+  const afterControls = await next.boundingBox()
+  expect(after!.x).toBe(reserved!.x)
+  expect(after!.y).toBe(reserved!.y)
+  expect(after!.width).toBe(reserved!.width)
+  expect(afterControls!.x).toBe(reservedControls!.x)
+  expect(afterControls!.y).toBe(reservedControls!.y)
+  expect(before!.width).toBe(after!.width)
+  expect(controls!.width).toBe(afterControls!.width)
+  const line = stepper.locator('.akaza-stepper-separator')
+  expect((await line.boundingBox())!.width).toBeGreaterThan(24)
+  await options(page)
+  await choose(page, 'orientation', 'vertical')
+  await expect(line).toHaveCSS('width', '1px')
+  await expect(line).toHaveCSS('height', '20px')
+})
+
+test('tabs retain their strip position when panel heights differ', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  const stage = await open(page, 'tabs')
+  const tabs = stage.locator('.akaza-tabs')
+  const panels = tabs.locator('.akaza-tab-panel')
+  await panels.nth(1).evaluate((el) => {
+    ;(el as HTMLElement).style.minHeight = '100px'
+  })
+  const strip = stage.getByRole('tablist')
+  const before = await strip.boundingBox()
+  await stage.getByRole('tab', { name: 'Activity', exact: true }).click()
+  const after = await strip.boundingBox()
+  expect(after!.x).toBe(before!.x)
+  expect(after!.y).toBe(before!.y)
+  expect(after!.width).toBe(before!.width)
+  await expect(panels.first()).toBeHidden()
+  await expect(panels.first()).toHaveAttribute('inert', '')
+  await expect(panels.first()).toHaveAttribute('aria-hidden', 'true')
+  await expect(panels.nth(1)).toHaveAttribute('aria-hidden', 'false')
+  await expect(panels.nth(1)).toBeVisible()
+  await expect
+    .poll(() => panels.nth(1).evaluate((el) => el.getAnimations().length))
+    .toBeGreaterThan(0)
+  await stage.getByRole('tab', { name: 'Overview', exact: true }).click()
+  expect((await strip.boundingBox())!.y).toBe(before!.y)
+})
+
+test('switch spacing and time segment gaps remain clear at every size', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  let stage = await open(page, 'switch')
+  for (const [size, gap] of [
+    ['xs', 8],
+    ['sm', 8],
+    ['md', 10],
+    ['lg', 12],
+    ['xl', 14],
+  ] as const) {
+    await choose(page, 'size', size)
+    const toggle = await stage.getByRole('switch').boundingBox()
+    const text = await stage.locator('.akaza-switch-text').boundingBox()
+    expect(text!.x - toggle!.x - toggle!.width).toBe(gap)
+  }
+  for (const name of ['time-field', 'time-range-field']) {
+    stage = await open(page, name)
+    const hour = stage.locator('[data-akaza-segment="hour"]').first()
+    await hour.click()
+    const gap = await hour.evaluate((el) => {
+      const literal = el.nextElementSibling!
+      return literal.getBoundingClientRect().left - el.getBoundingClientRect().right
+    })
+    expect(gap).toBe(4)
+    await expect(hour).toHaveCSS('outline-style', 'none')
+    const field = stage.locator('.akaza-time-field').first()
+    await expect(field).toHaveCSS('--tw-ring-shadow', /1px/)
+  }
+})
+
+test('tag input sizes scale the tags, text, padding, and removal controls together', async ({
+  page,
+}) => {
+  const stage = await open(page, 'tags-input')
+  const field = stage.locator('.akaza-tags-input')
+  const tag = stage.locator('.akaza-tags-input-item').first()
+  const label = tag.locator('.akaza-tags-input-item-text')
+  const remove = tag.getByRole('button', { name: 'Remove Vue', exact: true })
+  const input = stage.getByRole('textbox', { name: 'Project labels', exact: true })
+  for (const [size, controlHeight, tagHeight, text, icon] of [
+    ['xs', 24, 20, 12, 12],
+    ['sm', 28, 22, 13, 14],
+    ['md', 32, 24, 14, 16],
+    ['lg', 36, 28, 14, 18],
+    ['xl', 40, 32, 16, 20],
+  ] as const) {
+    await choose(page, 'size', size)
+    await expect(field).toHaveCSS('height', `${controlHeight}px`)
+    await expect(tag).toHaveCSS('height', `${tagHeight}px`)
+    await expect(label).toHaveCSS('font-size', `${text}px`)
+    await expect(input).toHaveCSS('font-size', `${text}px`)
+    await expect(remove).toHaveCSS('width', `${icon}px`)
+    await expect(remove.locator('svg')).toHaveCSS('width', `${icon}px`)
+    for (const element of [field]) {
+      const padding = await element.evaluate((el) => {
+        const style = getComputedStyle(el)
+        return [style.paddingTop, style.paddingRight, style.paddingBottom, style.paddingLeft]
+      })
+      expect(new Set(padding).size).toBe(1)
+    }
+    const tagPadding = await tag.evaluate((el) => {
+      const style = getComputedStyle(el)
+      return {
+        start: parseFloat(style.paddingInlineStart),
+        end: parseFloat(style.paddingInlineEnd),
+        top: style.paddingTop,
+        bottom: style.paddingBottom,
+      }
+    })
+    expect(tagPadding.start).toBeGreaterThan(tagPadding.end)
+    expect(tagPadding.top).toBe(tagPadding.bottom)
+    expect(tagPadding.end).toBe({ xs: 1, sm: 2, md: 1, lg: 3, xl: 3 }[size])
+    const textBox = await label.boundingBox()
+    const inputBox = await input.boundingBox()
+    expect(
+      Math.abs(textBox!.y + textBox!.height / 2 - inputBox!.y - inputBox!.height / 2),
+    ).toBeLessThan(1)
+  }
+  await input.fill('Long project label '.repeat(12))
+  await input.press('Enter')
+  await expect(stage.locator('.akaza-tags-input-item')).toHaveCount(3)
+  const last = await stage.locator('.akaza-tags-input-item').last().boundingBox()
+  const box = await field.boundingBox()
+  expect(last!.x + last!.width).toBeLessThanOrEqual(box!.x + box!.width)
+  await remove.click()
+  await expect(stage.locator('.akaza-tags-input-item')).toHaveCount(2)
+  await options(page)
+  await choose(page, 'clearable', 'On')
+  await field.getByRole('button', { name: 'Clear all tags', exact: true }).click()
+  await expect(stage.locator('.akaza-tags-input-item')).toHaveCount(0)
+  await expect(input).toBeEnabled()
+})
+
+test('touch tag removal retains its hit target while the icon follows the selected size', async ({
+  browser,
+}) => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    hasTouch: true,
+    isMobile: true,
+  })
+  const page = await context.newPage()
+  try {
+    const stage = await open(page, 'tags-input')
+    for (const [size, icon] of [
+      ['xs', 12],
+      ['xl', 20],
+    ] as const) {
+      await choose(page, 'size', size)
+      const remove = stage.getByRole('button', { name: 'Remove Vue', exact: true })
+      const box = await remove.boundingBox()
+      expect(box!.width).toBeGreaterThanOrEqual(44)
+      expect(box!.height).toBeGreaterThanOrEqual(44)
+      await expect(remove.locator('svg')).toHaveCSS('width', `${icon}px`)
+    }
+    await stage.getByRole('button', { name: 'Remove Vue', exact: true }).tap()
+    await expect(stage.locator('.akaza-tags-input-item')).toHaveCount(1)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
+  } finally {
+    await context.close()
+  }
+})

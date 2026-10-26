@@ -5,7 +5,7 @@ defineProps<{ href?: string; target?: string }>()
   <NuxtLink
     :href="href"
     :target="target"
-    class="decoration-border-accent font-medium text-highlighted underline underline-offset-4 transition-colors hover:decoration-foreground focus-visible:outline-2 focus-visible:outline-ring motion-reduce:transition-none"
+    class="decoration-border-accent font-medium text-highlighted underline underline-offset-4 transition-colors hover:decoration-foreground focus-visible:outline-1 focus-visible:outline-ring motion-reduce:transition-none"
     ><slot
   /></NuxtLink>
 </template>
