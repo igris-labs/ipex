@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     'nuxt-og-image',
     'akaza-ui/nuxt',
     '@nuxtjs/color-mode',
+    'nuxt-gtag',
   ],
   app: {
     head: {
