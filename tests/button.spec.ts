@@ -347,7 +347,9 @@ test('opens mobile navigation and keeps the page within the viewport', async ({ 
 test('serves the landing page at the base URL', async ({ page }) => {
   await page.goto('/')
   await expect(page).toHaveURL(/\/$/)
-  await expect(page.getByRole('heading', { name: 'Build your app with IPEX' })).toBeVisible()
+  await expect(
+    page.getByRole('heading', { name: 'The foundation for your design system.' }),
+  ).toBeVisible()
   await expect(page.getByRole('button', { name: 'Get started', exact: true })).toHaveAttribute(
     'href',
     '/getting-started/installation',

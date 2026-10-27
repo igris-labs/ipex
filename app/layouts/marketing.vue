@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+import BrandLogo from '../components/BrandLogo.vue'
 import DocsSearch from '../components/docs/DocsSearch.vue'
 import HeaderActions from '../components/HeaderActions.vue'
 import SiteFooter from '../components/SiteFooter.vue'
@@ -24,13 +25,15 @@ const searchOpen = ref(false)
     }"
   >
     <template #header>
-      <div class="mx-auto flex h-full w-full max-w-[90rem] items-center gap-3 px-5 sm:px-8">
+      <div
+        class="mx-auto flex h-full w-full max-w-[90rem] items-center gap-2 px-4 sm:gap-3 sm:px-8"
+      >
         <NuxtLink
           to="/"
           aria-label="IPEX home"
           class="mr-auto rounded-sm text-xl font-semibold tracking-tight text-highlighted focus-visible:outline-1 focus-visible:outline-ring md:mr-4"
-          >IPEX</NuxtLink
-        >
+          ><BrandLogo wordmark
+        /></NuxtLink>
         <SiteNavigation />
         <Button
           variant="soft"

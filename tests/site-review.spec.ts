@@ -39,7 +39,9 @@ for (const width of [1440, 768, 390]) {
     await page.goto('/')
     await ready(page)
     await expect(page.getByRole('banner')).toHaveCSS('height', '56px')
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Build your app with IPEX')
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+      'The foundation for your design system.',
+    )
     const nav = page
       .getByRole('navigation', { name: 'Main navigation', exact: true })
       .filter({ visible: true })
@@ -154,7 +156,7 @@ test('philosophy follows the hero, explains Akaza, and footer links point to the
   ).toBe('hero-title')
   expect(
     await philosophy.evaluate((el) => el.nextElementSibling?.getAttribute('data-testid')),
-  ).toBe('landing-showcase')
+  ).toBe('landing-examples')
   await expect(philosophy.getByRole('link', { name: 'Akaza UI', exact: true })).toHaveAttribute(
     'href',
     'https://akaza-ui.com',

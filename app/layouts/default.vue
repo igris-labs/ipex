@@ -5,6 +5,7 @@ import type { SidebarController } from 'akaza-ui'
 import { useSidebar } from 'akaza-ui'
 import { computed, ref, resolveComponent, useTemplateRef, watch } from 'vue'
 
+import BrandLogo from '../components/BrandLogo.vue'
 import DocsSearch from '../components/docs/DocsSearch.vue'
 import HeaderActions from '../components/HeaderActions.vue'
 import SiteNavigation from '../components/SiteNavigation.vue'
@@ -84,9 +85,10 @@ const currentCategory = computed(
         </Button>
         <NuxtLink
           to="/"
+          aria-label="IPEX home"
           class="rounded-sm text-xl font-semibold tracking-tight focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-ring"
-          >IPEX</NuxtLink
-        >
+          ><BrandLogo wordmark class="[&>span]:max-[380px]:hidden"
+        /></NuxtLink>
         <NuxtLink
           to="/getting-started/introduction"
           class="hidden border-l border-border pl-2 font-medium text-muted-foreground hover:text-foreground sm:inline"

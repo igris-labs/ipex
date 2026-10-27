@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { resolveComponent } from 'vue'
 
+import LandingExamples from '../components/LandingExamples.vue'
 import LandingPhilosophy from '../components/LandingPhilosophy.vue'
-import LandingShowcase from '../components/LandingShowcase.vue'
 import { Button } from '../components/ui/button'
 
 definePageMeta({ layout: 'marketing' })
 useSeoMeta({
   title: 'IPEX · Igris Platform EXperience',
   description:
-    'The Igris Labs design system. Accessible Vue components built with Akaza UI and Tailwind CSS, with source code you can customize.',
+    'An open-source design foundation by Igris Labs for Vue and Nuxt. Accessible components built on Akaza UI, styled with Tailwind CSS, with source you can customize.',
 })
 const link = resolveComponent('NuxtLink')
 </script>
@@ -24,11 +24,11 @@ const link = resolveComponent('NuxtLink')
         id="hero-title"
         class="text-[clamp(2rem,3.5vw,3rem)] leading-[1.08] font-semibold tracking-[-0.045em] text-balance text-highlighted"
       >
-        Build your app with IPEX
+        The foundation for your design system.
       </h1>
       <p class="mt-5 max-w-2xl text-base leading-7 text-pretty text-foreground sm:text-lg">
-        A Vue design system from Igris Labs. Accessible components built with Akaza UI and Tailwind
-        CSS, with source you can customize.
+        An open-source design foundation by Igris Labs, built for Vue and Nuxt. Accessible
+        components powered by Akaza UI, styled with Tailwind CSS, and yours to customize.
       </p>
       <div class="mt-7 flex flex-wrap justify-center gap-3" data-ui>
         <Button :as="link" to="/getting-started/installation" size="md">Get started</Button>
@@ -38,6 +38,6 @@ const link = resolveComponent('NuxtLink')
       </div>
     </section>
     <LandingPhilosophy />
-    <LandingShowcase />
+    <LandingExamples />
   </div>
 </template>

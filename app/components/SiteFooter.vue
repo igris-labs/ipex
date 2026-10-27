@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import BrandLogo from './BrandLogo.vue'
 defineProps<{ compact?: boolean }>()
 
 const links = [
@@ -61,8 +62,8 @@ const links = [
         to="/"
         aria-label="IPEX home"
         class="text-[2rem] leading-10 font-semibold tracking-tight text-highlighted hover:text-foreground focus-visible:outline-1 focus-visible:outline-ring"
-        >IPEX</NuxtLink
-      >
+        ><BrandLogo wordmark
+      /></NuxtLink>
       <p class="mt-3 text-sm leading-6">Igris Platform EXperience</p>
       <p class="mt-2 max-w-64 text-[13px] leading-5 text-muted-foreground">
         The shared design system for Igris Labs applications.
