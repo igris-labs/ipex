@@ -17,7 +17,6 @@
     "playwright-report/**",
     ".taste-skill/**",
     "akaza-ui/**",
-    "IPEX-Design-System.md",
     "pnpm-lock.yaml"
   ]
 }

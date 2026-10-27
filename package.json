@@ -14,7 +14,6 @@
     "format:check": "oxfmt --check .",
     "typecheck": "nuxt typecheck",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck",
-    "lint:sync": "migrate tooling/antfu.config.mjs --js-plugins=false --details > tooling/antfu-migration.txt 2>&1 && oxfmt .oxlintrc.json",
     "test": "playwright test"
   },
   "dependencies": {

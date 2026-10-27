@@ -32,7 +32,7 @@ const searchOpen = ref(false)
           to="/"
           aria-label="IPEX home"
           class="mr-auto rounded-sm text-xl font-semibold tracking-tight text-highlighted focus-visible:outline-1 focus-visible:outline-ring md:mr-4"
-          ><BrandLogo wordmark
+          ><BrandLogo wordmark class="[&>span]:max-[380px]:hidden"
         /></NuxtLink>
         <SiteNavigation />
         <Button

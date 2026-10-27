@@ -36,7 +36,7 @@ async function copyLink() {
 
 <template>
   <div
-    class="grid min-h-[calc(100dvh-3.5rem)] grid-cols-1 xl:-ml-60 xl:w-screen xl:grid-cols-[minmax(0,1fr)_minmax(0,42rem)_minmax(0,1fr)]"
+    class="grid min-h-[calc(100dvh-3.5rem)] grid-cols-1 xl:-ml-60 xl:w-[calc(100%+15rem)] xl:grid-cols-[minmax(0,1fr)_minmax(0,42rem)_minmax(0,1fr)]"
   >
     <div class="hidden xl:block" aria-hidden="true" />
     <article class="min-w-0 px-5 pt-12 pb-24 sm:px-8 xl:px-0">

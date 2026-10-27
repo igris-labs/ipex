@@ -64,7 +64,6 @@ content/
   3.components/            Component guides, sorted by filename
 akaza-ui/                  Local primitive API references
 tests/                     Playwright interaction and regression checks
-tooling/                   Antfu-to-Oxlint migration source
 ```
 
 Nuxt Content builds navigation from the content tree. Category metadata lives in `.navigation.yml`; component filenames have no numeric prefixes. Each component guide follows **Demos → Installation → API**.
@@ -87,9 +86,9 @@ Playwright starts a development server on port 4317 if one is not already runnin
 
 ### Linting and formatting
 
-Oxlint handles linting. Its configuration is generated from the supported subset of [Antfu’s ESLint config](https://github.com/antfu/eslint-config); ESLint itself does not run during development. Unsupported plugin, parser, and template rules are omitted. Vue template type checking runs through `pnpm typecheck`.
+Oxlint handles linting through `.oxlintrc.json`, using supported rules adapted from [Antfu’s ESLint config](https://github.com/antfu/eslint-config). ESLint itself does not run during development. Unsupported plugin, parser, and template rules are omitted. Vue template type checking runs through `pnpm typecheck`.
 
-Oxfmt owns formatting, import ordering, and Tailwind class sorting. Antfu formatting and import-sorting presets are disabled to avoid conflicts.
+Oxfmt owns formatting, import ordering, and Tailwind class sorting through `.oxfmtrc.json`. Oxlint handles lint rules without applying competing formatting rules.
 
 ```sh
 pnpm lint          # Check lint rules
@@ -97,10 +96,9 @@ pnpm lint:fix      # Apply available fixes
 pnpm format        # Format files
 pnpm format:check  # Check formatting
 pnpm typecheck     # Check Vue and TypeScript
-pnpm lint:sync     # Regenerate Oxlint configuration from Antfu
 ```
 
-Edit `tooling/antfu.config.mjs` to change the migration source. After `pnpm lint:sync`, review `.oxlintrc.json` and `tooling/antfu-migration.txt` for skipped rules.
+Edit `.oxlintrc.json` to change lint rules and `.oxfmtrc.json` to change formatting.
 
 ### Editor setup
 
@@ -118,6 +116,6 @@ The site includes SVG and ICO favicons plus an Apple touch icon.
 
 ## Contributing
 
-Read [the contribution guide](content/1.getting-started/5.contribution.md), [the design specification](IPEX-Design-System.md), and [the implementation rules](rules.md) before changing components. Use existing IPEX components in the docs, keep styling in Tailwind recipes, and check keyboard behavior and both color modes. Include relevant checks with a pull request.
+Read [the contribution guide](content/1.getting-started/5.contribution.md) and the design system guides in `content/2.design-system/` before changing components. Use existing IPEX components in the docs, keep styling in Tailwind recipes, and check keyboard behavior and both color modes. Include relevant checks with a pull request.
 
 Created by [Rahul Vashishtha](https://rahulv.dev) at [Igris Labs](https://igrislabs.com). Built on [Akaza UI](https://akaza-ui.com).
