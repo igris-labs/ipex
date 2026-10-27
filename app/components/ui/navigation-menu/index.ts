@@ -7,6 +7,7 @@ import type { UiConfig } from '../ui.types'
 
 export const navigationMenuVariants = tv({
   slots: {
+    track: 'pointer-events-none absolute left-0 z-0 w-px bg-border/60',
     root: '',
     list: 'relative isolate flex gap-1 before:pointer-events-none before:absolute before:top-0 before:left-0 before:z-0 before:h-(--nav-height) before:w-(--nav-width) before:translate-x-(--nav-x) before:translate-y-(--nav-y) before:rounded-(--nav-radius) before:bg-muted before:opacity-[var(--nav-opacity,0)] before:transition-[translate,width,height,opacity] before:duration-180 before:ease-interaction motion-reduce:before:transition-none',
     item: 'relative z-10',
@@ -110,8 +111,9 @@ export interface NavigationMenuProps extends Omit<
   PrimitiveNavigationMenuProps,
   'ui' | 'class' | 'size'
 > {
+  highlightMode?: 'hover' | 'selection' | 'selection-hover'
   class?: HTMLAttributes['class']
-  ui?: Akaza.NavigationMenuUi
+  ui?: Akaza.NavigationMenuUi & { track?: string }
   size?: NavigationMenuVariants['size']
   open?: string | null
   expanded?: string[] | undefined

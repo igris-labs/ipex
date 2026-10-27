@@ -60,7 +60,7 @@ test('landing example supports editing, review, execution, and reset on mobile',
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
 })
 
-test('table of contents marker slides, follows scrolling, and resizes with labels', async ({
+test('table of contents marker spans visible headings, follows scrolling, and resizes with labels', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
@@ -70,15 +70,29 @@ test('table of contents marker slides, follows scrolling, and resizes with label
   const active = sections.locator('[aria-current="location"]')
   const alignment = () =>
     indicator.evaluate((el) => {
-      const selected = el.parentElement!.querySelector('[aria-current="location"]')!
+      const rows = el.parentElement!.querySelectorAll('[data-visible]')
+      const first = rows[0]!.getBoundingClientRect()
+      const last = rows[rows.length - 1]!.getBoundingClientRect()
       const a = el.getBoundingClientRect()
-      const b = selected.getBoundingClientRect()
-      return Math.max(Math.abs(a.top - b.top), Math.abs(a.height - b.height))
+      return Math.max(Math.abs(a.top - first.top), Math.abs(a.bottom - last.bottom))
     })
   await expect(indicator).toHaveCSS('opacity', '1')
   await expect.poll(alignment).toBeLessThan(1)
   await sections.getByRole('link', { name: 'UI configuration', exact: true }).click()
   await expect(active).toHaveAttribute('href', '#ui-configuration')
+  await expect.poll(() => sections.locator('[data-visible]').count()).toBeGreaterThan(1)
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const rows = [...document.querySelectorAll('nav[aria-label="Page sections"] a')]
+        return rows.every((row) => {
+          const heading = document.getElementById(row.getAttribute('href')!.slice(1))!
+          const rect = heading.getBoundingClientRect()
+          return row.hasAttribute('data-visible') === (rect.bottom > 64 && rect.top < innerHeight)
+        })
+      }),
+    )
+    .toBe(true)
   expect(
     await indicator.evaluate((el) =>
       el.getAnimations().map((animation) => (animation as CSSTransition).transitionProperty),
@@ -88,7 +102,10 @@ test('table of contents marker slides, follows scrolling, and resizes with label
   await sections.evaluate((el) => {
     el.style.width = '100px'
   })
-  await expect(indicator).toHaveCSS('height', '48px')
+  await expect(sections.getByRole('link', { name: 'UI configuration', exact: true })).toHaveCSS(
+    'height',
+    '48px',
+  )
   await expect.poll(alignment).toBeLessThan(1)
   await page.evaluate(() => document.getElementById('packages')!.scrollIntoView())
   await expect(active).toHaveAttribute('href', '#packages')

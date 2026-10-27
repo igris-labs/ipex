@@ -770,14 +770,14 @@ test('tabs retain their strip position when panel heights differ', async ({ page
   expect(after!.x).toBe(before!.x)
   expect(after!.y).toBe(before!.y)
   expect(after!.width).toBe(before!.width)
+  await expect
+    .poll(() => panels.nth(1).evaluate((el) => el.getAnimations().length))
+    .toBeGreaterThan(0)
   await expect(panels.first()).toBeHidden()
   await expect(panels.first()).toHaveAttribute('inert', '')
   await expect(panels.first()).toHaveAttribute('aria-hidden', 'true')
   await expect(panels.nth(1)).toHaveAttribute('aria-hidden', 'false')
   await expect(panels.nth(1)).toBeVisible()
-  await expect
-    .poll(() => panels.nth(1).evaluate((el) => el.getAnimations().length))
-    .toBeGreaterThan(0)
   await stage.getByRole('tab', { name: 'Overview', exact: true }).click()
   expect((await strip.boundingBox())!.y).toBe(before!.y)
 })

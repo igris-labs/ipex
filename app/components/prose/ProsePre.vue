@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
+import { packageCommands } from '../../utils/package-commands'
 import DocsCode from '../content/DocsCode.vue'
+import PackageCommands from '../content/PackageCommands.vue'
 
 defineOptions({ inheritAttrs: false })
-defineProps<{
+const props = defineProps<{
   code?: string
   language?: string
   filename?: string
@@ -10,10 +14,17 @@ defineProps<{
   meta?: string
   class?: string
 }>()
+const commands = computed(() =>
+  /^(?:sh|bash|shell|shellscript|zsh|console|shellsession)$/.test(props.language ?? '')
+    ? packageCommands(props.code ?? '')
+    : null,
+)
 </script>
 
 <template>
+  <PackageCommands v-if="commands" :commands="commands" />
   <DocsCode
+    v-else
     :code="code ?? ''"
     :filename="filename"
     :language="language"

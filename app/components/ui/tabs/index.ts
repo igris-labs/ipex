@@ -14,7 +14,7 @@ export const tabsVariants = tv({
       'absolute bg-background shadow-none transition-[left,width,top,height] duration-180 ease-interaction in-aria-[orientation=horizontal]:inset-y-1 in-aria-[orientation=vertical]:inset-x-1 motion-reduce:transition-none',
     panels: 'grid min-w-0 flex-1',
     panel:
-      'invisible col-start-1 row-start-1 block! min-w-0 opacity-0 transition-opacity duration-180 ease-interaction outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background data-[akaza-state=active]:visible data-[akaza-state=active]:opacity-100 motion-reduce:transition-none',
+      'invisible col-start-1 row-start-1 block! min-w-0 outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background data-[akaza-state=active]:visible',
   },
   variants: {
     size: {

@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { Sidebar as Primitive } from 'akaza-ui'
-import { computed, useAttrs, useTemplateRef } from 'vue'
+import type { AkazaChangeEventDetails, NavigationMenuValueChangeEventDetails } from 'akaza-ui'
+import { computed, ref, watch, useAttrs, useTemplateRef } from 'vue'
 
 import { cn } from '../../../utils/ui'
+import { NavigationMenu } from '../navigation-menu'
 import uiConfig from '../ui.config'
 import {
   sidebarVariants,
+  sidebarNavigationVariants,
+  groupSidebarItems,
+  type SidebarItem,
   resolveSidebarVariants,
   type SidebarProps,
   type SidebarSlots,
@@ -14,6 +19,12 @@ import {
 defineOptions({ inheritAttrs: false })
 // Preserve Akaza defaults when optional props, including Boolean aliases, are omitted.
 const props = withDefaults(defineProps<SidebarProps>(), {
+  mode: undefined,
+  design: undefined,
+  itemSize: undefined,
+  items: undefined,
+  modelValue: undefined,
+  navigationLabel: undefined,
   as: undefined,
   side: undefined,
   collapsible: undefined,
@@ -41,9 +52,73 @@ const props = withDefaults(defineProps<SidebarProps>(), {
   collapsed: undefined,
   size: undefined,
 })
-defineSlots<SidebarSlots>()
+const slots = defineSlots<SidebarSlots>()
+const emit = defineEmits<{
+  'update:modelValue': [value: string | null | undefined]
+  select: [item: SidebarItem, details: AkazaChangeEventDetails]
+  'value-change': [value: string | null, details: NavigationMenuValueChangeEventDetails]
+}>()
+function onSelect(item: SidebarItem, details: AkazaChangeEventDetails) {
+  emit('select', item, details)
+}
+function onValueChange(value: string | null, details: NavigationMenuValueChangeEventDetails) {
+  emit('value-change', value, details)
+}
+const resolvedVariants = computed(() => resolveSidebarVariants(props, uiConfig))
+const navigationSlotNames = ['item-leading', 'item-label', 'item-trailing'] as const
+const navigationSlots = computed(() =>
+  navigationSlotNames.filter(
+    (name) => slots[name] && !(name === 'item-label' && resolvedVariants.value.mode === 'grouped'),
+  ),
+)
+const forwardedSlots = computed(() =>
+  (Object.keys(slots) as (keyof SidebarSlots)[]).filter(
+    (name) => name !== 'default' && !navigationSlotNames.some((part) => part === name),
+  ),
+)
+const navigationItems = computed(() =>
+  resolvedVariants.value.mode === 'grouped'
+    ? groupSidebarItems(props.items ?? [])
+    : (props.items ?? []),
+)
+const expanded = ref<string[]>()
+const knownBranches = new Set<string>()
+watch(
+  navigationItems,
+  (items) => {
+    const defaults: string[] = []
+    function visit(nodes: SidebarItem[]) {
+      for (const item of nodes) {
+        if (item.type === 'label' || item.type === 'separator' || !item.children?.length) continue
+        const value =
+          item.value ?? (typeof item.to === 'string' ? item.to : item.href) ?? item.label
+        if (!knownBranches.has(value) && item.defaultExpanded) defaults.push(value)
+        knownBranches.add(value)
+        visit(item.children)
+      }
+    }
+    visit(items)
+    if (defaults.length) expanded.value = [...new Set([...(expanded.value ?? []), ...defaults])]
+  },
+  { immediate: true },
+)
+const navigationUi = computed(() =>
+  Object.fromEntries(
+    Object.entries(
+      sidebarNavigationVariants({
+        mode: resolvedVariants.value.mode,
+        design: resolvedVariants.value.design,
+        itemSize: resolvedVariants.value.itemSize,
+        variant: resolvedVariants.value.variant === 'subtle' ? 'subtle' : 'soft',
+      }),
+    ).map(([part, style]) => [
+      part,
+      cn(style(), props.ui?.navigation?.[part as keyof NonNullable<typeof props.ui.navigation>]),
+    ]),
+  ),
+)
 const attrs = useAttrs()
-const styles = computed(() => sidebarVariants(resolveSidebarVariants(props, uiConfig)))
+const styles = computed(() => sidebarVariants(resolvedVariants.value))
 const mergedUi = computed(() => {
   const overrides = props.ui as Record<string, string | undefined> | undefined
   return Object.fromEntries(
@@ -54,7 +129,18 @@ const mergedUi = computed(() => {
   )
 })
 const primitiveProps = computed(() => {
-  const { class: _class, ui: _ui, variant: _variant, ...native } = props
+  const {
+    class: _class,
+    ui: _ui,
+    variant: _variant,
+    items: _items,
+    itemSize: _itemSize,
+    design: _design,
+    mode: _mode,
+    modelValue: _modelValue,
+    navigationLabel: _navigationLabel,
+    ...native
+  } = props
   return native
 })
 const primitive = useTemplateRef<InstanceType<typeof Primitive>>('primitive')
@@ -113,7 +199,45 @@ defineExpose({
     v-bind="{ ...primitiveProps, ...attrs }"
     :ui="mergedUi"
   >
-    <template v-for="(_, name) in $slots" #[name]="scope"
+    <template #default="scope">
+      <slot v-bind="scope">
+        <NavigationMenu
+          v-if="items"
+          :items="navigationItems"
+          v-model:expanded="expanded"
+          :size="resolvedVariants.itemSize"
+          :highlight-mode="
+            resolvedVariants.design === 'rail'
+              ? 'selection-hover'
+              : resolvedVariants.design === 'line'
+                ? 'selection'
+                : 'hover'
+          "
+          :model-value="modelValue"
+          :collapsed="scope.collapsed"
+          orientation="vertical"
+          content-mode="inline"
+          :aria-label="navigationLabel ?? ariaLabel ?? 'Navigation'"
+          :ui="navigationUi"
+          @update:model-value="emit('update:modelValue', $event)"
+          @select="onSelect"
+          @value-change="onValueChange"
+        >
+          <template v-if="resolvedVariants.mode === 'grouped'" #item-label="itemScope">
+            <span
+              :data-sidebar-group="itemScope.item.sidebarGroup || undefined"
+              :class="itemScope.item.sidebarGroup ? cn(navigationUi.groupLabel, 'p-0') : undefined"
+            >
+              <slot name="item-label" v-bind="itemScope">{{ itemScope.item.label }}</slot>
+            </span>
+          </template>
+          <template v-for="name in navigationSlots" #[name]="itemScope">
+            <slot :name="name" v-bind="itemScope" />
+          </template>
+        </NavigationMenu>
+      </slot>
+    </template>
+    <template v-for="name in forwardedSlots" #[name]="scope"
       ><slot :name="name as keyof SidebarSlots" v-bind="scope ?? {}"
     /></template>
   </component>

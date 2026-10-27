@@ -11,8 +11,10 @@ import { NavigationMenu } from '../ui/navigation-menu'
 import { NumberField } from '../ui/number-field'
 import { Select } from '../ui/select'
 import type { ToastProps } from '../ui/toast'
+import type { TreeProps } from '../ui/tree'
 import { exampleOptions, exampleAxes } from './example-options'
 import ToastExamples from './ToastExamples.vue'
+import TreeExamples from './TreeExamples.vue'
 
 const props = defineProps<{
   name: string
@@ -26,6 +28,10 @@ const props = defineProps<{
 const activeSizeOptions = computed(
   () => props.sizeOptions ?? exampleAxes[props.name]?.size?.join(','),
 )
+const activeModeOptions = computed(() => exampleAxes[props.name]?.mode?.join(','))
+const exampleMode = ref(exampleAxes[props.name]?.mode?.[0])
+const activeDesignOptions = computed(() => exampleAxes[props.name]?.design?.join(','))
+const exampleDesign = ref(exampleAxes[props.name]?.design?.[0])
 const activeVariantOptions = computed(
   () => props.variantOptions ?? exampleAxes[props.name]?.variant?.join(','),
 )
@@ -39,11 +45,12 @@ const optionDefinitions = computed(() =>
     ...exampleOptions[props.name],
     ...Object.fromEntries(
       Object.entries(exampleAxes[props.name] ?? {}).filter(
-        ([key]) => !['size', 'variant', 'width'].includes(key),
+        ([key]) => !['size', 'variant', 'width', 'design', 'mode'].includes(key),
       ),
     ),
   }).filter(
     ([key]) =>
+      !(props.name === 'tree' && key === 'selectionHighlight') &&
       !(
         isDisclosure.value &&
         ['type', 'orientation', 'collapsible', 'disabled', 'unmountOnHide'].includes(key)
@@ -92,6 +99,7 @@ const optionProps = computed(() =>
 const exampleSize = ref(props.defaultSize)
 const exampleVariant = ref(props.defaultVariant)
 const exampleWidth = ref(props.defaultWidth)
+const treeHighlight = ref<TreeProps['selectionHighlight']>('full')
 const disclosure = reactive({
   type: 'single',
   orientation: 'vertical',
@@ -108,7 +116,12 @@ function optionsFor(values?: string) {
   return values?.split(',').map((value) => ({ value, label: value })) ?? []
 }
 const settings = computed(() => ({
-  ...(activeSizeOptions.value ? { size: exampleSize.value } : {}),
+  ...(props.name === 'tree' ? { selectionHighlight: treeHighlight.value } : {}),
+  ...(activeModeOptions.value ? { mode: exampleMode.value } : {}),
+  ...(activeDesignOptions.value ? { design: exampleDesign.value } : {}),
+  ...(activeSizeOptions.value
+    ? { [props.name === 'sidebar' ? 'itemSize' : 'size']: exampleSize.value }
+    : {}),
   ...(activeVariantOptions.value ? { variant: exampleVariant.value } : {}),
   ...(activeWidthOptions.value ? { width: exampleWidth.value } : {}),
 }))
@@ -116,9 +129,12 @@ watch(
   () => props.name,
   () => {
     optionValues.value = {}
+    exampleMode.value = exampleAxes[props.name]?.mode?.[0]
+    exampleDesign.value = exampleAxes[props.name]?.design?.[0]
     exampleSize.value = props.defaultSize
     exampleVariant.value = props.defaultVariant
     exampleWidth.value = props.defaultWidth
+    treeHighlight.value = 'full'
   },
 )
 const modules = import.meta.glob('../ui/*/*.vue', { import: 'default' })
@@ -294,9 +310,25 @@ const entries: Record<string, Record<string, unknown>> = {
   select: { options, placeholder: 'Choose a framework', ariaLabel: 'Framework' },
   separator: { orientation: 'horizontal' },
   sidebar: {
+    items: [
+      { type: 'label', label: 'Workspace' },
+      { label: 'Projects', value: 'projects', href: '#projects' },
+      { label: 'Activity', value: 'activity', href: '#activity' },
+      { type: 'label', label: 'Manage' },
+      {
+        label: 'Settings',
+        value: 'settings',
+        children: [
+          { label: 'Profile', value: 'profile', href: '#profile' },
+          { label: 'Team', value: 'team', href: '#team' },
+        ],
+      },
+      { label: 'Billing', value: 'billing', href: '#billing', disabled: true },
+    ],
+    navigationLabel: 'Example workspace',
     breakpoint: '(max-width: 1px)',
     defaultSize: 200,
-    ui: { root: 'h-64', panel: 'border border-border rounded-lg' },
+    ui: { root: 'h-120', panel: 'border border-border rounded-lg' },
   },
   slider: { min: 0, max: 100, ariaLabel: 'Project progress', class: 'w-full' },
   stepper: {
@@ -347,22 +379,11 @@ const entries: Record<string, Record<string, unknown>> = {
     ariaLabel: 'Text formatting',
   },
   tree: {
-    class: 'w-fit min-w-48',
-    items: [
-      {
-        id: 'components',
-        label: 'Components',
-        children: [
-          { id: 'button', label: 'Button' },
-          { id: 'input', label: 'Input' },
-        ],
-      },
-      { id: 'guides', label: 'Guides' },
-    ],
+    class: 'w-full',
     itemKey: 'id',
     labelKey: 'label',
     childrenKey: 'children',
-    defaultExpanded: ['components'],
+    defaultExpanded: ['components', 'forms'],
     ariaLabel: 'Project files',
   },
 }
@@ -379,6 +400,7 @@ const values: Record<string, unknown> = {
   stepper: 'details',
   'toggle-group': 'grid',
   'navigation-menu': 'overview',
+  sidebar: 'projects',
 }
 const model = ref<unknown>(values[props.name])
 const hasModelState = computed(() =>
@@ -496,9 +518,36 @@ const demoProps = computed(() => ({
     class="my-6 min-w-0 overflow-visible rounded-lg border border-border/60 bg-background"
   >
     <div
-      v-if="activeSizeOptions || activeVariantOptions || activeWidthOptions || isDisclosure"
+      v-if="
+        activeModeOptions ||
+        activeDesignOptions ||
+        activeSizeOptions ||
+        activeVariantOptions ||
+        activeWidthOptions ||
+        isDisclosure
+      "
       class="flex min-h-11 flex-wrap items-center gap-3 border-b border-border/60 px-3 py-2"
     >
+      <div v-if="activeModeOptions" class="flex items-center gap-2 text-xs text-muted-foreground">
+        <span>Mode</span>
+        <Select
+          v-model="exampleMode"
+          :options="optionsFor(activeModeOptions)"
+          size="xs"
+          class="min-w-28"
+          aria-label="Example mode"
+        />
+      </div>
+      <div v-if="activeDesignOptions" class="flex items-center gap-2 text-xs text-muted-foreground">
+        <span>Design</span>
+        <Select
+          v-model="exampleDesign"
+          :options="optionsFor(activeDesignOptions)"
+          size="xs"
+          class="min-w-28"
+          aria-label="Example design"
+        />
+      </div>
       <div v-if="activeSizeOptions" class="flex items-center gap-2 text-xs text-muted-foreground">
         <span>Size</span
         ><Select
@@ -522,6 +571,19 @@ const demoProps = computed(() => ({
           class="min-w-16"
           placeholder="Default"
           aria-label="Example variant"
+        />
+      </div>
+      <div v-if="name === 'tree'" class="flex items-center gap-2 text-xs text-muted-foreground">
+        <span>Selection highlight</span>
+        <Select
+          v-model="treeHighlight"
+          :options="[
+            { value: 'full', label: 'Full row' },
+            { value: 'indented', label: 'Indented row' },
+            { value: 'label', label: 'Label only' },
+          ]"
+          size="xs"
+          aria-label="Example selection highlight"
         />
       </div>
       <div v-if="activeWidthOptions" class="flex items-center gap-2 text-xs text-muted-foreground">
@@ -653,7 +715,8 @@ const demoProps = computed(() => ({
       class="flex min-h-56 min-w-0 items-center justify-center p-2 sm:p-6"
     >
       <div :key="exampleKey" class="grid w-full max-w-md min-w-0 justify-items-center gap-3">
-        <ToastExamples v-if="name === 'toast'" v-bind="demoProps as ToastProps" />
+        <TreeExamples v-if="name === 'tree'" v-bind="demoProps as Partial<TreeProps>" />
+        <ToastExamples v-else-if="name === 'toast'" v-bind="demoProps as ToastProps" />
         <template v-else-if="name === 'overlay-provider'">
           <Button @click="openOverlay()">Open dialog</Button>
           <component :is="component" />
@@ -724,15 +787,13 @@ const demoProps = computed(() => ({
           </p>
           <template #footer>Workspace footer</template>
         </component>
-        <component v-else-if="name === 'sidebar'" :is="component" v-bind="demoProps">
+        <component
+          v-else-if="name === 'sidebar'"
+          :is="component"
+          v-model="model"
+          v-bind="demoProps"
+        >
           <template #header>Workspace</template>
-          <NavigationMenu
-            orientation="vertical"
-            :items="[
-              { label: 'Projects', value: 'projects' },
-              { label: 'Settings', value: 'settings' },
-            ]"
-          />
           <template #footer>Igris Labs</template>
         </component>
         <component

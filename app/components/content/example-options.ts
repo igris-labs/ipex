@@ -735,7 +735,10 @@ export const exampleAxes: Record<string, Record<string, string[]>> = {
     variant: ['default', 'muted'],
   },
   sidebar: {
-    variant: ['default', 'muted'],
+    design: ['standard', 'line', 'rail'],
+    mode: ['ungrouped', 'grouped'],
+    size: ['xs', 'sm', 'md', 'lg', 'xl'],
+    variant: ['soft', 'subtle', 'default', 'muted'],
   },
   slider: {
     size: ['xs', 'sm', 'md', 'lg', 'xl'],
@@ -780,6 +783,7 @@ export const exampleAxes: Record<string, Record<string, string[]>> = {
   },
   tree: {
     size: ['xs', 'sm', 'md', 'lg', 'xl'],
+    variant: ['soft', 'subtle'],
   },
   'year-picker': {
     size: ['xs', 'sm', 'md', 'lg', 'xl'],

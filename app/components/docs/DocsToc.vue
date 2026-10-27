@@ -10,14 +10,22 @@ interface TocLink {
 const props = defineProps<{ links: TocLink[] }>()
 const links = computed(() => props.links.flatMap((link) => [link, ...(link.children ?? [])]))
 const active = ref('')
+const visible = ref<string[]>([])
 const navigation = useTemplateRef<HTMLElement>('navigation')
 const indicator = ref({ top: 0, height: 0 })
 function measureIndicator() {
-  const current = navigation.value?.querySelector<HTMLElement>('[aria-current="location"]')
-  indicator.value = { top: current?.offsetTop ?? 0, height: current?.offsetHeight ?? 0 }
+  const rows = navigation.value?.querySelectorAll<HTMLElement>('[data-visible]')
+  const first = rows?.[0]
+  const last = rows?.[rows.length - 1]
+  indicator.value = {
+    top: first?.offsetTop ?? 0,
+    height: first && last ? last.offsetTop + last.offsetHeight - first.offsetTop : 0,
+  }
 }
+
 useResizeObserver(navigation, measureIndicator)
-watch(active, measureIndicator, { flush: 'post' })
+
+watch(visible, measureIndicator, { flush: 'post' })
 let frame = 0
 function update() {
   frame = 0
@@ -34,20 +42,33 @@ function update() {
   )
     current = headings.at(-1)
   active.value = current?.id ?? ''
+  const inViewport = headings.filter((heading) => {
+    const rect = heading.getBoundingClientRect()
+    return rect.bottom > 64 && rect.top < window.innerHeight
+  })
+  visible.value = inViewport.length
+    ? inViewport.map((heading) => heading.id)
+    : current
+      ? [current.id]
+      : []
 }
+
 function schedule() {
   if (!frame) frame = requestAnimationFrame(update)
 }
+
 onMounted(() => {
   window.addEventListener('scroll', schedule, { passive: true })
   window.addEventListener('resize', schedule)
   schedule()
 })
+
 onUnmounted(() => {
   window.removeEventListener('scroll', schedule)
   window.removeEventListener('resize', schedule)
   cancelAnimationFrame(frame)
 })
+
 watch(
   links,
   () => {
@@ -75,8 +96,9 @@ watch(
         stroke-width="1.75"
         aria-hidden="true"
       >
-        <path d="M8 6h12M8 12h12M8 18h12M3 6h.01M3 12h.01M3 18h.01" /></svg
-      >On this page
+        <path d="M8 6h12M8 12h12M8 18h12M3 6h.01M3 12h.01M3 18h.01" />
+      </svg>
+      On this page
     </h2>
     <nav
       ref="navigation"
@@ -98,9 +120,10 @@ watch(
         :key="link.id"
         :href="`#${link.id}`"
         :aria-current="active === link.id ? 'location' : undefined"
+        :data-visible="visible.includes(link.id) || undefined"
         class="min-h-7 px-3 py-1 text-xs leading-5 transition-colors duration-150 ease-interaction outline-none hover:text-highlighted focus-visible:outline-1 focus-visible:outline-ring motion-reduce:transition-none"
         :class="[
-          active === link.id ? 'text-highlighted' : 'text-muted-foreground',
+          visible.includes(link.id) ? 'text-highlighted' : 'text-muted-foreground',
           link.depth > 2 ? 'pl-5' : '',
         ]"
         >{{ link.text }}</a

@@ -30,7 +30,7 @@ const items = [
 
 The default soft variant uses inset segmented pills with a sliding selection background. Items and the indicator follow the control radius for the selected size; the container adds 4px to that radius. At sm, the inner radius is 6px and the outer radius is 10px. The surface stays flat, without a resting shadow. The line variant uses a sliding underline. Both respect reduced-motion preferences.
 
-Panels share one grid area by default, reserving room for the tallest retained panel and fading in over 180ms. Inactive panels stay hidden from interaction. If you enable `unmountOnHide`, use `ui.panels` to reserve any minimum height your layout needs.
+Panels share one grid area by default, reserving room for the tallest retained panel and switching content with a 60ms fade-out followed by a 140ms, 4px slide-fade. Only one panel is painted at a time, so text does not overlap during the transition. Inactive panels stay hidden from interaction. If you enable `unmountOnHide`, use `ui.panels` to reserve any minimum height your layout needs.
 
 ## Variants and defaults
 

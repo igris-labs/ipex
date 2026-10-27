@@ -67,7 +67,6 @@ const variantTabs = variants.map((value) => ({ value, label: value }))
       v-else-if="props.example === 'colors'"
       v-model="selectedVariant"
       :items="variantTabs"
-      :unmount-on-hide="true"
       size="xs"
       aria-label="Color preview variant"
       :ui="{ root: 'gap-0', list: 'm-2', panels: 'border-t border-border' }"

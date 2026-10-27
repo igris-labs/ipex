@@ -43,6 +43,8 @@ Flyouts sit 2px from their trigger. Flyout links stack their title above the des
 
 ## Props
 
+Use `highlight-mode="selection"` to keep the shared indicator on the current item; the default `hover` mode follows pointer and focus movement. Use `selection-hover` to retain selection and track hover with a separate marker. Sidebar uses these modes for its line and rail designs.
+
 | Prop              | Type                             | Default        | Description                                                                                                       |
 | ----------------- | -------------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------- |
 | `items`           | `NavigationMenuItem[]`           | required       | Top-level navigation items.                                                                                       |

@@ -102,12 +102,12 @@ for (const name of ['menu', 'context-menu', 'menubar']) {
 
 test('tree rows align labels by depth and keep equal heights at every size', async ({ page }) => {
   const preview = await open(page, 'tree')
-  for (const [size, height] of [
-    ['xs', 24],
-    ['sm', 28],
-    ['md', 32],
-    ['lg', 36],
-    ['xl', 40],
+  for (const [size, height, indent] of [
+    ['xs', 24, 12],
+    ['sm', 28, 16],
+    ['md', 32, 20],
+    ['lg', 36, 24],
+    ['xl', 40, 28],
   ] as const) {
     await page.getByRole('combobox', { name: 'Example size', exact: true }).click()
     await page.getByRole('option', { name: size, exact: true }).click()
@@ -117,15 +117,16 @@ test('tree rows align labels by depth and keep equal heights at every size', asy
         x: el.querySelector('.akaza-tree-label')!.getBoundingClientRect().left,
       })),
     )
-    expect(rows.map((row) => row.h)).toEqual([height, height, height, height])
-    expect(rows[0]!.x).toBe(rows[3]!.x)
+    expect(rows.map((row) => row.h)).toEqual(Array(9).fill(height))
+    expect(rows[0]!.x).toBe(rows[6]!.x)
     expect(rows[1]!.x).toBe(rows[2]!.x)
-    expect(rows[1]!.x - rows[0]!.x).toBe(16)
+    expect(rows[1]!.x - rows[0]!.x).toBe(indent)
+    expect(rows[4]!.x - rows[1]!.x).toBe(indent)
   }
   await preview.getByRole('button', { name: 'Collapse Components', exact: true }).click()
-  await expect(preview.locator('.akaza-tree-row')).toHaveCount(2)
-  await preview.getByRole('button', { name: 'Expand Components', exact: true }).click()
   await expect(preview.locator('.akaza-tree-row')).toHaveCount(4)
+  await preview.getByRole('button', { name: 'Expand Components', exact: true }).click()
+  await expect(preview.locator('.akaza-tree-row')).toHaveCount(9)
 })
 
 test('touch tree rows preserve nesting and separate disclosure targets from icon size', async ({
@@ -142,12 +143,12 @@ test('touch tree rows preserve nesting and separate disclosure targets from icon
     const rows = await preview
       .locator('.akaza-tree-row')
       .evaluateAll((es) => es.map((el) => el.getBoundingClientRect().height))
-    expect(rows).toEqual([44, 44, 44, 44])
+    expect(rows).toEqual(Array(9).fill(44))
     const toggle = preview.getByRole('button', { name: 'Collapse Components', exact: true })
     await expect(toggle).toHaveCSS('width', '44px')
     await expect(toggle.locator('svg')).toHaveCSS('width', '14px')
     await toggle.tap()
-    await expect(preview.locator('.akaza-tree-row')).toHaveCount(2)
+    await expect(preview.locator('.akaza-tree-row')).toHaveCount(4)
   } finally {
     await context.close()
   }

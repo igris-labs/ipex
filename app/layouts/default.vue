@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ContentNavigationItem } from '@nuxt/content'
 import { findPageBreadcrumb } from '@nuxt/content/utils'
-import type { NavigationMenuItem, SidebarController } from 'akaza-ui'
+import type { SidebarController } from 'akaza-ui'
 import { useSidebar } from 'akaza-ui'
 import { computed, ref, resolveComponent, useTemplateRef, watch } from 'vue'
 
@@ -9,11 +9,7 @@ import ColorModeButton from '../components/ColorModeButton.vue'
 import DocsSearch from '../components/docs/DocsSearch.vue'
 import { AppLayout } from '../components/ui/app-layout'
 import { Button } from '../components/ui/button'
-import { NavigationMenu } from '../components/ui/navigation-menu'
-import { Sidebar } from '../components/ui/sidebar'
-
-const navigationLinkClass =
-  'flex min-h-7.5 w-full items-center gap-2.5 rounded-md border-0 px-2.5 py-0.5 text-[13px] text-muted-foreground outline-none transition-colors duration-150 hover:bg-transparent hover:text-highlighted focus-visible:ring-1 focus-visible:ring-ring data-akaza-active:bg-foreground/10 data-akaza-active:font-medium data-akaza-active:text-highlighted motion-reduce:transition-none'
+import { Sidebar, type SidebarItem } from '../components/ui/sidebar'
 
 const route = useRoute()
 const searchOpen = ref(false)
@@ -24,7 +20,7 @@ watch(
 )
 const { data: navigation } = await useDocsNavigation()
 const link = resolveComponent('NuxtLink')
-function menuItems(nodes: ContentNavigationItem[]): NavigationMenuItem[] {
+function menuItems(nodes: ContentNavigationItem[]): SidebarItem[] {
   return nodes.flatMap((node) => [
     node.page === false
       ? { value: node.path, label: node.title, type: 'label' as const }
@@ -128,47 +124,27 @@ const currentCategory = computed(
       <Sidebar
         ref="navigation"
         aria-label="Documentation navigation"
+        navigation-label="Documentation"
+        variant="soft"
+        :items="items"
+        :model-value="route.path"
         breakpoint="(max-width: 1023px)"
         :default-size="240"
         :mobile-size="288"
-        :ui="{
-          root: 'h-[calc(100dvh-3rem)]',
-          panel: 'border-r border-border/50 bg-background',
-          header: 'flex items-center justify-between px-4 py-3 lg:hidden',
-          body: 'px-4 py-8',
-          footer: 'mx-4 border-t border-border/50 px-2 py-5 text-xs text-muted-foreground',
-          mobileOverlay: 'bg-scrim',
-          mobileContent: 'border-r border-border bg-background text-foreground shadow-xl',
-        }"
+        :ui="{ root: 'h-[calc(100dvh-3rem)]' }"
       >
         <template #header="{ closeMobile }"
           ><span class="font-semibold">Documentation</span
           ><Button variant="ghost" size="xs" @click="closeMobile">Close</Button></template
         >
-        <NavigationMenu
-          :items="items"
-          :model-value="route.path"
-          orientation="vertical"
-          content-mode="inline"
-          aria-label="Documentation"
-          :ui="{
-            list: 'before:bg-foreground/6 data-[ipex-highlight-active=true]:before:opacity-0 flex w-full flex-col items-stretch gap-0 [&>li:has(>.akaza-navigation-menu-group-label):not(:first-child)]:mt-5',
-            item: 'w-full [&:has(>a)]:py-0.5',
-            link: navigationLinkClass,
-            inlineLink: navigationLinkClass,
-            groupLabel: 'px-2.5 pb-2 text-xs font-medium text-highlighted',
-            itemLeading: 'flex size-4 shrink-0 items-center justify-center text-muted-foreground',
-          }"
-        >
-          <template #item-leading="{ item }">
-            <Icon
-              v-if="item.navigationIcon"
-              :name="String(item.navigationIcon)"
-              class="size-4"
-              aria-hidden="true"
-            />
-          </template>
-        </NavigationMenu>
+        <template #item-leading="{ item }">
+          <Icon
+            v-if="item.navigationIcon"
+            :name="String(item.navigationIcon)"
+            class="size-4"
+            aria-hidden="true"
+          />
+        </template>
         <template #footer>
           <NuxtLink to="/" class="inline-flex items-center gap-2 hover:text-highlighted">
             <Icon name="tabler:arrow-up-left" class="size-3.5" aria-hidden="true" /> Igris Labs ·
