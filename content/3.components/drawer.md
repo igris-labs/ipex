@@ -1,14 +1,16 @@
 ---
 title: Drawer
-description: A panel that slides in from the edge of the viewport.
+description: Open a panel from an edge of the screen.
 navigation:
   icon: tabler:layout-sidebar-right
 ---
 
+## Demos
+
 ::component-example{name="drawer" width-options="xs,sm,md,lg,xl" default-width="md"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -25,7 +27,16 @@ import { Button } from '~/components/ui/button'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Drawer.vue` and `index.ts` into `app/components/ui/drawer/`.
+
+::component-source{name="drawer"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop    | Values                       | Default |
 | ------- | ---------------------------- | ------- |
@@ -33,7 +44,7 @@ import { Button } from '~/components/ui/button'
 
 `width` sets the floating surface width, independently of control size. The surface stays inside the viewport.
 
-## Props
+### Props
 
 | Prop                   | Type                                     | Default   | Description                                                  |
 | ---------------------- | ---------------------------------------- | --------- | ------------------------------------------------------------ |
@@ -48,7 +59,7 @@ import { Button } from '~/components/ui/button'
 | `as`                   | `string`                                 | `"div"`   | Root element tag.                                            |
 | `ui`                   | `DrawerUi`                               | —         | CSS class overrides.                                         |
 
-## Slots
+### Slots
 
 | Slot          | Scoped props                      | Description                                           |
 | ------------- | --------------------------------- | ----------------------------------------------------- |
@@ -60,13 +71,13 @@ import { Button } from '~/components/ui/button'
 | `body`        | `{ close, descriptionId }`        | Main content area.                                    |
 | `footer`      | `{ close }`                       | Action buttons region.                                |
 
-## Emits
+### Events
 
 | Event         | Payload                    | Description                        |
 | ------------- | -------------------------- | ---------------------------------- |
 | `open-change` | `[open: boolean, details]` | Fired when the open state changes. |
 
-## Exposed methods
+### Exposed methods
 
 | Method          | Signature                   | Description                                    |
 | --------------- | --------------------------- | ---------------------------------------------- |
@@ -76,7 +87,7 @@ import { Button } from '~/components/ui/button'
 | `titleId`       | `string`                    | Auto-generated id for the title element.       |
 | `descriptionId` | `string`                    | Auto-generated id for the description element. |
 
-## Keyboard
+### Keyboard
 
 | Key                   | Behavior                                        |
 | --------------------- | ----------------------------------------------- |
@@ -84,10 +95,3 @@ import { Button } from '~/components/ui/button'
 | `Escape`              | Closes topmost drawer and restores prior focus. |
 
 Pointer and touch users can activate backdrop dismissal and configured swipe gestures. Keyboard users always have explicit controls and Escape.
-
-## Source
-
-Copy `Drawer.vue` and `index.ts` into `components/ui/drawer` after [installation](/getting-started/installation).
-
-::component-source{name="drawer"}
-::

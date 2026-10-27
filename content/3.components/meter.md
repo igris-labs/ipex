@@ -1,14 +1,16 @@
 ---
 title: Meter
-description: Read-only gauge for displaying a bounded numeric value.
+description: Display a numeric value within a known range.
 navigation:
   icon: tabler:gauge
 ---
 
+## Demos
+
 ::component-example{name="meter" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -22,13 +24,22 @@ import { Meter } from '~/components/ui/meter'
 
 Value changes animate the bar width over 200ms. Reduced motion applies the new value immediately. Use **Options and states** to change `value`, bounds, and thresholds.
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Meter.vue` and `index.ts` into `app/components/ui/meter/`.
+
+::component-source{name="meter"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Props
+### Props
 
 | Prop               | Type                                             | Default        | Description                                                 |
 | ------------------ | ------------------------------------------------ | -------------- | ----------------------------------------------------------- |
@@ -48,17 +59,10 @@ Value changes animate the bar width over 200ms. Reduced motion applies the new v
 | `getValueLabel`    | `(formattedValue, value) => string \| undefined` | —              | Function for `aria-valuetext`.                              |
 | `ui`               | `MeterUi`                                        | —              | Classes for structural parts.                               |
 
-## Slots
+### Slots
 
 | Slot        | Props                                            | Description               |
 | ----------- | ------------------------------------------------ | ------------------------- |
 | `label`     | `value`, `formattedValue`, `state`               | Custom label.             |
 | `value`     | `value`, `formattedValue`, `percentage`, `state` | Custom formatted value.   |
 | `indicator` | `value`, `percentage`, `state`                   | Custom indicator content. |
-
-## Source
-
-Copy `Meter.vue` and `index.ts` into `components/ui/meter` after [installation](/getting-started/installation).
-
-::component-source{name="meter"}
-::

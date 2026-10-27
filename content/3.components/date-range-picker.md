@@ -1,14 +1,16 @@
 ---
 title: Date Range Picker
-description: Segmented date-range entry and an accessible range Calendar in one collision-aware popup.
+description: Enter a date range by typing or selecting from a calendar.
 navigation:
   icon: tabler:calendar-month
 ---
 
+## Demos
+
 ::component-example{name="date-range-picker" size-options="xs,sm,md,lg,xl" default-size="sm" default-variant="outline"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,18 +22,27 @@ import { DateRangePicker } from '~/components/ui/date-range-picker'
 </template>
 ```
 
-## Typing and calendar selection
+### Typing and calendar selection
 
 Click a date segment to type or use the calendar button to choose a date. Focus and text selection use the neutral secondary fill with its paired foreground. A subtle ring marks the active segment. Slashes have their own spacing. The calendar opens outside the preview frame and follows the same size as the field.
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `DateRangePicker.vue` and `index.ts` into `app/components/ui/date-range-picker/`. Also copy the required components: [Calendar](/components/calendar), [Date Field](/components/date-field), [Date Range Field](/components/date-range-field).
+
+::component-source{name="date-range-picker"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop      | Values                       | Default   |
 | --------- | ---------------------------- | --------- |
 | `size`    | `xs`, `sm`, `md`, `lg`, `xl` | `sm`      |
 | `variant` | `outline`, `soft`, `bare`    | `outline` |
 
-## Models
+### Models
 
 | Model                 | Type                | Default                    | Description                               |
 | --------------------- | ------------------- | -------------------------- | ----------------------------------------- |
@@ -41,7 +52,7 @@ Click a date segment to type or use the calendar button to choose a date. Focus 
 
 See [Range selection](/design-system/color#range-selection) for preview fills and primary-colored endpoints.
 
-## Props
+### Props
 
 Date Range Picker accepts Date Range Field props `id`, `name`, `startName`, `endName`, `locale`, `dir`, `minValue`, `maxValue`, `isDateUnavailable`, `allowNonContiguousRanges`, `maximumDays`, `fixedDate`, `required`, `disabled`, `readOnly`, `invalid`, `selectOnFocus`, `autoAdvance`, endpoint labels, and ARIA relationships.
 
@@ -66,7 +77,7 @@ Date Range Picker accepts Date Range Field props `id`, `name`, `startName`, `end
 | `teleport`                      | `string \| false`                        | `"body"`              | Teleport target; `false` keeps popup beside root.         |
 | `ui`                            | `DateRangePickerUi`                      | -                     | Classes and nested field/calendar UI maps.                |
 
-## Slots
+### Slots
 
 | Slot            | Props                               | Description                                                      |
 | --------------- | ----------------------------------- | ---------------------------------------------------------------- |
@@ -83,7 +94,7 @@ Date Range Picker accepts Date Range Field props `id`, `name`, `startName`, `end
 | `footer`        | `value`, `placeholder`              | Optional built-in Calendar footer.                               |
 | `close`         | `close`                             | Explicit close-button content.                                   |
 
-## Emits
+### Events
 
 | Event                | Payload             | Description                                                     |
 | -------------------- | ------------------- | --------------------------------------------------------------- |
@@ -96,12 +107,3 @@ Date Range Picker accepts Date Range Field props `id`, `name`, `startName`, `end
 | `placeholder-change` | `(date, details)`   | Fires before visible-month changes. Cancelable.                 |
 
 Open reasons include `trigger`, `select`, `escape`, `outside-click`, and `programmatic`. Value reasons match Date Range Field plus `calendar`.
-
-## Source
-
-Copy `DateRangePicker.vue` and `index.ts` into `components/ui/date-range-picker` after [installation](/getting-started/installation).
-
-Also copy [Date Range Field](/components/date-range-field), [Date Field](/components/date-field), [Calendar](/components/calendar); this recipe uses their styled parts.
-
-::component-source{name="date-range-picker"}
-::

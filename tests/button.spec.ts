@@ -93,12 +93,15 @@ test('renders tactile primary and accent fills, flat secondary, and distinct var
   page,
 }) => {
   for (const color of ['primary', 'accent']) {
-    await expect(page.getByTestId(`color-${color}`)).toHaveCSS(
+    await expect(page.getByTestId(`color-${color}`).filter({ visible: true })).toHaveCSS(
       'background-image',
       /linear-gradient/,
     )
   }
-  await expect(page.getByTestId('color-secondary')).toHaveCSS('background-image', 'none')
+  await expect(page.getByTestId('color-secondary').filter({ visible: true })).toHaveCSS(
+    'background-image',
+    'none',
+  )
   for (const variant of ['soft', 'subtle', 'outline', 'ghost', 'link']) {
     await expect(page.getByTestId(`variant-${variant}`)).toHaveCSS('background-image', 'none')
   }
@@ -116,7 +119,7 @@ test('accent stays chromatic and soft buttons use a color tint in both themes', 
   await page.emulateMedia({ reducedMotion: 'reduce' })
   const variants = page.locator('[aria-label="Color preview variant"]')
   await variants.getByRole('tab', { name: 'soft', exact: true }).click()
-  const accent = page.getByTestId('color-accent')
+  const accent = page.getByTestId('color-accent').filter({ visible: true })
   for (const theme of ['light', 'dark']) {
     if (theme === 'dark') await page.getByRole('button', { name: 'Use dark theme' }).click()
     const colors = await accent.evaluate((el) => {
@@ -170,7 +173,7 @@ for (const theme of ['light', 'dark']) {
         'warning',
         'destructive',
       ]) {
-        const button = page.getByTestId(`color-${color}`)
+        const button = page.getByTestId(`color-${color}`).filter({ visible: true })
         await page.mouse.move(0, 0)
         for (const hover of [false, true]) {
           if (hover) await button.hover()
@@ -344,7 +347,7 @@ test('opens mobile navigation and keeps the page within the viewport', async ({ 
 test('serves the landing page at the base URL', async ({ page }) => {
   await page.goto('/')
   await expect(page).toHaveURL(/\/$/)
-  await expect(page.getByRole('heading', { name: 'One system for Igris Labs.' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Build your app with IPEX' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Get started', exact: true })).toHaveAttribute(
     'href',
     '/getting-started/installation',
@@ -419,46 +422,51 @@ test('secondary stays neutral and IPEX blue accent keeps readable tactile fills 
   await page.emulateMedia({ reducedMotion: 'reduce' })
   for (const theme of ['light', 'dark']) {
     if (theme === 'dark') await page.getByRole('button', { name: 'Use dark theme' }).click()
-    const paint = await page.getByTestId('color-accent').evaluate((el) => {
-      const style = getComputedStyle(el)
-      const canvas = document.createElement('canvas')
-      canvas.width = canvas.height = 1
-      const context = canvas.getContext('2d')!
-      const pixel = (color: string) => {
-        context.clearRect(0, 0, 1, 1)
-        context.fillStyle = color
-        context.fillRect(0, 0, 1, 1)
-        return Array.from(context.getImageData(0, 0, 1, 1).data).slice(0, 3)
-      }
-      const luminance = (rgb: number[]) =>
-        rgb
-          .map((value) => {
-            const channel = value / 255
-            return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
-          })
-          .reduce((sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index]!, 0)
-      const contrast = (a: number[], b: number[]) =>
-        (Math.max(luminance(a), luminance(b)) + 0.05) /
-        (Math.min(luminance(a), luminance(b)) + 0.05)
-      const accent = style.getPropertyValue('--accent')
-      const probe = document.createElement('span')
-      probe.style.backgroundColor = style.getPropertyValue('--button-color')
-      document.body.append(probe)
-      const material = getComputedStyle(probe).backgroundColor
-      probe.remove()
-      const text = pixel(style.color)
-      const secondary = getComputedStyle(document.querySelector('[data-testid="color-secondary"]')!)
-      return {
-        secondary: pixel(secondary.backgroundColor),
-        accent: pixel(accent),
-        contrast: [
-          `oklch(from ${material} clamp(0, calc(l + 0.1165), 1) calc(c * 0.82) h)`,
-          `oklch(from ${material} clamp(0, calc(l - 0.0214), 1) calc(c * 0.96) h)`,
-          `oklch(from ${material} clamp(0, calc(l + 0.1432), 1) calc(c * 0.78) h)`,
-          `oklch(from ${material} clamp(0, calc(l + 0.0292), 1) calc(c * 0.9) h)`,
-        ].map((fill) => contrast(text, pixel(fill))),
-      }
-    })
+    const paint = await page
+      .getByTestId('color-accent')
+      .filter({ visible: true })
+      .evaluate((el) => {
+        const style = getComputedStyle(el)
+        const canvas = document.createElement('canvas')
+        canvas.width = canvas.height = 1
+        const context = canvas.getContext('2d')!
+        const pixel = (color: string) => {
+          context.clearRect(0, 0, 1, 1)
+          context.fillStyle = color
+          context.fillRect(0, 0, 1, 1)
+          return Array.from(context.getImageData(0, 0, 1, 1).data).slice(0, 3)
+        }
+        const luminance = (rgb: number[]) =>
+          rgb
+            .map((value) => {
+              const channel = value / 255
+              return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
+            })
+            .reduce((sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index]!, 0)
+        const contrast = (a: number[], b: number[]) =>
+          (Math.max(luminance(a), luminance(b)) + 0.05) /
+          (Math.min(luminance(a), luminance(b)) + 0.05)
+        const accent = style.getPropertyValue('--accent')
+        const probe = document.createElement('span')
+        probe.style.backgroundColor = style.getPropertyValue('--button-color')
+        document.body.append(probe)
+        const material = getComputedStyle(probe).backgroundColor
+        probe.remove()
+        const text = pixel(style.color)
+        const secondary = getComputedStyle(
+          document.querySelector('[data-testid="color-secondary"]')!,
+        )
+        return {
+          secondary: pixel(secondary.backgroundColor),
+          accent: pixel(accent),
+          contrast: [
+            `oklch(from ${material} clamp(0, calc(l + 0.1165), 1) calc(c * 0.82) h)`,
+            `oklch(from ${material} clamp(0, calc(l - 0.0214), 1) calc(c * 0.96) h)`,
+            `oklch(from ${material} clamp(0, calc(l + 0.1432), 1) calc(c * 0.78) h)`,
+            `oklch(from ${material} clamp(0, calc(l + 0.0292), 1) calc(c * 0.9) h)`,
+          ].map((fill) => contrast(text, pixel(fill))),
+        }
+      })
     expect(Math.max(...paint.secondary) - Math.min(...paint.secondary)).toBeLessThanOrEqual(1)
     expect(paint.accent[2]).toBeGreaterThan(paint.accent[1]! + 40)
     expect(paint.accent[2]).toBeGreaterThan(paint.accent[0]! + 60)

@@ -1,14 +1,16 @@
 ---
 title: Toast
-description: Queued status and alert notifications with stacking, actions, updates, promise state, and swipe dismissal.
+description: Show temporary notifications with optional actions.
 navigation:
   icon: tabler:bell
 ---
 
+## Demos
+
 ::component-example{name="toast" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -27,7 +29,7 @@ const toast = useToast()
 
 Mount one Toast viewport per manager near your application root. Call `useToast()` in component setup, then add notifications from event handlers. The preview uses its own queue so examples do not leave notifications on other pages.
 
-## Actions and updates
+### Actions and updates
 
 Use `duration: 0` for a message that should stay until dismissed. Actions close after success. While an asynchronous action runs, its button shows progress and blocks repeated clicks. Rejected actions emit `action-error` and leave the toast open.
 
@@ -67,19 +69,28 @@ await toast.promise(saveProject(), {
 
 Handle request failures in the calling workflow. Reuse an `id` with `toast.add()` or `toast.update()` to change a notification without adding another queue entry.
 
-## Behavior
+### Behavior
 
-Toast movement uses the Akaza playground’s slide, stack, and swipe transitions with its cubic-bezier(0.22, 1, 0.36, 1) easing. Toast timings match the reference: 500ms for movement, 150ms for height changes, and 250ms for content fading. The longer movement duration preserves the curve’s gentle settling tail. Cards stack until hovered or focused, then expand with the configured gap. Timers pause on hover, focus, and window blur by default. Reduced motion removes transitions and spinner rotation.
+Toasts slide into a stack and support swipe dismissal. Movement takes 500ms, height changes take 150ms, and content fades take 250ms. Cards stack until hovered or focused, then expand with the configured gap. Timers pause on hover, focus, and window blur by default. Reduced motion removes transitions and spinner rotation.
 
 Cards keep a neutral surface with a semantic status icon. Titles and descriptions wrap within their own column, separate from the close button. Long messages scroll within the card; the viewport stays 16px from the screen edges.
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Toast.vue` and `index.ts` into `app/components/ui/toast/`.
+
+::component-source{name="toast"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Props
+### Props
 
 | Prop                | Default                | Purpose                                                                                   |
 | ------------------- | ---------------------- | ----------------------------------------------------------------------------------------- |
@@ -102,7 +113,7 @@ Cards keep a neutral surface with a semantic status icon. Titles and description
 
 Dismissal duration belongs to `toast.add({ duration })`, not the viewport. Visual `type` and announcement `priority` are independent: error and alert default to assertive announcements; other types are polite.
 
-## Slots
+### Slots
 
 | Slot          | Props                                                                    | Description                                                                         |
 | ------------- | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
@@ -113,7 +124,7 @@ Dismissal duration belongs to `toast.add({ duration })`, not the viewport. Visua
 
 The `ui` prop accepts the native viewport, toast, title, description, close, and action parts, plus IPEX `layout`, `icon`, and `content` parts. A custom `toast` slot replaces the default inner layout; the native root retains queue behavior and accessibility.
 
-## Emits
+### Events
 
 | Event          | Payload          | Description                                   |
 | -------------- | ---------------- | --------------------------------------------- |
@@ -123,17 +134,10 @@ The `ui` prop accepts the native viewport, toast, title, description, close, and
 | `swipe-cancel` | `(toast, event)` | Swipe ended below threshold or was canceled.  |
 | `swipe-end`    | `(toast, event)` | Swipe crossed threshold and closed toast.     |
 
-## Keyboard
+### Keyboard
 
 | Key      | Behavior                                            |
 | -------- | --------------------------------------------------- |
 | `F8`     | Focuses and expands viewport by default.            |
 | `Tab`    | Moves through toast actions and close buttons.      |
 | `Escape` | Closes latest toast while focus is inside viewport. |
-
-## Source
-
-Copy `Toast.vue` and `index.ts` into `components/ui/toast` after [installation](/getting-started/installation).
-
-::component-source{name="toast"}
-::

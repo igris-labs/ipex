@@ -1,14 +1,16 @@
 ---
 title: Field
-description: Label, description, and error wiring for form controls.
+description: Connect a form control to its label, description, and error message.
 navigation:
   icon: tabler:forms
 ---
 
+## Demos
+
 ::component-example{name="field"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -23,11 +25,14 @@ import { Input } from '~/components/ui/input'
 </template>
 ```
 
-## Required, invalid, and disabled fields
+### Required, invalid, and disabled fields
 
 Field provides the label, description, validation message, and shared state for its control. Set `invalid` after your validation runs. The preview lets you inspect each state.
 
 ::field-examples{example="states"}
+::
+
+::example-source{file="FieldExamples.vue"}
 ::
 
 ```vue
@@ -36,11 +41,14 @@ Field provides the label, description, validation message, and shared state for 
 </Field>
 ```
 
-## Other controls
+### Other controls
 
 The same field structure works with selects and checkboxes. Give a checkbox its own action label; use the Field label to describe the setting.
 
 ::field-examples{example="controls"}
+::
+
+::example-source{file="FieldExamples.vue"}
 ::
 
 ```vue
@@ -49,7 +57,16 @@ The same field structure works with selects and checkboxes. Give a checkbox its 
 </Field>
 ```
 
-## Props
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Field.vue` and `index.ts` into `app/components/ui/field/`.
+
+::component-source{name="field"}
+::
+
+## API
+
+### Props
 
 | Prop          | Type                         | Default     | Description                                           |
 | ------------- | ---------------------------- | ----------- | ----------------------------------------------------- |
@@ -69,7 +86,7 @@ The same field structure works with selects and checkboxes. Give a checkbox its 
 | `focused`     | `boolean`                    | input state | Overrides focused state.                              |
 | `ui`          | `FieldUi`                    | —           | Classes for root, label, control, description, error. |
 
-## Slots
+### Slots
 
 | Slot          | Scoped props                                                                                                                          | Description                 |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
@@ -77,10 +94,3 @@ The same field structure works with selects and checkboxes. Give a checkbox its 
 | `label`       | —                                                                                                                                     | Custom label content.       |
 | `description` | —                                                                                                                                     | Custom description content. |
 | `error`       | —                                                                                                                                     | Custom error content.       |
-
-## Source
-
-Copy `Field.vue` and `index.ts` into `components/ui/field` after [installation](/getting-started/installation).
-
-::component-source{name="field"}
-::

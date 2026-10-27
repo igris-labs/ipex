@@ -1,14 +1,16 @@
 ---
 title: Month Range Picker
-description: Accessible month-level range selection with preview, limits, fixed endpoints, and constraints.
+description: Select a range of months.
 navigation:
   icon: tabler:calendar-share
 ---
 
+## Demos
+
 ::component-example{name="month-range-picker" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,13 +22,22 @@ import { MonthRangePicker } from '~/components/ui/month-range-picker'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `MonthRangePicker.vue` and `index.ts` into `app/components/ui/month-range-picker/`.
+
+::component-source{name="month-range-picker"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Models
+### Models
 
 | Model                 | Type                | Default                 | Description                                   |
 | --------------------- | ------------------- | ----------------------- | --------------------------------------------- |
@@ -35,7 +46,7 @@ import { MonthRangePicker } from '~/components/ui/month-range-picker'
 
 See [Range selection](/design-system/color#range-selection) for preview fills and primary-colored endpoints.
 
-## Props
+### Props
 
 | Prop                       | Type                                 | Default                | Description                                               |
 | -------------------------- | ------------------------------------ | ---------------------- | --------------------------------------------------------- |
@@ -58,7 +69,7 @@ See [Range selection](/design-system/color#range-selection) for preview fills an
 | `prevPage`                 | `(placeholder) => CalendarDateValue` | subtract one year      | Custom previous page.                                     |
 | `ui`                       | `MonthRangePickerUi`                 | —                      | Classes for generated parts.                              |
 
-## Slots
+### Slots
 
 | Slot       | Props                                                                                                                 | Description                    |
 | ---------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
@@ -68,7 +79,7 @@ See [Range selection](/design-system/color#range-selection) for preview fills an
 | `month`    | `date`, `label`, `selected`, `rangeStart`, `rangeEnd`, `inRange`, `highlighted`, `disabled`, `unavailable`, `focused` | Month content and range state. |
 | `footer`   | `value`, `placeholder`                                                                                                | Optional footer.               |
 
-## Emits
+### Events
 
 | Event                | Payload             | Description                         |
 | -------------------- | ------------------- | ----------------------------------- |
@@ -77,7 +88,7 @@ See [Range selection](/design-system/color#range-selection) for preview fills an
 | `value-change`       | `(range, details)`  | Cancelable range change.            |
 | `placeholder-change` | `(date, details)`   | Cancelable page change.             |
 
-## Keyboard
+### Keyboard
 
 | Key                                   | Behavior                                                                                          |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------- |
@@ -88,10 +99,3 @@ See [Range selection](/design-system/color#range-selection) for preview fills an
 | `Enter` / `Space`                     | Sets range start or completes range end.                                                          |
 
 Pointer hover previews a pending range; touch activation selects endpoints without relying on hover.
-
-## Source
-
-Copy `MonthRangePicker.vue` and `index.ts` into `components/ui/month-range-picker` after [installation](/getting-started/installation).
-
-::component-source{name="month-range-picker"}
-::

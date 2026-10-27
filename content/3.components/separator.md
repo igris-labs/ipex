@@ -1,14 +1,16 @@
 ---
 title: Separator
-description: A visual or semantic divider between content sections.
+description: Separate related groups of content.
 navigation:
   icon: tabler:separator
 ---
 
+## Demos
+
 ::component-example{name="separator" variant-options="default,muted" default-variant="default"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -22,13 +24,22 @@ import { Separator } from '~/components/ui/separator'
 
 For a vertical separator, give its flex container a defined height, such as `h-16`. Horizontal separators fill the available width.
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Separator.vue` and `index.ts` into `app/components/ui/separator/`.
+
+::component-source{name="separator"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop      | Values             | Default   |
 | --------- | ------------------ | --------- |
 | `variant` | `default`, `muted` | `default` |
 
-## Props
+### Props
 
 | Prop          | Type                         | Default        | Description                                          |
 | ------------- | ---------------------------- | -------------- | ---------------------------------------------------- |
@@ -36,10 +47,3 @@ For a vertical separator, give its flex container a defined height, such as `h-1
 | `decorative`  | `boolean`                    | `false`        | When true, renders as `role="none"` (purely visual). |
 | `as`          | `string`                     | `"div"`        | Root element tag.                                    |
 | `ui`          | `SeparatorUi`                | —              | Classes for the root element.                        |
-
-## Source
-
-Copy `Separator.vue` and `index.ts` into `components/ui/separator` after [installation](/getting-started/installation).
-
-::component-source{name="separator"}
-::

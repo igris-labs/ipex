@@ -1,14 +1,16 @@
 ---
 title: Sidebar
-description: Responsive application sidebar with desktop collapse, resizing, and mobile dialog behavior.
+description: Build grouped application navigation with desktop and mobile layouts.
 navigation:
   icon: tabler:layout-sidebar
 ---
 
+## Demos
+
 ::component-example{name="sidebar" size-options="xs,sm,md,lg,xl" default-size="sm" variant-options="soft,subtle,default,muted" default-variant="soft"}
 ::
 
-## Usage
+### Usage
 
 The `soft` design is the sidebar used in these docs. Pass an items array; Sidebar composes Akaza's responsive panel and vertical navigation. Use labels to group links, and add children for expandable navigation. Rows use the docs' active fill and sliding hover effect.
 
@@ -41,7 +43,7 @@ At the default `sm` size, rows are 30px tall on 34px spacing with 8px corners, a
 
 Set `navigation-label` when the navigation landmark needs a different name from the sidebar. Override navigation styles through `ui.navigation`; component defaults still come from `ui.config.ts`.
 
-## Designs
+### Designs
 
 Use `design="standard"` for the existing row highlight or `design="line"` for a vertical selection marker. The line design keeps rows unfilled and moves a 1.5px marker beside the current item. Markers sit 6px inside each row end. Hover changes text emphasis without moving the selection marker; collapsed group labels never receive a marker. Nested links keep the same indentation and sizing.
 
@@ -53,7 +55,7 @@ Switch designs without changing items, models, slots, or the mobile controller. 
 
 `design="rail"` adds a faint track through each group’s children, like the table of contents. Tracks stop at category labels and group gaps. A lighter marker follows hover or keyboard focus while the active marker stays on the selected item. Collapsible group labels use a light hover fill instead of a rail.
 
-## Grouping modes
+### Grouping modes
 
 The default `mode="ungrouped"` renders category labels above their items. Use `mode="grouped"` to turn each root category label and its following items into a collapsible group. Pass the same items array for either mode. Existing nested children stay inside their category.
 
@@ -63,7 +65,38 @@ Groups start expanded. Set `defaultExpanded: false` on a label to start its grou
 <Sidebar design="rail" mode="grouped" variant="soft" :items="items" v-model="current" />
 ```
 
-## Variants and defaults
+### Navigation props
+
+| Prop              | Type                         | Default                     | Description                                              |
+| ----------------- | ---------------------------- | --------------------------- | -------------------------------------------------------- |
+| `itemSize`        | `xs`, `sm`, `md`, `lg`, `xl` | `sm`                        | Row size; also scales text, padding, icons, and corners. |
+| `items`           | `SidebarItem[]`              | —                           | Labels, links, separators, and nested children.          |
+| `navigationLabel` | `string`                     | `ariaLabel` or `Navigation` | Accessible name for generated navigation.                |
+
+Navigation forwards the cancelable `select(item, details)` and `value-change(value, details)` events. Canceling selection preserves the current item. For router-driven sidebars, pass the current route as `model-value`.
+
+### Exposed values
+
+| Value            | Type           | Description                                                 |
+| ---------------- | -------------- | ----------------------------------------------------------- |
+| `openValue`      | `boolean`      | Current mobile visibility.                                  |
+| `collapsedValue` | `boolean`      | Current desktop collapse value.                             |
+| `sizeValue`      | `number`       | Current expanded width in pixels.                           |
+| `isMobile`       | `boolean`      | Current responsive mode.                                    |
+| `state`          | `SidebarState` | Current `open`, `closed`, `expanded`, or `collapsed` state. |
+
+Prefer `useSidebar(sidebarRef)` when consuming these values outside the component.
+
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Sidebar.vue` and `index.ts` into `app/components/ui/sidebar/`. Also copy the required components: [Navigation Menu](/components/navigation-menu).
+
+::component-source{name="sidebar"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop      | Values                               | Default     |
 | --------- | ------------------------------------ | ----------- |
@@ -85,7 +118,7 @@ Use `item-size` to scale navigation rows. Set `components.sidebar.itemSize` in `
 
 Group headings use 8/12/16/20/24px top gaps for `xs`/`sm`/`md`/`lg`/`xl`. Child rows keep indentation without guide lines.
 
-## Models
+### Models
 
 | Model               | Type             | Default            | Description                                                             |
 | ------------------- | ---------------- | ------------------ | ----------------------------------------------------------------------- |
@@ -94,17 +127,7 @@ Group headings use 8/12/16/20/24px top gaps for `xs`/`sm`/`md`/`lg`/`xl`. Child 
 | `v-model:collapsed` | `boolean`        | `defaultCollapsed` | Desktop collapse state. Ignored when `collapsible` is `false`.          |
 | `v-model:size`      | `number`         | `defaultSize`      | Expanded desktop width in pixels.                                       |
 
-## Navigation props
-
-| Prop              | Type                         | Default                     | Description                                              |
-| ----------------- | ---------------------------- | --------------------------- | -------------------------------------------------------- |
-| `itemSize`        | `xs`, `sm`, `md`, `lg`, `xl` | `sm`                        | Row size; also scales text, padding, icons, and corners. |
-| `items`           | `SidebarItem[]`              | —                           | Labels, links, separators, and nested children.          |
-| `navigationLabel` | `string`                     | `ariaLabel` or `Navigation` | Accessible name for generated navigation.                |
-
-Navigation forwards the cancelable `select(item, details)` and `value-change(value, details)` events. Canceling selection preserves the current item. For router-driven sidebars, pass the current route as `model-value`.
-
-## Props
+### Props
 
 | Prop                   | Type                             | Default                | Description                                                   |
 | ---------------------- | -------------------------------- | ---------------------- | ------------------------------------------------------------- |
@@ -132,7 +155,7 @@ Navigation forwards the cancelable `select(item, details)` and `value-change(val
 | `resizeAriaLabel`      | `string`                         | `"Resize sidebar"`     | Resize separator accessible name.                             |
 | `ui`                   | `SidebarUi`                      | —                      | Classes for named structural parts.                           |
 
-## Slots
+### Slots
 
 | Slot            | Scoped props       | Description                                    |
 | --------------- | ------------------ | ---------------------------------------------- |
@@ -145,7 +168,7 @@ For generated navigation, use `#item-leading`, `#item-label`, or `#item-trailing
 
 `SidebarSlotProps` exposes `open`, `collapsed`, `isMobile`, `state`, `size`, `openMobile`, `closeMobile`, `toggleMobile`, `expand`, `collapse`, `toggleCollapsed`, `toggle`, and `resetSize`. On mobile, `collapsed` is always `false`.
 
-## Emits
+### Events
 
 | Event              | Payload                | Description                                                                         |
 | ------------------ | ---------------------- | ----------------------------------------------------------------------------------- |
@@ -153,7 +176,7 @@ For generated navigation, use `#item-leading`, `#item-label`, or `#item-trailing
 | `collapsed-change` | `[collapsed, details]` | Cancelable desktop collapse change.                                                 |
 | `size-change`      | `[size, details]`      | Cancelable pointer, keyboard, or reset size change. Details include `previousSize`. |
 
-## Exposed methods
+### Exposed methods
 
 | Method                  | Description                                                             |
 | ----------------------- | ----------------------------------------------------------------------- |
@@ -165,19 +188,7 @@ For generated navigation, use `#item-leading`, `#item-label`, or `#item-trailing
 | `toggleCollapsed`       | Toggle desktop collapse state.                                          |
 | `resetSize`             | Restore `defaultSize`.                                                  |
 
-## Exposed values
-
-| Value            | Type           | Description                                                 |
-| ---------------- | -------------- | ----------------------------------------------------------- |
-| `openValue`      | `boolean`      | Current mobile visibility.                                  |
-| `collapsedValue` | `boolean`      | Current desktop collapse value.                             |
-| `sizeValue`      | `number`       | Current expanded width in pixels.                           |
-| `isMobile`       | `boolean`      | Current responsive mode.                                    |
-| `state`          | `SidebarState` | Current `open`, `closed`, `expanded`, or `collapsed` state. |
-
-Prefer `useSidebar(sidebarRef)` when consuming these values outside the component.
-
-## Keyboard
+### Keyboard
 
 | Key                                          | Behavior                                                            |
 | -------------------------------------------- | ------------------------------------------------------------------- |
@@ -189,10 +200,3 @@ Prefer `useSidebar(sidebarRef)` when consuming these values outside the componen
 | `Command/Ctrl + configured key`              | Toggle current responsive state when `keyboardShortcut` is enabled. |
 
 Pointer, pen, and touch input can resize the desktop separator. Mobile mode supports backdrop and swipe dismissal. Desktop mode remains non-modal and never traps focus.
-
-## Source
-
-Copy `Sidebar.vue` and `index.ts` into `components/ui/sidebar` after [installation](/getting-started/installation). Also copy [Navigation Menu](/components/navigation-menu), which Sidebar uses to render `items`.
-
-::component-source{name="sidebar"}
-::

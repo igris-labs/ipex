@@ -1,14 +1,16 @@
 ---
 title: Avatar
-description: An image element with a fallback for when the image fails to load.
+description: Show a profile image with a fallback when it cannot load.
 navigation:
   icon: tabler:user-circle
 ---
 
+## Demos
+
 ::component-example{name="avatar" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,11 +22,14 @@ import { Avatar } from '~/components/ui/avatar'
 </template>
 ```
 
-## Images and fallbacks
+### Images and fallbacks
 
 Supply `src` for a portrait and `text` for the fallback. The fallback also appears when the image cannot load. Set `alt` to identify the person, or use an empty string when adjacent text already provides their name.
 
 ::avatar-examples
+::
+
+::example-source{file="AvatarExamples.vue"}
 ::
 
 ```vue
@@ -32,13 +37,22 @@ Supply `src` for a portrait and `text` for the fallback. The fallback also appea
 <Avatar text="IL" alt="Igris Labs" />
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Avatar.vue` and `index.ts` into `app/components/ui/avatar/`.
+
+::component-source{name="avatar"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Props
+### Props
 
 | Prop      | Type       | Default  | Description                                                            |
 | --------- | ---------- | -------- | ---------------------------------------------------------------------- |
@@ -49,7 +63,7 @@ Supply `src` for a portrait and `text` for the fallback. The fallback also appea
 | `as`      | `string`   | `"span"` | Root element tag.                                                      |
 | `ui`      | `AvatarUi` | —        | CSS class overrides.                                                   |
 
-## Slots
+### Slots
 
 | Slot       | Scoped props           | Description                                 |
 | ---------- | ---------------------- | ------------------------------------------- |
@@ -58,15 +72,8 @@ Supply `src` for a portrait and `text` for the fallback. The fallback also appea
 
 `status` is one of: `"idle"` · `"loading"` · `"loaded"` · `"error"`
 
-## Emits
+### Events
 
 | Event           | Payload                       | Description                              |
 | --------------- | ----------------------------- | ---------------------------------------- |
 | `status-change` | `[status: AvatarImageStatus]` | Fired when image loading status changes. |
-
-## Source
-
-Copy `Avatar.vue` and `index.ts` into `components/ui/avatar` after [installation](/getting-started/installation).
-
-::component-source{name="avatar"}
-::

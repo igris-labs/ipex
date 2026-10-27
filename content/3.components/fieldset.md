@@ -1,14 +1,16 @@
 ---
 title: Fieldset
-description: Native fieldset and legend wrapper for related controls.
+description: Group related form controls under a shared label.
 navigation:
   icon: tabler:section
 ---
 
+## Demos
+
 ::component-example{name="fieldset"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -23,11 +25,14 @@ import { Input } from '~/components/ui/input'
 </template>
 ```
 
-## Grouped controls
+### Grouped controls
 
 Wrap related fields in a Fieldset. The legend names the group, while descriptions explain what the fields have in common. Disabling the fieldset disables its nested controls.
 
 ::field-examples{example="fieldset"}
+::
+
+::example-source{file="FieldExamples.vue"}
 ::
 
 ```vue
@@ -41,7 +46,16 @@ Wrap related fields in a Fieldset. The legend names the group, while description
 </Fieldset>
 ```
 
-## Props
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Fieldset.vue` and `index.ts` into `app/components/ui/fieldset/`.
+
+::component-source{name="fieldset"}
+::
+
+## API
+
+### Props
 
 | Prop          | Type         | Default | Description                                             |
 | ------------- | ------------ | ------- | ------------------------------------------------------- |
@@ -51,17 +65,10 @@ Wrap related fields in a Fieldset. The legend names the group, while description
 | `invalid`     | `boolean`    | `false` | Sets invalid state attributes.                          |
 | `ui`          | `FieldsetUi` | —       | Classes for root, legend, description, content.         |
 
-## Slots
+### Slots
 
 | Slot          | Description                 |
 | ------------- | --------------------------- |
 | `default`     | Grouped controls.           |
 | `legend`      | Custom legend content.      |
 | `description` | Custom description content. |
-
-## Source
-
-Copy `Fieldset.vue` and `index.ts` into `components/ui/fieldset` after [installation](/getting-started/installation).
-
-::component-source{name="fieldset"}
-::

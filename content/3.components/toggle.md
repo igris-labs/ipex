@@ -1,14 +1,16 @@
 ---
 title: Toggle
-description: A two-state button that can be on or off.
+description: Turn a button on or off.
 navigation:
   icon: tabler:square-toggle
 ---
 
+## Demos
+
 ::component-example{name="toggle" size-options="xs,sm,md,lg,xl" default-size="sm" variant-options="soft,outline" default-variant="soft"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,14 +22,23 @@ import { Toggle } from '~/components/ui/toggle'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Toggle.vue` and `index.ts` into `app/components/ui/toggle/`.
+
+::component-source{name="toggle"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop      | Values                       | Default |
 | --------- | ---------------------------- | ------- |
 | `size`    | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 | `variant` | `soft`, `outline`            | `soft`  |
 
-## Props
+### Props
 
 | Prop         | Type       | Default    | Description                                    |
 | ------------ | ---------- | ---------- | ---------------------------------------------- |
@@ -38,28 +49,21 @@ import { Toggle } from '~/components/ui/toggle'
 | `as`         | `string`   | `"button"` | Root element tag.                              |
 | `ui`         | `ToggleUi` | —          | CSS class overrides.                           |
 
-## Slots
+### Slots
 
 | Slot      | Scoped props         | Description                                   |
 | --------- | -------------------- | --------------------------------------------- |
 | `default` | `{ pressed, state }` | Button content. `state` is `"on"` or `"off"`. |
 
-## Emits
+### Events
 
 | Event            | Payload                       | Description                       |
 | ---------------- | ----------------------------- | --------------------------------- |
 | `pressed-change` | `[pressed: boolean, details]` | Fired when pressed state changes. |
 
-## Keyboard
+### Keyboard
 
 | Key                   | Behavior                                                              |
 | --------------------- | --------------------------------------------------------------------- |
 | `Enter` / `Space`     | Toggles pressed state. Works for native button and custom `as` roots. |
 | `Tab` / `Shift + Tab` | Uses native focus order and skips disabled toggle.                    |
-
-## Source
-
-Copy `Toggle.vue` and `index.ts` into `components/ui/toggle` after [installation](/getting-started/installation).
-
-::component-source{name="toggle"}
-::

@@ -1,14 +1,16 @@
 ---
 title: Time Range Field
-description: Coordinated segmented start and end times with aggregate validation and native form values.
+description: Enter start and end times.
 navigation:
   icon: tabler:clock-hour-4
 ---
 
+## Demos
+
 ::component-example{name="time-range-field" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,20 +22,29 @@ import { TimeRangeField } from '~/components/ui/time-range-field'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `TimeRangeField.vue` and `index.ts` into `app/components/ui/time-range-field/`. Also copy the required components: [Time Field](/components/time-field).
+
+::component-source{name="time-range-field"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Models
+### Models
 
 | Model                 | Type                     | Default       | Description                                                                 |
 | --------------------- | ------------------------ | ------------- | --------------------------------------------------------------------------- |
 | `v-model`             | `TimeRange`              | `{}`          | Optional `start` and `end` TimeValues. Partial segment text stays internal. |
 | `v-model:placeholder` | `TimeValue \| undefined` | `placeholder` | Shared base value for both endpoints.                                       |
 
-## Props
+### Props
 
 | Prop                                 | Type                             | Default               | Description                                    |
 | ------------------------------------ | -------------------------------- | --------------------- | ---------------------------------------------- |
@@ -62,7 +73,7 @@ import { TimeRangeField } from '~/components/ui/time-range-field'
 | `ariaLabelledby` / `ariaDescribedby` | `string`                         | Field relations       | Explicit ARIA relationships.                   |
 | `ui`                                 | `TimeRangeFieldUi`               | —                     | Classes for range and endpoint parts.          |
 
-## Slots
+### Slots
 
 | Slot                                  | Props                      | Description                                         |
 | ------------------------------------- | -------------------------- | --------------------------------------------------- |
@@ -71,7 +82,7 @@ import { TimeRangeField } from '~/components/ui/time-range-field'
 | `start-time-zone` / `end-time-zone`   | `value`                    | Endpoint zone content.                              |
 | `separator`                           | —                          | Visual separator; hidden from assistive technology. |
 
-## Emits
+### Events
 
 | Event                | Payload                  | Description                                    |
 | -------------------- | ------------------------ | ---------------------------------------------- |
@@ -80,7 +91,7 @@ import { TimeRangeField } from '~/components/ui/time-range-field'
 | `value-change`       | `(range, details)`       | Cancelable proposed range update.              |
 | `value-commit`       | `(range, details)`       | Accepted endpoint commit with prefixed reason. |
 
-## Keyboard
+### Keyboard
 
 Each endpoint uses Time Field keyboard behavior:
 
@@ -95,12 +106,3 @@ Each endpoint uses Time Field keyboard behavior:
 | `A` / `P`                  | Sets focused endpoint day period.                                 |
 
 Mouse and touch edit the native inputs and day-period buttons. The component does not require hover input.
-
-## Source
-
-Copy `TimeRangeField.vue` and `index.ts` into `components/ui/time-range-field` after [installation](/getting-started/installation).
-
-Also copy [Time Field](/components/time-field); this recipe uses their styled parts.
-
-::component-source{name="time-range-field"}
-::

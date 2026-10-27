@@ -526,7 +526,7 @@ const demoProps = computed(() => ({
         activeWidthOptions ||
         isDisclosure
       "
-      class="flex min-h-11 flex-wrap items-center gap-3 border-b border-border/60 px-3 py-2"
+      class="flex min-h-11 flex-wrap items-center gap-x-6 gap-y-4 border-b border-border/60 px-4 py-3"
     >
       <div v-if="activeModeOptions" class="flex items-center gap-2 text-xs text-muted-foreground">
         <span>Mode</span>
@@ -639,10 +639,11 @@ const demoProps = computed(() => ({
           />
         </div>
       </template>
-      <div v-if="isDisclosure" class="flex w-full flex-wrap items-center gap-x-4 gap-y-2">
+      <div v-if="isDisclosure" class="flex w-full flex-wrap items-center gap-x-6 gap-y-3 pt-1">
         <Checkbox
           v-for="control in disclosureToggles"
           :key="control.key"
+          class="min-h-6 items-center"
           v-model="disclosure[control.key]"
           :label="control.label"
           size="xs"
@@ -665,7 +666,7 @@ const demoProps = computed(() => ({
     >
       <template #trigger>Options and states</template>
       <template #content>
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <label
             v-for="[key, definition] in optionDefinitions"
             :key="key"

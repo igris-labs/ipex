@@ -27,7 +27,7 @@ function reset() {
     <div class="flex items-center justify-between gap-4 border-b border-border px-5 py-4">
       <div>
         <p class="text-sm font-medium text-highlighted">Project setup</p>
-        <p class="mt-1 text-xs text-muted-foreground">Interactive example</p>
+        <p class="mt-1 text-xs text-muted-foreground">Create a project in your workspace.</p>
       </div>
       <span class="text-xs" :class="created ? 'text-success' : 'text-muted-foreground'">{{
         created ? 'Created' : 'Draft'
@@ -41,9 +41,9 @@ function reset() {
             { value: 'details', label: 'Details' },
             { value: 'review', label: 'Review' },
           ]"
-          size="sm"
+          size="md"
           aria-label="Example view"
-          :ui="{ root: 'gap-0', panels: 'flex min-h-44 flex-col justify-center py-6' }"
+          :ui="{ root: 'gap-0', panels: 'flex min-h-32 flex-col justify-center py-5' }"
         >
           <template #panel-details>
             <Field

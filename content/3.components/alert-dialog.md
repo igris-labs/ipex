@@ -1,14 +1,16 @@
 ---
 title: Alert Dialog
-description: A modal dialog that interrupts the user and requires a response.
+description: Ask for confirmation before an action continues.
 navigation:
   icon: tabler:alert-triangle
 ---
 
+## Demos
+
 ::component-example{name="alert-dialog" width-options="xs,sm,md,lg,xl" default-width="md"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -25,7 +27,16 @@ import { Button } from '~/components/ui/button'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `AlertDialog.vue` and `index.ts` into `app/components/ui/alert-dialog/`.
+
+::component-source{name="alert-dialog"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop    | Values                       | Default |
 | ------- | ---------------------------- | ------- |
@@ -33,7 +44,7 @@ import { Button } from '~/components/ui/button'
 
 `width` sets the floating surface width, independently of control size. The surface stays inside the viewport.
 
-## Props
+### Props
 
 | Prop          | Type              | Default                | Description                                                       |
 | ------------- | ----------------- | ---------------------- | ----------------------------------------------------------------- |
@@ -46,7 +57,7 @@ import { Button } from '~/components/ui/button'
 | `as`          | `string`          | `"div"`                | Root element tag.                                                 |
 | `ui`          | `AlertDialogUi`   | —                      | CSS class overrides.                                              |
 
-## Slots
+### Slots
 
 | Slot          | Scoped props                      | Description                                           |
 | ------------- | --------------------------------- | ----------------------------------------------------- |
@@ -57,13 +68,13 @@ import { Button } from '~/components/ui/button'
 | `body`        | `{ close, descriptionId }`        | Main content area.                                    |
 | `footer`      | `{ close }`                       | Action buttons region.                                |
 
-## Emits
+### Events
 
 | Event         | Payload                    | Description                        |
 | ------------- | -------------------------- | ---------------------------------- |
 | `open-change` | `[open: boolean, details]` | Fired when the open state changes. |
 
-## Exposed methods
+### Exposed methods
 
 | Method          | Signature                   | Description                                    |
 | --------------- | --------------------------- | ---------------------------------------------- |
@@ -73,7 +84,7 @@ import { Button } from '~/components/ui/button'
 | `titleId`       | `string`                    | Auto-generated id for the title element.       |
 | `descriptionId` | `string`                    | Auto-generated id for the description element. |
 
-## Keyboard
+### Keyboard
 
 | Key                   | Behavior                                                         |
 | --------------------- | ---------------------------------------------------------------- |
@@ -81,10 +92,3 @@ import { Button } from '~/components/ui/button'
 | `Escape`              | Does not close the alert dialog. The user must choose an action. |
 
 Opening moves focus inside. Closing restores focus to previous element. Backdrop activation does not dismiss it.
-
-## Source
-
-Copy `AlertDialog.vue` and `index.ts` into `components/ui/alert-dialog` after [installation](/getting-started/installation).
-
-::component-source{name="alert-dialog"}
-::

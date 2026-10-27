@@ -1,14 +1,16 @@
 ---
 title: Form
-description: Submit wrapper that exposes FormData and native validity state.
+description: Submit form values and check their validity.
 navigation:
   icon: tabler:clipboard-text
 ---
 
+## Demos
+
 ::component-example{name="form"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -23,7 +25,16 @@ import { Input } from '~/components/ui/input'
 </template>
 ```
 
-## Props
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Form.vue` and `index.ts` into `app/components/ui/form/`.
+
+::component-source{name="form"}
+::
+
+## API
+
+### Props
 
 | Prop             | Type                          | Default  | Description                                                   |
 | ---------------- | ----------------------------- | -------- | ------------------------------------------------------------- |
@@ -36,22 +47,15 @@ import { Input } from '~/components/ui/input'
 | `errors`         | `FormErrors`                  | —        | Server-side errors read by child fields using matching names. |
 | `ui`             | `FormUi`                      | —        | Classes for the form element.                                 |
 
-## Slots
+### Slots
 
 | Slot      | Scoped props                  | Description                             |
 | --------- | ----------------------------- | --------------------------------------- |
 | `default` | `state`, `submitted`, `valid` | Form contents and current submit state. |
 
-## Emits
+### Events
 
 | Event         | Payload             | Description                                                                |
 | ------------- | ------------------- | -------------------------------------------------------------------------- |
 | `submit`      | `FormSubmitDetails` | Fired on native submit. Includes `formData`, `valid`, and `cancel()`.      |
 | `form-submit` | `(values, details)` | Fired with a values object converted from `FormData`, plus submit details. |
-
-## Source
-
-Copy `Form.vue` and `index.ts` into `components/ui/form` after [installation](/getting-started/installation).
-
-::component-source{name="form"}
-::

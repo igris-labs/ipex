@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 
 import DocsToc from '../components/docs/DocsToc.vue'
+import SiteFooter from '../components/SiteFooter.vue'
 import { Button } from '../components/ui/button'
 
 const route = useRoute()
@@ -35,7 +36,7 @@ async function copyLink() {
 
 <template>
   <div
-    class="grid min-h-[calc(100dvh-3rem)] grid-cols-1 xl:-ml-60 xl:w-screen xl:grid-cols-[minmax(0,1fr)_minmax(0,42rem)_minmax(0,1fr)]"
+    class="grid min-h-[calc(100dvh-3.5rem)] grid-cols-1 xl:-ml-60 xl:w-screen xl:grid-cols-[minmax(0,1fr)_minmax(0,42rem)_minmax(0,1fr)]"
   >
     <div class="hidden xl:block" aria-hidden="true" />
     <article class="min-w-0 px-5 pt-12 pb-24 sm:px-8 xl:px-0">
@@ -122,6 +123,9 @@ async function copyLink() {
             </svg>
           </NuxtLink>
         </nav>
+        <footer class="mt-8 border-t border-border/50 pt-4">
+          <SiteFooter compact />
+        </footer>
       </div>
     </article>
     <div class="hidden min-w-0 pt-12 xl:block xl:pl-24">

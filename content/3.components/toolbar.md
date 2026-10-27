@@ -1,14 +1,16 @@
 ---
 title: Toolbar
-description: Command strip with roving focus across buttons, links, inputs, groups, and separators.
+description: Group controls for a related set of actions.
 navigation:
   icon: tabler:tools
 ---
 
+## Demos
+
 ::component-example{name="toolbar" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -25,13 +27,22 @@ const items = [
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Toolbar.vue` and `index.ts` into `app/components/ui/toolbar/`.
+
+::component-source{name="toolbar"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Props
+### Props
 
 | Prop             | Type                         | Default        | Description                   |
 | ---------------- | ---------------------------- | -------------- | ----------------------------- |
@@ -43,21 +54,21 @@ const items = [
 | `ariaLabelledby` | `string`                     | —              | Accessible label id.          |
 | `ui`             | `ToolbarUi`                  | —              | Classes for structural parts. |
 
-## Slots
+### Slots
 
 | Slot          | Props                | Description                                  |
 | ------------- | -------------------- | -------------------------------------------- |
 | `default`     | —                    | Extra toolbar content after generated items. |
 | `[item.slot]` | `item`, `isDisabled` | Custom generated item content.               |
 
-## Emits
+### Events
 
 | Event          | Payload                  | Description                                          |
 | -------------- | ------------------------ | ---------------------------------------------------- |
 | `select`       | `(item, details)`        | Fired before an item runs `onSelect`.                |
 | `input-change` | `(item, value, details)` | Fired before a generated input runs `onUpdateValue`. |
 
-## Keyboard
+### Keyboard
 
 | Key                        | Behavior                           |
 | -------------------------- | ---------------------------------- |
@@ -66,10 +77,3 @@ const items = [
 | `Home` / `End`             | Move to first/last focusable item. |
 
 Generated buttons and links use one roving tab stop. Text inputs remain native tab stops and keep Arrow/Home/End cursor behavior; toolbar navigation never hijacks their editing keys.
-
-## Source
-
-Copy `Toolbar.vue` and `index.ts` into `components/ui/toolbar` after [installation](/getting-started/installation).
-
-::component-source{name="toolbar"}
-::

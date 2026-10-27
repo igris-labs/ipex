@@ -1,14 +1,16 @@
 ---
 title: Checkbox
-description: A control that allows the user to toggle between checked and unchecked states.
+description: Turn an option on or off.
 navigation:
   icon: tabler:checkbox
 ---
 
+## Demos
+
 ::component-example{name="checkbox" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,13 +22,22 @@ import { Checkbox } from '~/components/ui/checkbox'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Checkbox.vue` and `index.ts` into `app/components/ui/checkbox/`.
+
+::component-source{name="checkbox"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Props
+### Props
 
 | Prop              | Type         | Default | Description                                           |
 | ----------------- | ------------ | ------- | ----------------------------------------------------- |
@@ -42,7 +53,7 @@ import { Checkbox } from '~/components/ui/checkbox'
 | `ariaDescribedby` | `string`     | —       | IDs of external descriptive elements.                 |
 | `ui`              | `CheckboxUi` | —       | CSS class overrides.                                  |
 
-## Slots
+### Slots
 
 | Slot          | Scoped props  | Description                                                                              |
 | ------------- | ------------- | ---------------------------------------------------------------------------------------- |
@@ -50,13 +61,13 @@ import { Checkbox } from '~/components/ui/checkbox'
 | `label`       | —             | Label text. Defaults to the `label` prop.                                                |
 | `description` | —             | Description text. Defaults to the `description` prop.                                    |
 
-## Emits
+### Events
 
 | Event          | Payload                           | Description                           |
 | -------------- | --------------------------------- | ------------------------------------- |
 | `value-change` | `[value: CheckboxValue, details]` | Fired when the checked state changes. |
 
-## Keyboard
+### Keyboard
 
 | Key                   | Behavior                          |
 | --------------------- | --------------------------------- |
@@ -64,10 +75,3 @@ import { Checkbox } from '~/components/ui/checkbox'
 | `Tab` / `Shift + Tab` | Uses native document focus order. |
 
 Visible label is a real `<label>` associated with control, so pointer and touch activation on label toggles checkbox too.
-
-## Source
-
-Copy `Checkbox.vue` and `index.ts` into `components/ui/checkbox` after [installation](/getting-started/installation).
-
-::component-source{name="checkbox"}
-::

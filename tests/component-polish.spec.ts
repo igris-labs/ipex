@@ -341,7 +341,11 @@ test('menubar shows nested menus and separates its popup from the bar', async ({
     .poll(async () => {
       const panel = await popup.boundingBox()
       const root = await bar.boundingBox()
-      return Math.round(panel!.y - root!.y - root!.height)
+      return Math.round(
+        panel!.y >= root!.y
+          ? panel!.y - root!.y - root!.height
+          : root!.y - panel!.y - panel!.height,
+      )
     })
     .toBe(2)
   const recent = popup.getByRole('menuitem', { name: 'Open recent', exact: true })

@@ -1,14 +1,16 @@
 ---
 title: Date Range Field
-description: Locale-ordered segmented start and end dates with aggregate validation, fixed endpoints, and native forms.
+description: Enter start and end dates in separate editable fields.
 navigation:
   icon: tabler:calendar-week
 ---
 
+## Demos
+
 ::component-example{name="date-range-field" size-options="xs,sm,md,lg,xl" default-size="sm" default-variant="outline"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,13 +22,22 @@ import { DateRangeField } from '~/components/ui/date-range-field'
 </template>
 ```
 
-## Typing and calendar selection
+### Typing and calendar selection
 
 Set `:show-calendar="false"` for a typing-only range. Bind `v-model:calendar-open` to control calendar visibility.
 
 Click a date segment to type or use the calendar button to choose a date. Focus and text selection use the neutral secondary fill with its paired foreground. A subtle ring marks the active segment. Slashes have their own spacing. The calendar opens outside the preview frame and follows the same size as the field.
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `DateRangeField.vue` and `index.ts` into `app/components/ui/date-range-field/`. Also copy the required components: [Calendar](/components/calendar), [Date Field](/components/date-field).
+
+::component-source{name="date-range-field"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop      | Values                       | Default   |
 | --------- | ---------------------------- | --------- |
@@ -35,7 +46,7 @@ Click a date segment to type or use the calendar button to choose a date. Focus 
 
 See [Range selection](/design-system/color#range-selection) for preview fills and primary-colored endpoints.
 
-## Props
+### Props
 
 | Prop                       | Type                      | Default                     | Description                                                          |
 | -------------------------- | ------------------------- | --------------------------- | -------------------------------------------------------------------- |
@@ -69,7 +80,7 @@ See [Range selection](/design-system/color#range-selection) for preview fills an
 | `ariaDescribedby`          | `string`                  | Field description/error IDs | External description relationship.                                   |
 | `ui`                       | `DateRangeFieldUi`        | -                           | Classes for generated structural parts.                              |
 
-## Slots
+### Slots
 
 | Slot            | Props   | Description                                           |
 | --------------- | ------- | ----------------------------------------------------- |
@@ -77,7 +88,7 @@ See [Range selection](/design-system/color#range-selection) for preview fills an
 | `separator`     | -       | Replaces the visual separator between endpoints.      |
 | `end-literal`   | `value` | Replaces locale separators inside the end endpoint.   |
 
-## Emits
+### Events
 
 | Event               | Payload             | Description                                                            |
 | ------------------- | ------------------- | ---------------------------------------------------------------------- |
@@ -85,15 +96,6 @@ See [Range selection](/design-system/color#range-selection) for preview fills an
 | `value-change`      | `(range, details)`  | Fires before model changes. `details.cancel()` prevents the change.    |
 | `value-commit`      | `(range, details)`  | Fires after accepted endpoint input, keyboard, paste, or blur commits. |
 
-## Keyboard
+### Keyboard
 
 Each endpoint follows [Date Field keyboard behavior](/components/date-field#keyboard). `Tab` moves through start segments, then end segments. Root uses `role="group"`; each date segment remains a labeled `role="spinbutton"`.
-
-## Source
-
-Copy `DateRangeField.vue` and `index.ts` into `components/ui/date-range-field` after [installation](/getting-started/installation).
-
-Also copy [Date Field](/components/date-field), [Calendar](/components/calendar); this recipe uses their styled parts.
-
-::component-source{name="date-range-field"}
-::

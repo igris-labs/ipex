@@ -1,14 +1,16 @@
 ---
 title: Pin / OTP Input
-description: Multi-cell input for verification codes, PINs, and fixed-length tokens.
+description: Enter a verification code or PIN across separate cells.
 navigation:
   icon: tabler:password
 ---
 
+## Demos
+
 ::component-example{name="pin-input" size-options="xs,sm,md,lg,xl" default-size="sm" variant-options="outline,soft,bare" default-variant="outline"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,14 +22,23 @@ import { PinInput } from '~/components/ui/pin-input'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `PinInput.vue` and `index.ts` into `app/components/ui/pin-input/`.
+
+::component-source{name="pin-input"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop      | Values                       | Default   |
 | --------- | ---------------------------- | --------- |
 | `size`    | `xs`, `sm`, `md`, `lg`, `xl` | `sm`      |
 | `variant` | `outline`, `soft`, `bare`    | `outline` |
 
-## Props
+### Props
 
 | Prop              | Type                               | Default            | Description                                           |
 | ----------------- | ---------------------------------- | ------------------ | ----------------------------------------------------- |
@@ -51,20 +62,20 @@ import { PinInput } from '~/components/ui/pin-input'
 | `ariaDescribedby` | `string`                           | field IDs          | Accessible description/error ids.                     |
 | `ui`              | `PinInputUi`                       | -                  | Classes for structural parts.                         |
 
-## Slots
+### Slots
 
 | Slot   | Props                                                  | Description                                 |
 | ------ | ------------------------------------------------------ | ------------------------------------------- |
 | `cell` | `index`, `value`, `isFilled`, `isActive`, `inputProps` | Custom cell. Bind `inputProps` to an input. |
 
-## Emits
+### Events
 
 | Event          | Payload            | Description                                           |
 | -------------- | ------------------ | ----------------------------------------------------- |
 | `value-change` | `(value, details)` | Fires before the canonical value updates. Cancelable. |
 | `complete`     | `(value, details)` | Fires after every cell becomes filled.                |
 
-## Keyboard
+### Keyboard
 
 | Key                        | Behavior                                                                             |
 | -------------------------- | ------------------------------------------------------------------------------------ |
@@ -74,10 +85,3 @@ import { PinInput } from '~/components/ui/pin-input'
 | `Home` / `End`             | Focus first/last cell.                                                               |
 | `Backspace`                | Clears current cell, or previous cell when current is empty.                         |
 | `Delete`                   | Clears current cell.                                                                 |
-
-## Source
-
-Copy `PinInput.vue` and `index.ts` into `components/ui/pin-input` after [installation](/getting-started/installation).
-
-::component-source{name="pin-input"}
-::

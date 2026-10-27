@@ -1,14 +1,16 @@
 ---
 title: Select
-description: Single or multiple listbox select with keyboard navigation, typeahead, and form submission.
+description: Choose one or more values from a dropdown.
 navigation:
   icon: tabler:chevron-down
 ---
 
+## Demos
+
 ::component-example{name="select" size-options="xs,sm,md,lg,xl" default-size="sm" variant-options="outline,soft,bare" default-variant="outline"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -25,14 +27,23 @@ const options = [
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Select.vue` and `index.ts` into `app/components/ui/select/`.
+
+::component-source{name="select"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop      | Values                       | Default   |
 | --------- | ---------------------------- | --------- |
 | `size`    | `xs`, `sm`, `md`, `lg`, `xl` | `sm`      |
 | `variant` | `outline`, `soft`, `bare`    | `outline` |
 
-## Props
+### Props
 
 | Prop                  | Type                                     | Default                           | Description                                                           |
 | --------------------- | ---------------------------------------- | --------------------------------- | --------------------------------------------------------------------- |
@@ -65,7 +76,7 @@ const options = [
 | `ariaDescribedby`     | `string`                                 | field description/error           | Accessible description ids.                                           |
 | `ui`                  | `SelectUi`                               | —                                 | Classes for structural parts.                                         |
 
-## Slots
+### Slots
 
 | Slot          | Props                                                                                                                                                       | Description                                   |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
@@ -76,7 +87,7 @@ const options = [
 | `empty`       | —                                                                                                                                                           | Empty state for autocomplete filtering.       |
 | `loading`     | —                                                                                                                                                           | Loading state content.                        |
 
-## Emits
+### Events
 
 | Event           | Payload                                | Description                                                                       |
 | --------------- | -------------------------------------- | --------------------------------------------------------------------------------- |
@@ -84,7 +95,7 @@ const options = [
 | `value-change`  | `(value: string \| string[], details)` | Fired before selected value updates. `details.cancel()` prevents the update.      |
 | `search-change` | `(value: string, details)`             | Fired before autocomplete search updates. `details.cancel()` prevents the update. |
 
-## Keyboard
+### Keyboard
 
 | Key                     | Behavior                                          |
 | ----------------------- | ------------------------------------------------- |
@@ -93,10 +104,3 @@ const options = [
 | `Home` / `End`          | Move highlight to first/last enabled option.      |
 | `Escape`                | Close popup.                                      |
 | printable character     | Typeahead to matching option label.               |
-
-## Source
-
-Copy `Select.vue` and `index.ts` into `components/ui/select` after [installation](/getting-started/installation).
-
-::component-source{name="select"}
-::

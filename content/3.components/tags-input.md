@@ -1,14 +1,16 @@
 ---
 title: Tags Input
-description: Tokenized text input with keyboard editing, paste handling, validation, and form submission.
+description: Enter and manage a list of tags.
 navigation:
   icon: tabler:tags
 ---
 
+## Demos
+
 ::component-example{name="tags-input" size-options="xs,sm,md,lg,xl" default-size="sm" variant-options="outline,soft,bare" default-variant="outline"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,7 +22,16 @@ import { TagsInput } from '~/components/ui/tags-input'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `TagsInput.vue` and `index.ts` into `app/components/ui/tags-input/`.
+
+::component-source{name="tags-input"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop      | Values                       | Default   |
 | --------- | ---------------------------- | --------- |
@@ -39,14 +50,14 @@ Size scales the tags and the field together. The text-side inset balances the vi
 
 The field grows when tags wrap. Touch removal targets remain at least 44px while their icons keep the selected size.
 
-## Models
+### Models
 
 | Model           | Type               | Default | Description               |
 | --------------- | ------------------ | ------- | ------------------------- |
 | `v-model`       | `TagsInputValue[]` | `[]`    | Accepted tag values.      |
 | `v-model:input` | `string`           | `""`    | Current uncommitted text. |
 
-## Props
+### Props
 
 | Prop              | Type                 | Default            | Description                                        |
 | ----------------- | -------------------- | ------------------ | -------------------------------------------------- |
@@ -78,7 +89,7 @@ The field grows when tags wrap. Touch removal targets remain at least 44px while
 | `ariaDescribedby` | `string`             | field IDs          | Accessible description/error ids.                  |
 | `ui`              | `TagsInputUi`        | -                  | Classes for structural parts.                      |
 
-## Slots
+### Slots
 
 | Slot     | Props                                                | Description                               |
 | -------- | ---------------------------------------------------- | ----------------------------------------- |
@@ -87,7 +98,7 @@ The field grows when tags wrap. Touch removal targets remain at least 44px while
 | `input`  | `value`, `inputProps`, `add`                         | Custom editable input. Bind `inputProps`. |
 | `clear`  | -                                                    | Clear-all button content.                 |
 
-## Emits
+### Events
 
 | Event           | Payload             | Description                                                           |
 | --------------- | ------------------- | --------------------------------------------------------------------- |
@@ -97,7 +108,7 @@ The field grows when tags wrap. Touch removal targets remain at least 44px while
 | `remove`        | `(value, details)`  | Fires before a value is removed. Cancelable.                          |
 | `invalid-value` | `(value, details)`  | Reports `empty`, `convert`, `invalid`, `duplicate`, or `max` reasons. |
 
-## Keyboard
+### Keyboard
 
 | Key                            | Behavior                                              |
 | ------------------------------ | ----------------------------------------------------- |
@@ -109,10 +120,3 @@ The field grows when tags wrap. Touch removal targets remain at least 44px while
 | tag `Home` / `End`             | Focus first/last tag.                                 |
 | tag `Backspace` / `Delete`     | Remove focused tag and retain logical focus.          |
 | tag `Escape`                   | Return focus to the editable input.                   |
-
-## Source
-
-Copy `TagsInput.vue` and `index.ts` into `components/ui/tags-input` after [installation](/getting-started/installation).
-
-::component-source{name="tags-input"}
-::

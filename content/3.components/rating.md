@@ -1,14 +1,16 @@
 ---
 title: Rating
-description: Accessible rating input with fractional values, hover preview, keyboard navigation, and forms.
+description: Choose a rating with whole or fractional values.
 navigation:
   icon: tabler:star
 ---
 
+## Demos
+
 ::component-example{name="rating" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -22,13 +24,22 @@ import { Rating } from '~/components/ui/rating'
 
 Rating uses SVG stars with a clipped fill for fractional values. The native radio buttons cover the star area and retain keyboard interaction. Coarse pointers get a 44px target around each star while the icon follows the selected size. Set `step="0.5"` to try half ratings.
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Rating.vue` and `index.ts` into `app/components/ui/rating/`.
+
+::component-source{name="rating"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Props
+### Props
 
 | Prop              | Type                         | Default              | Description                                             |
 | ----------------- | ---------------------------- | -------------------- | ------------------------------------------------------- |
@@ -52,7 +63,7 @@ Rating uses SVG stars with a clipped fill for fractional values. The native radi
 | `getValueLabel`   | `(value, maximum) => string` | `"value of maximum"` | Accessible label for each radio value.                  |
 | `ui`              | `RatingUi`                   | —                    | Classes for structural parts.                           |
 
-## Slots
+### Slots
 
 | Slot     | Props                                                     | Description                              |
 | -------- | --------------------------------------------------------- | ---------------------------------------- |
@@ -62,7 +73,7 @@ Rating uses SVG stars with a clipped fill for fractional values. The native radi
 | `radio`  | `value`, `label`                                          | Content inside a generated radio target. |
 | `state`  | `value`, `previewValue`, `items`, `hoveredValue`, `clear` | Optional state-driven custom UI.         |
 
-## Emits
+### Events
 
 | Event               | Payload                    | Description                                                    |
 | ------------------- | -------------------------- | -------------------------------------------------------------- |
@@ -70,7 +81,7 @@ Rating uses SVG stars with a clipped fill for fractional values. The native radi
 | `value-change`      | `(value, details)`         | Fired before commit. `details.cancel()` prevents it.           |
 | `hover-change`      | `(value \| null, details)` | Fired when hover preview enters, moves, or leaves. Cancelable. |
 
-## Keyboard
+### Keyboard
 
 | Key                        | Behavior                                             |
 | -------------------------- | ---------------------------------------------------- |
@@ -79,10 +90,3 @@ Rating uses SVG stars with a clipped fill for fractional values. The native radi
 | `Home`                     | Select the first value.                              |
 | `End`                      | Select the maximum value.                            |
 | `Space` / `Enter`          | Select focused value; may clear it when `clearable`. |
-
-## Source
-
-Copy `Rating.vue` and `index.ts` into `components/ui/rating` after [installation](/getting-started/installation).
-
-::component-source{name="rating"}
-::

@@ -1,14 +1,16 @@
 ---
 title: Listbox
-description: Standalone selectable list with single, multiple, filtered, and virtualized modes.
+description: Select one or more values from a list.
 navigation:
   icon: tabler:list-details
 ---
 
+## Demos
+
 ::component-example{name="listbox" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -25,20 +27,29 @@ const options = [
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Listbox.vue` and `index.ts` into `app/components/ui/listbox/`.
+
+::component-source{name="listbox"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Models
+### Models
 
 | Model            | Type                             | Default | Description               |
 | ---------------- | -------------------------------- | ------- | ------------------------- |
 | `v-model`        | `ListboxValue \| ListboxValue[]` | `""`    | Selected value or values. |
 | `v-model:search` | `string`                         | `""`    | Filter input value.       |
 
-## Props
+### Props
 
 | Prop                | Type                          | Default                | Description                                                          |
 | ------------------- | ----------------------------- | ---------------------- | -------------------------------------------------------------------- |
@@ -76,7 +87,7 @@ const options = [
 | `ariaDescribedby`   | `string`                      | field IDs              | Accessible description/error ids.                                    |
 | `ui`                | `ListboxUi`                   | -                      | Classes for structural parts.                                        |
 
-## Slots
+### Slots
 
 | Slot                      | Props                                                                                            | Description             |
 | ------------------------- | ------------------------------------------------------------------------------------------------ | ----------------------- |
@@ -84,7 +95,7 @@ const options = [
 | `group-label`             | `option`, `label`                                                                                | Group label content.    |
 | `empty`                   | -                                                                                                | Empty filtered state.   |
 
-## Emits
+### Events
 
 | Event              | Payload             | Description                                                                   |
 | ------------------ | ------------------- | ----------------------------------------------------------------------------- |
@@ -94,7 +105,7 @@ const options = [
 | `entry-focus`      | `(option, details)` | Fires when focus enters the listbox and before initial highlight. Cancelable. |
 | `leave`            | `(option, details)` | Fires when the pointer leaves the listbox. Cancelable.                        |
 
-## Keyboard
+### Keyboard
 
 | Key                        | Behavior                                             |
 | -------------------------- | ---------------------------------------------------- |
@@ -106,10 +117,3 @@ const options = [
 | `Ctrl+A` / `Cmd+A`         | Select all enabled visible options in multiple mode. |
 | printable characters       | Typeahead to a matching label.                       |
 | filter `Escape`            | Clear non-empty filter text.                         |
-
-## Source
-
-Copy `Listbox.vue` and `index.ts` into `components/ui/listbox` after [installation](/getting-started/installation).
-
-::component-source{name="listbox"}
-::

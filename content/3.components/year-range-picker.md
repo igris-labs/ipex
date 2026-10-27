@@ -1,14 +1,16 @@
 ---
 title: Year Range Picker
-description: Accessible year-level range selection with preview, limits, fixed endpoints, and paging.
+description: Select a range of years.
 navigation:
   icon: tabler:calendar-plus
 ---
 
+## Demos
+
 ::component-example{name="year-range-picker" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,13 +22,22 @@ import { YearRangePicker } from '~/components/ui/year-range-picker'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `YearRangePicker.vue` and `index.ts` into `app/components/ui/year-range-picker/`.
+
+::component-source{name="year-range-picker"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Models
+### Models
 
 | Model                 | Type                | Default                 | Description                                           |
 | --------------------- | ------------------- | ----------------------- | ----------------------------------------------------- |
@@ -35,7 +46,7 @@ import { YearRangePicker } from '~/components/ui/year-range-picker'
 
 See [Range selection](/design-system/color#range-selection) for preview fills and primary-colored endpoints.
 
-## Props
+### Props
 
 | Prop                       | Type                                 | Default               | Description                                               |
 | -------------------------- | ------------------------------------ | --------------------- | --------------------------------------------------------- |
@@ -57,7 +68,7 @@ See [Range selection](/design-system/color#range-selection) for preview fills an
 | `nextPage` / `prevPage`    | `(placeholder) => CalendarDateValue` | page arithmetic       | Custom page calculations.                                 |
 | `ui`                       | `YearRangePickerUi`                  | —                     | Classes for generated parts.                              |
 
-## Slots
+### Slots
 
 | Slot       | Props                                                                                                                 | Description                   |
 | ---------- | --------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
@@ -67,7 +78,7 @@ See [Range selection](/design-system/color#range-selection) for preview fills an
 | `year`     | `date`, `label`, `selected`, `rangeStart`, `rangeEnd`, `inRange`, `highlighted`, `disabled`, `unavailable`, `focused` | Year content and range state. |
 | `footer`   | `value`, `placeholder`                                                                                                | Optional content after grid.  |
 
-## Emits
+### Events
 
 | Event                | Payload             | Description                         |
 | -------------------- | ------------------- | ----------------------------------- |
@@ -76,7 +87,7 @@ See [Range selection](/design-system/color#range-selection) for preview fills an
 | `value-change`       | `(range, details)`  | Cancelable range change.            |
 | `placeholder-change` | `(date, details)`   | Cancelable page change.             |
 
-## Keyboard
+### Keyboard
 
 | Key                                   | Behavior                                                                 |
 | ------------------------------------- | ------------------------------------------------------------------------ |
@@ -87,10 +98,3 @@ See [Range selection](/design-system/color#range-selection) for preview fills an
 | `Enter` / `Space`                     | Sets range start or completes range end.                                 |
 
 Pointer hover and keyboard focus preview a pending range. Touch input selects each endpoint.
-
-## Source
-
-Copy `YearRangePicker.vue` and `index.ts` into `components/ui/year-range-picker` after [installation](/getting-started/installation).
-
-::component-source{name="year-range-picker"}
-::

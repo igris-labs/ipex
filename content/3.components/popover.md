@@ -1,14 +1,16 @@
 ---
 title: Popover
-description: A floating panel anchored to a trigger element.
+description: Open a floating panel beside a button or another control.
 navigation:
   icon: tabler:message
 ---
 
+## Demos
+
 ::component-example{name="popover" size-options="xs,sm,md,lg,xl" default-size="md"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -26,7 +28,16 @@ import { Button } from '~/components/ui/button'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Popover.vue` and `index.ts` into `app/components/ui/popover/`.
+
+::component-source{name="popover"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
@@ -34,7 +45,7 @@ import { Button } from '~/components/ui/button'
 
 Width fits the content by default, capped at 20rem and the viewport. Panel padding stays at 12px across sizes. `size` controls text size, line height, and corner radius. The default trigger gap is 4px. Use `class` or `ui.content` to set an explicit width when needed. Child components retain their own size props.
 
-## Props
+### Props
 
 | Prop         | Type                                     | Default           | Description                             |
 | ------------ | ---------------------------------------- | ----------------- | --------------------------------------- |
@@ -45,20 +56,20 @@ Width fits the content by default, capped at 20rem and the viewport. Panel paddi
 | `transition` | `string \| false`                        | `"akaza-popover"` | Named Vue transition.                   |
 | `ui`         | `PopoverUi`                              | —                 | CSS class overrides.                    |
 
-## Slots
+### Slots
 
 | Slot      | Scoped props                                    | Description                     |
 | --------- | ----------------------------------------------- | ------------------------------- |
 | `trigger` | `{ isOpen, open, close, toggle, triggerProps }` | Element that opens the popover. |
 | `content` | `{ close }`                                     | The floating panel content.     |
 
-## Emits
+### Events
 
 | Event         | Payload                    | Description                        |
 | ------------- | -------------------------- | ---------------------------------- |
 | `open-change` | `[open: boolean, details]` | Fired when the open state changes. |
 
-## Exposed methods
+### Exposed methods
 
 | Method   | Signature                   | Description          |
 | -------- | --------------------------- | -------------------- |
@@ -66,7 +77,7 @@ Width fits the content by default, capped at 20rem and the viewport. Panel paddi
 | `close`  | `(reason?, event?) => void` | Closes the popover.  |
 | `toggle` | `(reason?, event?) => void` | Toggles the popover. |
 
-## Keyboard
+### Keyboard
 
 | Key                   | Behavior                                                                  |
 | --------------------- | ------------------------------------------------------------------------- |
@@ -75,10 +86,3 @@ Width fits the content by default, capped at 20rem and the viewport. Panel paddi
 | `Tab` / `Shift + Tab` | Uses normal document order; Popover is non-modal and does not trap focus. |
 
 Apply `triggerProps` to trigger element so expanded state and popup relationship are announced.
-
-## Source
-
-Copy `Popover.vue` and `index.ts` into `components/ui/popover` after [installation](/getting-started/installation).
-
-::component-source{name="popover"}
-::

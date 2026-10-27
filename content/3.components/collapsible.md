@@ -1,14 +1,16 @@
 ---
 title: Collapsible
-description: A single section that can be expanded or collapsed.
+description: Show or hide a single section of content.
 navigation:
   icon: tabler:chevron-down
 ---
 
+## Demos
+
 ::component-example{name="collapsible" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -25,7 +27,7 @@ import { Collapsible } from '~/components/ui/collapsible'
 
 Use the `content` slot for the expandable body. Header height, icon, text, radius, and body padding follow the selected size. Expansion respects reduced motion.
 
-## Appearance and sizing
+### Appearance and sizing
 
 A single rounded border contains the disclosure. It uses the same header and body spacing as Accordion. The open header has a light tint, and body text aligns with its label. Focus stays inside the outer border.
 
@@ -39,13 +41,22 @@ A single rounded border contains the disclosure. It uses the same header and bod
 
 These headers have 16px more height than compact controls to support longer labels and the expanded body. Coarse-pointer targets stay at least 44px tall.
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Collapsible.vue` and `index.ts` into `app/components/ui/collapsible/`.
+
+::component-source{name="collapsible"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Props
+### Props
 
 | Prop            | Type                                   | Default | Description                                                                              |
 | --------------- | -------------------------------------- | ------- | ---------------------------------------------------------------------------------------- |
@@ -57,7 +68,7 @@ These headers have 16px more height than compact controls to support longer labe
 | `as`            | `string`                               | `"div"` | Root element tag.                                                                        |
 | `ui`            | `CollapsibleUi`                        | —       | CSS class overrides.                                                                     |
 
-## Slots
+### Slots
 
 | Slot      | Scoped props                      | Description                        |
 | --------- | --------------------------------- | ---------------------------------- |
@@ -65,14 +76,14 @@ These headers have 16px more height than compact controls to support longer labe
 | `icon`    | `{ isOpen }`                      | Indicator icon inside the trigger. |
 | `content` | `{ isOpen, close }`               | The collapsible panel body.        |
 
-## Emits
+### Events
 
 | Event               | Payload                    | Description                        |
 | ------------------- | -------------------------- | ---------------------------------- |
 | `update:modelValue` | `[open: boolean]`          | Updates the controlled open state. |
 | `open-change`       | `[open: boolean, details]` | Fired when the open state changes. |
 
-## Exposed methods
+### Exposed methods
 
 | Method   | Signature                   | Description        |
 | -------- | --------------------------- | ------------------ |
@@ -80,16 +91,9 @@ These headers have 16px more height than compact controls to support longer labe
 | `close`  | `(reason?, event?) => void` | Closes the panel.  |
 | `toggle` | `(reason?, event?) => void` | Toggles the panel. |
 
-## Keyboard
+### Keyboard
 
 | Key                   | Behavior                                                             |
 | --------------------- | -------------------------------------------------------------------- |
 | `Enter` / `Space`     | Toggles focused trigger through native button behavior.              |
 | `Tab` / `Shift + Tab` | Uses native order. Closed content is inert and cannot receive focus. |
-
-## Source
-
-Copy `Collapsible.vue` and `index.ts` into `components/ui/collapsible` after [installation](/getting-started/installation).
-
-::component-source{name="collapsible"}
-::

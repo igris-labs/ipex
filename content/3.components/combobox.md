@@ -1,14 +1,16 @@
 ---
 title: Combobox
-description: Input plus listbox selection with filtering and active-descendant navigation.
+description: Search a list of options and select one or more values.
 navigation:
   icon: tabler:selector
 ---
 
+## Demos
+
 ::component-example{name="combobox" size-options="xs,sm,md,lg,xl" default-size="sm" variant-options="outline,soft,bare" default-variant="outline"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -25,14 +27,23 @@ const options = [
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Combobox.vue` and `index.ts` into `app/components/ui/combobox/`.
+
+::component-source{name="combobox"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop      | Values                       | Default   |
 | --------- | ---------------------------- | --------- |
 | `size`    | `xs`, `sm`, `md`, `lg`, `xl` | `sm`      |
 | `variant` | `outline`, `soft`, `bare`    | `outline` |
 
-## Props
+### Props
 
 | Prop                  | Type                           | Default                 | Description                                                               |
 | --------------------- | ------------------------------ | ----------------------- | ------------------------------------------------------------------------- |
@@ -74,7 +85,7 @@ const options = [
 | `ariaDescribedby`     | `string`                       | field description/error | Description ids.                                                          |
 | `ui`                  | `ComboboxUi`                   | —                       | Classes for structural parts.                                             |
 
-## Slots
+### Slots
 
 | Slot            | Props                                                                                            | Description             |
 | --------------- | ------------------------------------------------------------------------------------------------ | ----------------------- |
@@ -87,7 +98,7 @@ const options = [
 | `empty`         | —                                                                                                | Empty state.            |
 | `loading`       | —                                                                                                | Loading state.          |
 
-## Emits
+### Events
 
 | Event           | Payload             | Description                                 |
 | --------------- | ------------------- | ------------------------------------------- |
@@ -96,7 +107,7 @@ const options = [
 | `search-change` | `(value, details)`  | Fired before search text changes.           |
 | `create`        | `(search, details)` | Requests creation of unmatched search text. |
 
-## Keyboard
+### Keyboard
 
 | Key                     | Behavior                                                          |
 | ----------------------- | ----------------------------------------------------------------- |
@@ -104,10 +115,3 @@ const options = [
 | `Enter`                 | Select highlighted option or request creation for unmatched text. |
 | `Home` / `End`          | Move to first/last enabled visible option.                        |
 | `Escape`                | Close popup.                                                      |
-
-## Source
-
-Copy `Combobox.vue` and `index.ts` into `components/ui/combobox` after [installation](/getting-started/installation).
-
-::component-source{name="combobox"}
-::

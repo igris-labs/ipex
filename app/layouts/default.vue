@@ -5,8 +5,9 @@ import type { SidebarController } from 'akaza-ui'
 import { useSidebar } from 'akaza-ui'
 import { computed, ref, resolveComponent, useTemplateRef, watch } from 'vue'
 
-import ColorModeButton from '../components/ColorModeButton.vue'
 import DocsSearch from '../components/docs/DocsSearch.vue'
+import HeaderActions from '../components/HeaderActions.vue'
+import SiteNavigation from '../components/SiteNavigation.vue'
 import { AppLayout } from '../components/ui/app-layout'
 import { Button } from '../components/ui/button'
 import { Sidebar, type SidebarItem } from '../components/ui/sidebar'
@@ -54,7 +55,7 @@ const currentCategory = computed(
     sticky-sides
     :ui="{
       root: 'min-h-dvh bg-background text-foreground',
-      header: 'z-20 flex h-12 items-center border-b border-border/60 bg-background px-0',
+      header: 'z-20 flex h-14 items-center border-b border-border/60 bg-background px-0',
       left: 'max-lg:w-0',
       main: 'min-w-0 outline-none',
       skipLink:
@@ -65,7 +66,8 @@ const currentCategory = computed(
       <div class="flex h-full w-full items-center gap-2 px-3 text-[13px] lg:w-60">
         <Button
           variant="ghost"
-          size="sm"
+          size="md"
+          shape="icon"
           class="lg:hidden"
           aria-label="Open navigation"
           @click="sidebar.openMobile"
@@ -82,18 +84,19 @@ const currentCategory = computed(
         </Button>
         <NuxtLink
           to="/"
-          class="rounded-sm font-semibold tracking-tight focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-ring"
+          class="rounded-sm text-xl font-semibold tracking-tight focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-ring"
           >IPEX</NuxtLink
         >
         <NuxtLink
           to="/getting-started/introduction"
-          class="border-l border-border pl-2 font-medium text-muted-foreground hover:text-foreground"
+          class="hidden border-l border-border pl-2 font-medium text-muted-foreground hover:text-foreground sm:inline"
           >Docs</NuxtLink
         >
         <Button
           variant="ghost"
-          size="sm"
-          class="ml-auto size-7 p-0"
+          size="md"
+          shape="icon"
+          class="ml-auto"
           aria-label="Search documentation"
           aria-haspopup="dialog"
           aria-keyshortcuts="Control+K Meta+K"
@@ -117,7 +120,8 @@ const currentCategory = computed(
         ><span class="text-highlighted">{{ currentTitle }}</span>
       </div>
       <div class="mr-3 ml-auto flex items-center gap-1">
-        <ColorModeButton />
+        <SiteNavigation compact />
+        <HeaderActions />
       </div>
     </template>
     <template #left>
@@ -131,7 +135,7 @@ const currentCategory = computed(
         breakpoint="(max-width: 1023px)"
         :default-size="240"
         :mobile-size="288"
-        :ui="{ root: 'h-[calc(100dvh-3rem)]' }"
+        :ui="{ root: 'h-[calc(100dvh-3.5rem)]' }"
       >
         <template #header="{ closeMobile }"
           ><span class="font-semibold">Documentation</span

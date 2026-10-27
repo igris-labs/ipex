@@ -1,14 +1,16 @@
 ---
 title: Calendar
-description: Locale-aware date grid with keyboard navigation, constraints, and single, multiple, or range selection.
+description: Select dates from a calendar with keyboard navigation.
 navigation:
   icon: tabler:calendar
 ---
 
+## Demos
+
 ::component-example{name="calendar" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,13 +22,22 @@ import { Calendar } from '~/components/ui/calendar'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Calendar.vue` and `index.ts` into `app/components/ui/calendar/`.
+
+::component-source{name="calendar"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Models
+### Models
 
 | Model                 | Type                                                                         | Default                | Description                                                                                      |
 | --------------------- | ---------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------ |
@@ -35,7 +46,7 @@ import { Calendar } from '~/components/ui/calendar'
 
 See [Range selection](/design-system/color#range-selection) for preview fills and primary-colored endpoints.
 
-## Props
+### Props
 
 | Prop                            | Type                                 | Default           | Description                                                                          |
 | ------------------------------- | ------------------------------------ | ----------------- | ------------------------------------------------------------------------------------ |
@@ -66,7 +77,7 @@ See [Range selection](/design-system/color#range-selection) for preview fills an
 | `prevPage`                      | `(placeholder) => CalendarDateValue` | subtract month(s) | Custom previous-page calculation.                                                    |
 | `ui`                            | `CalendarUi`                         | —                 | Classes for generated structural parts.                                              |
 
-## Slots
+### Slots
 
 | Slot       | Props                                                                                                                                     | Description                                      |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
@@ -77,7 +88,7 @@ See [Range selection](/design-system/color#range-selection) for preview fills an
 | `day`      | `date`, `label`, `selected`, `rangeStart`, `rangeEnd`, `inRange`, `highlighted`, `today`, `outside`, `disabled`, `unavailable`, `focused` | Day button content and complete selection state. |
 | `footer`   | `value`, `placeholder`                                                                                                                    | Optional content after grids.                    |
 
-## Emits
+### Events
 
 | Event                | Payload            | Description                                                         |
 | -------------------- | ------------------ | ------------------------------------------------------------------- |
@@ -86,7 +97,7 @@ See [Range selection](/design-system/color#range-selection) for preview fills an
 | `value-change`       | `(value, details)` | Fires before selection changes. `details.cancel()` prevents update. |
 | `placeholder-change` | `(date, details)`  | Fires before page changes. `details.cancel()` prevents update.      |
 
-## Keyboard
+### Keyboard
 
 | Key                                   | Behavior                              |
 | ------------------------------------- | ------------------------------------- |
@@ -98,10 +109,3 @@ See [Range selection](/design-system/color#range-selection) for preview fills an
 | `Enter` / `Space`                     | Select or deselect focused date.      |
 
 Only one day is in the Tab sequence. Arrow navigation can cross month boundaries and updates `v-model:placeholder` before moving focus.
-
-## Source
-
-Copy `Calendar.vue` and `index.ts` into `components/ui/calendar` after [installation](/getting-started/installation).
-
-::component-source{name="calendar"}
-::

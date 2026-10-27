@@ -1,14 +1,16 @@
 ---
 title: Data Table
-description: Semantic tables with sorting, filtering, selection, pagination, expansion, and resizing.
+description: Display records with sorting, filtering, selection, and pagination.
 navigation:
   icon: tabler:table
 ---
 
+## Demos
+
 ::component-example{name="data-table" size-options="xs,sm,md,lg,xl" default-size="md"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -23,11 +25,14 @@ const columns = [{ accessor: 'name' as const, header: 'Project' }]
 </template>
 ```
 
-## Sorting and selection
+### Sorting and selection
 
 Click a column heading to sort. Add a selection column and bind `selection` to stable row keys. Selection remains independent of sorting and pagination.
 
 ::data-table-examples{example="selection"}
+::
+
+::example-source{file="DataTableExamples.vue"}
 ::
 
 ```vue
@@ -43,11 +48,14 @@ Click a column heading to sort. Add a selection column and bind `selection` to s
 />
 ```
 
-## Filtering and pagination
+### Filtering and pagination
 
 Bind `globalFilter` to your search input. Enable `paginate` and bind the one-based page and page size. For server data, use the manual filtering and pagination props instead.
 
 ::data-table-examples{example="filtering"}
+::
+
+::example-source{file="DataTableExamples.vue"}
 ::
 
 ```vue
@@ -62,11 +70,14 @@ Bind `globalFilter` to your search input. Enable `paginate` and bind the one-bas
 />
 ```
 
-## Expanded details
+### Expanded details
 
 Add an expander column and `isRowExpandable` for rows with detail content. Use the `expanded` slot to render those details.
 
 ::data-table-examples{example="expansion"}
+::
+
+::example-source{file="DataTableExamples.vue"}
 ::
 
 ```vue
@@ -75,24 +86,36 @@ Add an expander column and `isRowExpandable` for rows with detail content. Use t
 </DataTable>
 ```
 
-## Empty, loading, and error states
+### Empty, loading, and error states
 
 Use the state picker to inspect each result. Supply an actionable error message when loading fails; distinguish it from an empty result.
 
 ::data-table-examples{example="states"}
 ::
 
+::example-source{file="DataTableExamples.vue"}
+::
+
 ```vue
 <DataTable :data="projects" :columns="columns" row-key="id" :loading="pending" :error="error" />
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `DataTable.vue` and `index.ts` into `app/components/ui/data-table/`. Also copy the required components: [Pagination](/components/pagination).
+
+::component-source{name="data-table"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `md`    |
 
-## Models
+### Models
 
 | Model                      | Type                                 | Default                     | Description                  |
 | -------------------------- | ------------------------------------ | --------------------------- | ---------------------------- |
@@ -108,7 +131,7 @@ Use the state picker to inspect each result. Supply an actionable error message 
 | `v-model:columnPinning`    | `{ start: string[], end: string[] }` | empty sides                 | Pinned leaf columns.         |
 | `v-model:rowOrder`         | `rowKey[]`                           | `[]`                        | User-controlled row order.   |
 
-## Props
+### Props
 
 | Prop                | Type                                          | Default                     | Description                                            |
 | ------------------- | --------------------------------------------- | --------------------------- | ------------------------------------------------------ |
@@ -145,7 +168,7 @@ Use the state picker to inspect each result. Supply an actionable error message 
 | `rowAttrs`          | `HTMLAttributes \| (row) => HTMLAttributes`   | —                           | Native attributes/classes for every row.               |
 | `ui`                | `DataTableUi`                                 | —                           | Classes for structural parts.                          |
 
-## Slots
+### Slots
 
 | Slot                    | Props                                                              | Description                      |
 | ----------------------- | ------------------------------------------------------------------ | -------------------------------- |
@@ -168,7 +191,7 @@ Use the state picker to inspect each result. Supply an actionable error message 
 | `column-reorder-handle` | `column`                                                           | Column drag handle content.      |
 | `resize-handle`         | `column`                                                           | Resize handle content.           |
 
-## Emits
+### Events
 
 Every model emits its `update:*` event after an accepted change. The paired `*-change` event fires first with `(value, details)`; `details.cancel()` prevents the model update.
 
@@ -190,7 +213,7 @@ Every model emits its `update:*` event after an accepted change. The paired `*-c
 | `row-contextmenu`          | Native row context-menu event with row details.             |
 | `cell-click`               | Native cell click with cell context and details.            |
 
-## Keyboard
+### Keyboard
 
 | Control               | Key                        | Behavior                                          |
 | --------------------- | -------------------------- | ------------------------------------------------- |
@@ -204,12 +227,3 @@ Every model emits its `update:*` event after an accepted change. The paired `*-c
 | pagination            | `Tab`, `Enter`, `Space`    | Uses native Pagination button/link behavior.      |
 
 Pointer dragging and touch Pointer Events use the same resize and reorder actions. The table does not add spreadsheet-style arrow navigation to ordinary data cells; native table reading and normal document tab order remain intact.
-
-## Source
-
-Copy the [Pagination component](/components/pagination#source) alongside DataTable. The default table footer uses that shared component, including its sizing, sliding marker, and reduced-motion behavior. A `pagination` slot can replace the footer.
-
-Copy `DataTable.vue` and `index.ts` into `components/ui/data-table` after [installation](/getting-started/installation).
-
-::component-source{name="data-table"}
-::

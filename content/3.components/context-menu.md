@@ -1,14 +1,16 @@
 ---
 title: Context Menu
-description: Right-click triggered menu positioned at the pointer.
+description: Show a menu of actions at the pointer when someone right-clicks.
 navigation:
   icon: tabler:pointer
 ---
 
+## Demos
+
 ::component-example{name="context-menu" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -22,13 +24,22 @@ const items = [{ label: 'Edit', value: 'edit' }]
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `ContextMenu.vue` and `index.ts` into `app/components/ui/context-menu/`.
+
+::component-source{name="context-menu"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Props
+### Props
 
 | Prop             | Type                         | Default  | Description                                            |
 | ---------------- | ---------------------------- | -------- | ------------------------------------------------------ |
@@ -43,7 +54,7 @@ const items = [{ label: 'Edit', value: 'edit' }]
 | `teleport`       | `string \| false`            | `"body"` | Teleport target.                                       |
 | `ui`             | `ContextMenuUi`              | —        | Classes for root, content, and menu parts.             |
 
-## Slots
+### Slots
 
 | Slot            | Props                       | Description                    |
 | --------------- | --------------------------- | ------------------------------ |
@@ -53,7 +64,7 @@ const items = [{ label: 'Edit', value: 'edit' }]
 | `radio-item`    | `item`, `checked`           | Shared radio item renderer.    |
 | `label`         | `item`                      | Shared label renderer.         |
 
-## Emits
+### Events
 
 | Event                | Payload                    | Description                           |
 | -------------------- | -------------------------- | ------------------------------------- |
@@ -63,7 +74,7 @@ const items = [{ label: 'Edit', value: 'edit' }]
 | `radio-change`       | `(group, value, details)`  | Fired when a radio item is selected.  |
 | `update:radioValues` | `(values)`                 | v-model event for radio state.        |
 
-## Keyboard
+### Keyboard
 
 | Key                            | Behavior                                                                 |
 | ------------------------------ | ------------------------------------------------------------------------ |
@@ -75,10 +86,3 @@ const items = [{ label: 'Edit', value: 'edit' }]
 | `Shift+F10` / Context Menu key | Open at focused target.                                                  |
 
 Touch and pen users can open the menu with a long press. Moving more than 10px before delay cancels it.
-
-## Source
-
-Copy `ContextMenu.vue` and `index.ts` into `components/ui/context-menu` after [installation](/getting-started/installation).
-
-::component-source{name="context-menu"}
-::

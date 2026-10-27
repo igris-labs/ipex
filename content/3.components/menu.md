@@ -1,14 +1,16 @@
 ---
 title: Menu
-description: A floating menu of actions, anchored to a trigger element.
+description: Open a menu of actions from a button.
 navigation:
   icon: tabler:menu-2
 ---
 
+## Demos
+
 ::component-example{name="menu" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -30,13 +32,22 @@ const items = [
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Menu.vue` and `index.ts` into `app/components/ui/menu/`.
+
+::component-source{name="menu"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Props
+### Props
 
 | Prop            | Type                                     | Default    | Description                                               |
 | --------------- | ---------------------------------------- | ---------- | --------------------------------------------------------- |
@@ -51,14 +62,14 @@ const items = [
 | `dir`           | `"ltr" \| "rtl"`                         | `"ltr"`    | Logical keyboard direction and preferred submenu side.    |
 | `ui`            | `MenuUi`                                 | —          | CSS class overrides.                                      |
 
-## Slots
+### Slots
 
 | Slot          | Scoped props                                    | Description                                       |
 | ------------- | ----------------------------------------------- | ------------------------------------------------- |
 | `trigger`     | `{ isOpen, open, close, toggle, triggerProps }` | The element that opens the menu.                  |
 | `[item.slot]` | `{ item }`                                      | Per-item render override when `item.slot` is set. |
 
-## Emits
+### Events
 
 | Event                | Payload                                       | Description                          |
 | -------------------- | --------------------------------------------- | ------------------------------------ |
@@ -68,7 +79,7 @@ const items = [
 | `radio-change`       | `[group: string, value: string, details]`     | Fired when a radio item is selected. |
 | `update:radioValues` | `[values: Record<string, string>]`            | v-model event for radio group state. |
 
-## Exposed methods
+### Exposed methods
 
 | Method   | Signature                   | Description       |
 | -------- | --------------------------- | ----------------- |
@@ -76,7 +87,7 @@ const items = [
 | `close`  | `(reason?, event?) => void` | Closes the menu.  |
 | `toggle` | `(reason?, event?) => void` | Toggles the menu. |
 
-## Keyboard
+### Keyboard
 
 | Key                     | Behavior                                                            |
 | ----------------------- | ------------------------------------------------------------------- |
@@ -89,10 +100,3 @@ const items = [
 | Printable characters    | Typeahead focuses first matching item within 500 ms buffer.         |
 
 Opening with a pointer focuses the menu panel without highlighting an item. Arrow keys then move through items. Keyboard activation focuses the first enabled item. Trigger keyboard activation comes from trigger element supplied by user; apply `triggerProps` and use a native button.
-
-## Source
-
-Copy `Menu.vue` and `index.ts` into `components/ui/menu` after [installation](/getting-started/installation).
-
-::component-source{name="menu"}
-::

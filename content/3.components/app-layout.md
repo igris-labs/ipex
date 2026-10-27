@@ -1,14 +1,16 @@
 ---
 title: App Layout
-description: Header, content, sidebars, and footer in one application shell.
+description: Arrange a header, sidebars, content, and footer in one application shell.
 navigation:
   icon: tabler:layout
 ---
 
+## Demos
+
 ::component-example{name="app-layout"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -23,11 +25,14 @@ import { AppLayout } from '~/components/ui/app-layout'
 </template>
 ```
 
-## Workspace layout
+### Workspace layout
 
 AppLayout has IPEX styling for the header, footer, side regions, and skip link. Use the left slot for navigation. Set `viewport` to `false` when a parent supplies the height, as these embedded previews do.
 
 ::layout-examples{example="workspace"}
+::
+
+::example-source{file="LayoutExamples.vue"}
 ::
 
 ```vue
@@ -39,11 +44,14 @@ AppLayout has IPEX styling for the header, footer, side regions, and skip link. 
 </AppLayout>
 ```
 
-## Inspector layout
+### Inspector layout
 
 Add a right region for details that belong beside the current task. The `layout` prop controls which regions the header and footer span.
 
 ::layout-examples{example="inspector"}
+::
+
+::example-source{file="LayoutExamples.vue"}
 ::
 
 ```vue
@@ -54,7 +62,16 @@ Add a right region for details that belong beside the current task. The `layout`
 </AppLayout>
 ```
 
-## Props
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `AppLayout.vue` and `index.ts` into `app/components/ui/app-layout/`.
+
+::component-source{name="app-layout"}
+::
+
+## API
+
+### Props
 
 | Prop           | Type                  | Default             | Description                                                                               |
 | -------------- | --------------------- | ------------------- | ----------------------------------------------------------------------------------------- |
@@ -75,13 +92,6 @@ Add a right region for details that belong beside the current task. The `layout`
 | `skipLabel`    | `string`              | `"Skip to content"` | Skip-link text, including localization.                                                   |
 | `ui`           | `AppLayoutUi`         | -                   | Classes for generated parts.                                                              |
 
-## Slots
+### Slots
 
 All five slots receive `mainId: string`, resolved `layout: Required<AppLayoutConfig>`, and `scroll: AppLayoutScroll`. Slots supply content inside generated region wrappers. Omitted region slots produce no wrappers. Slot-owned controls retain their own event handlers and accessibility.
-
-## Source
-
-Copy `AppLayout.vue` and `index.ts` into `components/ui/app-layout` after [installation](/getting-started/installation).
-
-::component-source{name="app-layout"}
-::

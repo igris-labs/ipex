@@ -1,14 +1,16 @@
 ---
 title: Menubar
-description: Horizontal menu strip with arrow-key navigation across menus.
+description: Arrange related action menus in a horizontal bar.
 navigation:
   icon: tabler:layout-navbar
 ---
 
+## Demos
+
 ::component-example{name="menubar" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -22,13 +24,22 @@ const items = [{ label: 'File', value: 'file', children: [{ label: 'New project'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Menubar.vue` and `index.ts` into `app/components/ui/menubar/`.
+
+::component-source{name="menubar"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Props
+### Props
 
 | Prop             | Type                     | Default  | Description                                                                             |
 | ---------------- | ------------------------ | -------- | --------------------------------------------------------------------------------------- |
@@ -43,7 +54,7 @@ const items = [{ label: 'File', value: 'file', children: [{ label: 'New project'
 | `ariaLabelledby` | `string`                 | —        | Accessible label id.                                                                    |
 | `ui`             | `MenubarUi`              | —        | Classes for root, triggers, content, and menu parts.                                    |
 
-## Slots
+### Slots
 
 | Slot            | Props                | Description                    |
 | --------------- | -------------------- | ------------------------------ |
@@ -53,7 +64,7 @@ const items = [{ label: 'File', value: 'file', children: [{ label: 'New project'
 | `radio-item`    | `item`, `checked`    | Shared radio item renderer.    |
 | `label`         | `item`               | Shared label renderer.         |
 
-## Emits
+### Events
 
 | Event                | Payload                            | Description                       |
 | -------------------- | ---------------------------------- | --------------------------------- |
@@ -63,7 +74,7 @@ const items = [{ label: 'File', value: 'file', children: [{ label: 'New project'
 | `radio-change`       | `(group, value, details)`          | Fired when radio item changes.    |
 | `update:radioValues` | `(values)`                         | v-model event for radio state.    |
 
-## Keyboard
+### Keyboard
 
 Submenus use [Menu's viewport collision positioning](/components/menu#submenus). Horizontal arrows follow `dir` even when a submenu flips visually. Opening a submenu does not switch the top-level menu.
 
@@ -79,10 +90,3 @@ Menubar panels join the shared floating-layer stack and teleport to `body` by de
 | `Home` / `End`             | Focus first/last enabled top-level item.                      |
 | Character keys             | Typeahead across top-level items.                             |
 | `Escape`                   | Close the open panel and return focus to its trigger.         |
-
-## Source
-
-Copy `Menubar.vue` and `index.ts` into `components/ui/menubar` after [installation](/getting-started/installation).
-
-::component-source{name="menubar"}
-::

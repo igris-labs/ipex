@@ -1,14 +1,16 @@
 ---
 title: Toggle Group
-description: Single or multiple pressed values with roving keyboard focus.
+description: Choose one or more pressed buttons from a group.
 navigation:
   icon: tabler:layout-grid
 ---
 
+## Demos
+
 ::component-example{name="toggle-group" size-options="xs,sm,md,lg,xl" default-size="sm" variant-options="soft,outline" default-variant="soft"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -27,14 +29,23 @@ const options = [
 
 Single selection moves one shared pressed indicator between items, including vertical groups. Multiple selection keeps a separate pressed fill on each selected item. Reduced motion disables sliding.
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `ToggleGroup.vue` and `index.ts` into `app/components/ui/toggle-group/`.
+
+::component-source{name="toggle-group"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop      | Values                       | Default |
 | --------- | ---------------------------- | ------- |
 | `size`    | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 | `variant` | `soft`, `outline`            | `soft`  |
 
-## Props
+### Props
 
 | Prop             | Type                         | Default         | Description                                                                        |
 | ---------------- | ---------------------------- | --------------- | ---------------------------------------------------------------------------------- |
@@ -55,29 +66,22 @@ Single selection moves one shared pressed indicator between items, including ver
 | `ariaLabelledby` | `string`                     | —               | Accessible group label id.                                                         |
 | `ui`             | `ToggleGroupUi`              | —               | Classes for structural parts.                                                      |
 
-## Slots
+### Slots
 
 | Slot   | Props                                                                          | Description          |
 | ------ | ------------------------------------------------------------------------------ | -------------------- |
 | `item` | `option`, `value`, `label`, `description`, `isPressed`, `isDisabled`, `select` | Custom item content. |
 
-## Emits
+### Events
 
 | Event          | Payload            | Description                                                         |
 | -------------- | ------------------ | ------------------------------------------------------------------- |
 | `value-change` | `(value, details)` | Fired before model updates. `details.cancel()` prevents the update. |
 
-## Keyboard
+### Keyboard
 
 | Key               | Behavior                               |
 | ----------------- | -------------------------------------- |
 | `Enter` / `Space` | Toggle focused item.                   |
 | Arrow keys        | Move focus by orientation.             |
 | `Home` / `End`    | Move focus to first/last enabled item. |
-
-## Source
-
-Copy `ToggleGroup.vue` and `index.ts` into `components/ui/toggle-group` after [installation](/getting-started/installation).
-
-::component-source{name="toggle-group"}
-::

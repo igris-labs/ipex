@@ -1,14 +1,16 @@
 ---
 title: Month Picker
-description: Accessible month grid with locale labels, paging, constraints, and single or multiple selection.
+description: Select one or more months from a grid.
 navigation:
   icon: tabler:calendar-stats
 ---
 
+## Demos
+
 ::component-example{name="month-picker" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,20 +22,29 @@ import { MonthPicker } from '~/components/ui/month-picker'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `MonthPicker.vue` and `index.ts` into `app/components/ui/month-picker/`.
+
+::component-source{name="month-picker"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Models
+### Models
 
 | Model                 | Type                                                    | Default                 | Description                                                                                     |
 | --------------------- | ------------------------------------------------------- | ----------------------- | ----------------------------------------------------------------------------------------------- |
 | `v-model`             | `CalendarDateValue \| CalendarDateValue[] \| undefined` | `undefined`             | Selected month or selected months when `multiple` is enabled. Values are normalized to day `1`. |
 | `v-model:placeholder` | `CalendarDateValue`                                     | selected month or today | Year displayed by the grid.                                                                     |
 
-## Props
+### Props
 
 | Prop                 | Type                                 | Default           | Description                                                                 |
 | -------------------- | ------------------------------------ | ----------------- | --------------------------------------------------------------------------- |
@@ -54,7 +65,7 @@ import { MonthPicker } from '~/components/ui/month-picker'
 | `prevPage`           | `(placeholder) => CalendarDateValue` | subtract one year | Custom previous-page calculation.                                           |
 | `ui`                 | `MonthPickerUi`                      | —                 | Classes for generated parts.                                                |
 
-## Slots
+### Slots
 
 | Slot       | Props                                                                      | Description                     |
 | ---------- | -------------------------------------------------------------------------- | ------------------------------- |
@@ -64,7 +75,7 @@ import { MonthPicker } from '~/components/ui/month-picker'
 | `month`    | `date`, `label`, `selected`, `today`, `disabled`, `unavailable`, `focused` | Month button content and state. |
 | `footer`   | `value`, `placeholder`                                                     | Optional content after grid.    |
 
-## Emits
+### Events
 
 | Event                | Payload            | Description                                                 |
 | -------------------- | ------------------ | ----------------------------------------------------------- |
@@ -73,7 +84,7 @@ import { MonthPicker } from '~/components/ui/month-picker'
 | `value-change`       | `(value, details)` | Fires before selection. `details.cancel()` prevents update. |
 | `placeholder-change` | `(date, details)`  | Fires before paging. `details.cancel()` prevents update.    |
 
-## Keyboard
+### Keyboard
 
 | Key                                   | Behavior                                     |
 | ------------------------------------- | -------------------------------------------- |
@@ -85,10 +96,3 @@ import { MonthPicker } from '~/components/ui/month-picker'
 | `Enter` / `Space`                     | Selects focused month.                       |
 
 Native buttons provide pointer and touch activation. Focus never scrolls the document unexpectedly.
-
-## Source
-
-Copy `MonthPicker.vue` and `index.ts` into `components/ui/month-picker` after [installation](/getting-started/installation).
-
-::component-source{name="month-picker"}
-::

@@ -1,14 +1,16 @@
 ---
 title: Tree
-description: Accessible hierarchical navigation and selection with lazy loading, propagation, typeahead, and virtualization.
+description: Browse and select items in a nested list.
 navigation:
   icon: tabler:hierarchy-2
 ---
 
+## Demos
+
 ::component-example{name="tree" size-options="xs,sm,md,lg,xl" default-size="sm" variant-options="soft,subtle" default-variant="soft"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -28,18 +30,7 @@ const items = [{ id: 'projects', label: 'Projects', children: [{ id: 'ipex', lab
 </template>
 ```
 
-## Variants and defaults
-
-| Prop      | Values                       | Default |
-| --------- | ---------------------------- | ------- |
-| `variant` | `soft`, `subtle`             | `soft`  |
-| `size`    | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
-
-`soft` uses the same neutral selection fill as the sidebar. `subtle` adds an inset border. Tree selection defaults to the full row; choose `indented` or `label` when the selected area should follow the hierarchy more closely. Focus rings appear for keyboard navigation. Hover moves between nodes with a sliding highlight that follows the same boundary.
-
-Row height, disclosure target, icons, text, padding, and corners scale together. Branches and leaves at the same depth share one label column. Default indent steps are 12/16/20/24/28px for xs/sm/md/lg/xl; an explicit `indent` overrides them.
-
-## Selection highlight
+### Selection highlight
 
 Use `selection-highlight` to control the width of the selected area and sliding hover:
 
@@ -53,11 +44,14 @@ Switch between these scopes with **Selection highlight** in the playground above
 <Tree :items="items" item-key="id" selection-highlight="indented" />
 ```
 
-## Multiple selection
+### Multiple selection
 
 Select a branch to select its descendants. A partial selection shows a dash, and check marks stay at the trailing edge. Disclosure buttons expand independently from selection.
 
 ::tree-examples{example="multiple"}
+::
+
+::example-source{file="TreeExamples.vue"}
 ::
 
 ```vue
@@ -71,37 +65,66 @@ Select a branch to select its descendants. A partial selection shows a dash, and
 />
 ```
 
-## Loading branches
+### Loading branches
 
 Use `has-children` for a branch that has not loaded yet. Add its key to `loading-keys` during the request, then update its children. The disclosure shows progress while you load data.
 
 ::tree-examples{example="lazy"}
 ::
 
-## Large trees
+::example-source{file="TreeExamples.vue"}
+::
+
+### Large trees
 
 This example renders a window of 1,000 files. Row height follows `size`, including touch targets. Arrow keys and typeahead keep working; Home and End move to the first and last enabled item.
 
 ::tree-examples{example="virtual"}
 ::
 
+::example-source{file="TreeExamples.vue"}
+::
+
 Set `virtualize` to `true` or an options object. IPEX calculates the item height from the selected size and its 2px row spacing. Override `itemHeight` when you provide custom row geometry; it must include that spacing.
 
-## Empty state
+### Empty state
 
 Use `labels.empty` for a message or the `empty` slot for custom content.
 
 ::tree-examples{example="empty"}
 ::
 
-## Models
+::example-source{file="TreeExamples.vue"}
+::
+
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Tree.vue` and `index.ts` into `app/components/ui/tree/`.
+
+::component-source{name="tree"}
+::
+
+## API
+
+### Variants and defaults
+
+| Prop      | Values                       | Default |
+| --------- | ---------------------------- | ------- |
+| `variant` | `soft`, `subtle`             | `soft`  |
+| `size`    | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
+
+`soft` uses the same neutral selection fill as the sidebar. `subtle` adds an inset border. Tree selection defaults to the full row; choose `indented` or `label` when the selected area should follow the hierarchy more closely. Focus rings appear for keyboard navigation. Hover moves between nodes with a sliding highlight that follows the same boundary.
+
+Row height, disclosure target, icons, text, padding, and corners scale together. Branches and leaves at the same depth share one label column. Default indent steps are 12/16/20/24/28px for xs/sm/md/lg/xl; an explicit `indent` overrides them.
+
+### Models
 
 | Model              | Type                           | Default           | Description                                                    |
 | ------------------ | ------------------------------ | ----------------- | -------------------------------------------------------------- |
 | `v-model`          | `TreeKey \| TreeKey[] \| null` | `null`            | Selected key in single mode or selected keys in multiple mode. |
 | `v-model:expanded` | `TreeKey[]`                    | `defaultExpanded` | Expanded branch keys.                                          |
 
-## Props
+### Props
 
 | Prop                   | Type                                 | Default             | Description                                                                                   |
 | ---------------------- | ------------------------------------ | ------------------- | --------------------------------------------------------------------------------------------- |
@@ -141,7 +164,7 @@ Use `labels.empty` for a message or the `empty` slot for custom content.
 
 `TreeVirtualOptions` accepts `height`, `itemHeight`, and `overscan` numbers.
 
-## Slots
+### Slots
 
 | Slot          | Props                                            | Description                                             |
 | ------------- | ------------------------------------------------ | ------------------------------------------------------- |
@@ -157,7 +180,7 @@ Use `labels.empty` for a message or the `empty` slot for custom content.
 
 `node` exposes key, parent, depth, sibling position, label, and branch, expansion, selection, indeterminate, focus, disabled, selectable, and loading state.
 
-## Emits
+### Events
 
 | Event              | Payload            | Description                                                                            |
 | ------------------ | ------------------ | -------------------------------------------------------------------------------------- |
@@ -168,7 +191,7 @@ Use `labels.empty` for a message or the `empty` slot for custom content.
 
 Event `details` include `key`, `item`, `reason`, the original `event` when available, and `cancel()`. Calling `cancel()` in a change event prevents its model update.
 
-## Keyboard
+### Keyboard
 
 | Key                                        | Behavior                                                                                |
 | ------------------------------------------ | --------------------------------------------------------------------------------------- |
@@ -186,10 +209,3 @@ Event `details` include `key`, `item`, `reason`, the original `event` when avail
 Horizontal orientation maps movement to Left/Right and expansion to Down/Up. One visible enabled item participates in the page tab order.
 
 In multiple mode, `Shift` + click selects the visible range from the last selection anchor. `Ctrl` / `Cmd` + `Shift` + click adds that range to the current selection.
-
-## Source
-
-Copy `Tree.vue` and `index.ts` into `components/ui/tree` after [installation](/getting-started/installation).
-
-::component-source{name="tree"}
-::

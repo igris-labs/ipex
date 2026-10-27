@@ -1,14 +1,16 @@
 ---
 title: Stepper
-description: Multi-step progress and navigation with linear rules, roving focus, and associated panels.
+description: Guide someone through a sequence of steps.
 navigation:
   icon: tabler:list-numbers
 ---
 
+## Demos
+
 ::component-example{name="stepper" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -27,13 +29,22 @@ const items = [
 
 Panels share one grid area by default, reserving room for the tallest retained panel and fading in over 180ms. Inactive panels stay hidden from interaction. If you enable `unmountOnHide`, use `ui.panels` to reserve any minimum height your layout needs.
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Stepper.vue` and `index.ts` into `app/components/ui/stepper/`.
+
+::component-source{name="stepper"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Props
+### Props
 
 | Prop             | Type                         | Default            | Description                                      |
 | ---------------- | ---------------------------- | ------------------ | ------------------------------------------------ |
@@ -54,7 +65,7 @@ Panels share one grid area by default, reserving room for the tallest retained p
 | `ariaLabel`      | `string`                     | `"Progress steps"` | Accessible ordered-list label.                   |
 | `ui`             | `StepperUi`                  | —                  | Classes for structural parts.                    |
 
-## Slots
+### Slots
 
 | Slot                 | Props                                                                                | Description                            |
 | -------------------- | ------------------------------------------------------------------------------------ | -------------------------------------- |
@@ -70,7 +81,7 @@ Panels share one grid area by default, reserving room for the tallest retained p
 | `next`               | `disabled`, `next`                                                                   | Next button content.                   |
 | `state`              | current state and all navigation methods                                             | Optional state-driven custom controls. |
 
-## Emits
+### Events
 
 | Event               | Payload            | Description                                                   |
 | ------------------- | ------------------ | ------------------------------------------------------------- |
@@ -78,7 +89,7 @@ Panels share one grid area by default, reserving room for the tallest retained p
 | `value-change`      | `(value, details)` | Fired before step activation. `details.cancel()` prevents it. |
 | `complete`          | `(value, details)` | Fired when the final item becomes active.                     |
 
-## Keyboard
+### Keyboard
 
 | Key                        | Behavior                                        |
 | -------------------------- | ----------------------------------------------- |
@@ -89,10 +100,3 @@ Panels share one grid area by default, reserving room for the tallest retained p
 | `Enter` / `Space`          | Activate focused step in manual mode.           |
 
 With `activationMode="automatic"`, arrow-key focus also activates the destination step.
-
-## Source
-
-Copy `Stepper.vue` and `index.ts` into `components/ui/stepper` after [installation](/getting-started/installation).
-
-::component-source{name="stepper"}
-::

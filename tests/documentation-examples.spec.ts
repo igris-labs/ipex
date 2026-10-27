@@ -12,8 +12,10 @@ async function open(page: Page, name: string) {
 }
 
 async function setOption(page: Page, key: string, value: string) {
-  await page.getByRole('combobox', { name: `Example ${key}`, exact: true }).click()
-  await page.getByRole('option', { name: value, exact: true }).click()
+  const trigger = page.getByRole('combobox', { name: `Example ${key}`, exact: true })
+  await trigger.click()
+  const listbox = page.locator(`[id="${await trigger.getAttribute('aria-controls')}"]`)
+  await listbox.getByRole('option', { name: value, exact: true }).click()
 }
 
 test('preview options apply native states and visual variants', async ({ page }) => {

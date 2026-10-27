@@ -1,14 +1,16 @@
 ---
 title: Pagination
-description: Accessible page navigation with ranges, ellipses, boundary controls, and optional links.
+description: Move between pages of a collection.
 navigation:
   icon: tabler:arrows-horizontal
 ---
 
+## Demos
+
 ::component-example{name="pagination" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,19 +22,13 @@ import { Pagination } from '~/components/ui/pagination'
 </template>
 ```
 
-## Selection and movement
+### Selection and movement
 
 Page numbers use equal-width controls and tabular numerals. A separate selection marker stays in place when the visible range shifts; the numbered controls slide to their new positions over 180ms. Reduced motion updates the range immediately.
 
 Previous, next, first, and last controls use chevrons with accessible labels. Custom slots can replace those icons. Larger ranges scroll within their container instead of clipping controls. DataTable uses this same styled pagination and inherits the table size.
 
-## Variants and defaults
-
-| Prop   | Values                       | Default |
-| ------ | ---------------------------- | ------- |
-| `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
-
-## Active-page variants
+### Active-page variants
 
 Choose `soft` (default), `solid`, `subtle`, or `outline` with `variant`. Each uses the same marker and number movement; the selected page changes its fill, border, and foreground together. Use the preview's variant selector to compare them.
 
@@ -41,7 +37,22 @@ Choose `soft` (default), `solid`, `subtle`, or `outline` with `variant`. Each us
 <Pagination v-model="page" :total="100" variant="outline" />
 ```
 
-## Props
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Pagination.vue` and `index.ts` into `app/components/ui/pagination/`.
+
+::component-source{name="pagination"}
+::
+
+## API
+
+### Variants and defaults
+
+| Prop   | Values                       | Default |
+| ------ | ---------------------------- | ------- |
+| `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
+
+### Props
 
 | Prop               | Type                                         | Default        | Description                                           |
 | ------------------ | -------------------------------------------- | -------------- | ----------------------------------------------------- |
@@ -57,7 +68,7 @@ Choose `soft` (default), `solid`, `subtle`, or `outline` with `variant`. Each us
 | `getPageHref`      | `(page) => string \| undefined`              | —              | Renders controls as anchors when an href is returned. |
 | `ui`               | `PaginationUi`                               | —              | Classes for structural parts.                         |
 
-## Slots
+### Slots
 
 | Slot       | Props                                    | Description                      |
 | ---------- | ---------------------------------------- | -------------------------------- |
@@ -69,20 +80,13 @@ Choose `soft` (default), `solid`, `subtle`, or `outline` with `variant`. Each us
 | `last`     | `disabled`                               | Last-page control content.       |
 | `state`    | `page`, `pageCount`, `items`, `goToPage` | Optional state-driven custom UI. |
 
-## Emits
+### Events
 
 | Event               | Payload           | Description                                               |
 | ------------------- | ----------------- | --------------------------------------------------------- |
 | `update:modelValue` | `page`            | Fired after an accepted page change.                      |
 | `value-change`      | `(page, details)` | Fired before page change. `details.cancel()` prevents it. |
 
-## Keyboard
+### Keyboard
 
 Pagination uses native buttons or links. Tab moves through enabled controls; Enter and Space activate buttons, and Enter activates links. Boundary controls are disabled and removed from the tab order when they cannot move further.
-
-## Source
-
-Copy `Pagination.vue` and `index.ts` into `components/ui/pagination` after [installation](/getting-started/installation).
-
-::component-source{name="pagination"}
-::

@@ -1,14 +1,16 @@
 ---
 title: Hover Preview Card
-description: Hover-triggered rich content preview for links, users, and entities.
+description: Show a content preview when someone hovers or focuses a link.
 navigation:
   icon: tabler:id
 ---
 
+## Demos
+
 ::component-example{name="hover-preview-card" size-options="xs,sm,md,lg,xl" default-size="md"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -26,7 +28,16 @@ import { Button } from '~/components/ui/button'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `HoverPreviewCard.vue` and `index.ts` into `app/components/ui/hover-preview-card/`.
+
+::component-source{name="hover-preview-card"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
@@ -34,7 +45,7 @@ import { Button } from '~/components/ui/button'
 
 Width fits the content by default, capped at 20rem and the viewport. Panel padding stays at 12px across sizes. `size` controls text size, line height, and corner radius. The default trigger gap is 4px. Use `class` or `ui.content` to set an explicit width when needed. Child components retain their own size props.
 
-## Props
+### Props
 
 | Prop          | Type                                     | Default    | Description                                                       |
 | ------------- | ---------------------------------------- | ---------- | ----------------------------------------------------------------- |
@@ -51,29 +62,22 @@ Width fits the content by default, capped at 20rem and the viewport. Panel paddi
 | `teleport`    | `string \| false`                        | `"body"`   | Teleport target.                                                  |
 | `ui`          | `HoverPreviewCardUi`                     | —          | Classes for structural parts.                                     |
 
-## Slots
+### Slots
 
 | Slot      | Props                    | Description      |
 | --------- | ------------------------ | ---------------- |
 | `trigger` | `isOpen`, `triggerProps` | Trigger content. |
 | `content` | `close`                  | Preview content. |
 
-## Emits
+### Events
 
 | Event         | Payload           | Description                      |
 | ------------- | ----------------- | -------------------------------- |
 | `open-change` | `(open, details)` | Fired before open state changes. |
 
-## Keyboard
+### Keyboard
 
 | Key           | Behavior                                                                      |
 | ------------- | ----------------------------------------------------------------------------- |
 | `Tab` / focus | Opens on trigger focus and remains open while focus is in trigger or content. |
 | `Escape`      | Closes the card and returns focus to trigger.                                 |
-
-## Source
-
-Copy `HoverPreviewCard.vue` and `index.ts` into `components/ui/hover-preview-card` after [installation](/getting-started/installation).
-
-::component-source{name="hover-preview-card"}
-::

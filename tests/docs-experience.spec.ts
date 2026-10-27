@@ -36,7 +36,7 @@ test('explains the system and exposes distinct, rounded content navigation', asy
     (await input.locator('.iconify').getAttribute('class')) ?? '',
   )
   await sidebar.getByRole('link', { name: 'Principles', exact: true }).click()
-  await expect(page.getByRole('heading', { name: 'Specification map', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Guides', exact: true })).toBeVisible()
 })
 
 test('landing example supports editing, review, execution, and reset on mobile', async ({
@@ -50,7 +50,9 @@ test('landing example supports editing, review, execution, and reset on mobile',
   await expect(page.getByRole('button', { name: 'Create project', exact: true })).toBeDisabled()
   await name.fill('Operations')
   await page.getByRole('tab', { name: 'Review', exact: true }).click()
-  await expect(page.locator('dd').first()).toHaveText('Operations')
+  await expect(
+    page.getByRole('tabpanel', { name: 'Review', exact: true }).locator('dd').first(),
+  ).toHaveText('Operations')
   await page.getByRole('button', { name: 'Create project', exact: true }).click()
   await expect(
     page.getByRole('status').filter({ hasText: 'Created in this example.' }),
@@ -150,5 +152,5 @@ test('home views and button variant pickers use the shared sliding tabs', async 
     'aria-selected',
     'true',
   )
-  await expect(page.getByTestId('color-primary')).toHaveCount(1)
+  await expect(page.getByTestId('color-primary').filter({ visible: true })).toHaveCount(1)
 })

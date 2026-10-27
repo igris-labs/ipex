@@ -1,14 +1,16 @@
 ---
 title: Number Field
-description: Spinbutton number input with increment and decrement controls.
+description: Enter a number or adjust it with increment and decrement buttons.
 navigation:
   icon: tabler:number-123
 ---
 
+## Demos
+
 ::component-example{name="number-field" size-options="xs,sm,md,lg,xl" default-size="sm" variant-options="outline,soft,bare" default-variant="outline"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,14 +22,23 @@ import { NumberField } from '~/components/ui/number-field'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `NumberField.vue` and `index.ts` into `app/components/ui/number-field/`.
+
+::component-source{name="number-field"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop      | Values                       | Default   |
 | --------- | ---------------------------- | --------- |
 | `size`    | `xs`, `sm`, `md`, `lg`, `xl` | `sm`      |
 | `variant` | `outline`, `soft`, `bare`    | `outline` |
 
-## Props
+### Props
 
 | Prop                 | Type                             | Default                 | Description                                            |
 | -------------------- | -------------------------------- | ----------------------- | ------------------------------------------------------ |
@@ -53,7 +64,7 @@ import { NumberField } from '~/components/ui/number-field'
 | `ariaDescribedby`    | `string`                         | field description/error | Accessible description ids.                            |
 | `ui`                 | `NumberFieldUi`                  | —                       | Classes for structural parts.                          |
 
-## Slots
+### Slots
 
 | Slot        | Props                  | Description                      |
 | ----------- | ---------------------- | -------------------------------- |
@@ -61,14 +72,14 @@ import { NumberField } from '~/components/ui/number-field'
 | `decrement` | `value`, `decrement`   | Custom decrement button content. |
 | `increment` | `value`, `increment`   | Custom increment button content. |
 
-## Emits
+### Events
 
 | Event          | Payload            | Description                                                             |
 | -------------- | ------------------ | ----------------------------------------------------------------------- |
 | `value-change` | `(value, details)` | Fired before model updates. `details.cancel()` prevents the update.     |
 | `value-commit` | `(value, details)` | Fired on blur and after button, wheel, keyboard, or scrub interactions. |
 
-## Keyboard
+### Keyboard
 
 | Key                     | Behavior                            |
 | ----------------------- | ----------------------------------- |
@@ -78,10 +89,3 @@ import { NumberField } from '~/components/ui/number-field'
 | `End`                   | Set to `max` when provided.         |
 
 Mouse wheel changes the value only while the input is focused. Set `disableWheelChange` to opt out.
-
-## Source
-
-Copy `NumberField.vue` and `index.ts` into `components/ui/number-field` after [installation](/getting-started/installation).
-
-::component-source{name="number-field"}
-::

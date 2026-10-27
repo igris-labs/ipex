@@ -1,14 +1,16 @@
 ---
 title: Tabs
-description: A set of layered sections of content, one visible at a time.
+description: Switch between sections of content.
 navigation:
   icon: tabler:folder
 ---
 
+## Demos
+
 ::component-example{name="tabs" size-options="xs,sm,md,lg,xl" default-size="sm" variant-options="line,soft" default-variant="soft"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -32,14 +34,23 @@ The default soft variant uses inset segmented pills with a sliding selection bac
 
 Panels share one grid area by default, reserving room for the tallest retained panel and switching content with a 60ms fade-out followed by a 140ms, 4px slide-fade. Only one panel is painted at a time, so text does not overlap during the transition. Inactive panels stay hidden from interaction. If you enable `unmountOnHide`, use `ui.panels` to reserve any minimum height your layout needs.
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Tabs.vue` and `index.ts` into `app/components/ui/tabs/`.
+
+::component-source{name="tabs"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop      | Values                       | Default |
 | --------- | ---------------------------- | ------- |
 | `size`    | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 | `variant` | `soft`, `line`               | `soft`  |
 
-## Props
+### Props
 
 | Prop             | Type                         | Default        | Description                                                             |
 | ---------------- | ---------------------------- | -------------- | ----------------------------------------------------------------------- |
@@ -52,20 +63,20 @@ Panels share one grid area by default, reserving room for the tallest retained p
 | `labelKey`       | `string`                     | `"label"`      | Property to use as label when items are objects.                        |
 | `ui`             | `TabsUi`                     | —              | CSS class overrides.                                                    |
 
-## Slots
+### Slots
 
 | Slot            | Scoped props                 | Description                                              |
 | --------------- | ---------------------------- | -------------------------------------------------------- |
 | `tab`           | `{ item, isActive, select }` | Each tab button. Defaults to rendering the item's label. |
 | `panel-{value}` | `{ item, isActive }`         | Content panel for the tab with the matching `value`.     |
 
-## Emits
+### Events
 
 | Event          | Payload                    | Description                      |
 | -------------- | -------------------------- | -------------------------------- |
 | `value-change` | `[value: string, details]` | Fired when selected tab changes. |
 
-## Keyboard
+### Keyboard
 
 | Key                        | Behavior                                                           |
 | -------------------------- | ------------------------------------------------------------------ |
@@ -76,10 +87,3 @@ Panels share one grid area by default, reserving room for the tallest retained p
 | `Tab`                      | Moves from active tab into active panel or next focusable control. |
 
 Automatic mode activates during arrow movement. Manual mode moves focus only until activation.
-
-## Source
-
-Copy `Tabs.vue` and `index.ts` into `components/ui/tabs` after [installation](/getting-started/installation).
-
-::component-source{name="tabs"}
-::

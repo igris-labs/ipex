@@ -1,14 +1,16 @@
 ---
 title: Progress
-description: Displays a value indicating completion of a task.
+description: Show how much of a task has completed.
 navigation:
   icon: tabler:progress
 ---
 
+## Demos
+
 ::component-example{name="progress" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,7 +22,7 @@ import { Progress } from '~/components/ui/progress'
 </template>
 ```
 
-## Values and orientation
+### Values and orientation
 
 Bind the value with `v-model`. Set it to `null` for indeterminate progress. The preview exposes a value control and orientation under **Options and states**.
 
@@ -31,13 +33,22 @@ Bind the value with `v-model`. Set it to `null` for indeterminate progress. The 
 
 Vertical progress fills from the bottom and keeps the selected thickness. Width and height changes transition over 200ms; reduced motion disables the transition and indeterminate pulse.
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Progress.vue` and `index.ts` into `app/components/ui/progress/`.
+
+::component-source{name="progress"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Props
+### Props
 
 | Prop            | Type                                             | Default        | Description                                        |
 | --------------- | ------------------------------------------------ | -------------- | -------------------------------------------------- |
@@ -49,15 +60,8 @@ Vertical progress fills from the bottom and keeps the selected thickness. Width 
 | `getValueLabel` | `(value: number \| null, max: number) => string` | —              | Custom function to generate the `aria-valuetext`.  |
 | `ui`            | `ProgressUi`                                     | —              | CSS class overrides.                               |
 
-## Slots
+### Slots
 
 | Slot        | Scoped props                             | Description                                                                      |
 | ----------- | ---------------------------------------- | -------------------------------------------------------------------------------- |
 | `indicator` | `{ value, percentage, max, min, state }` | The filled indicator element. `state` is `"indeterminate"` when value is `null`. |
-
-## Source
-
-Copy `Progress.vue` and `index.ts` into `components/ui/progress` after [installation](/getting-started/installation).
-
-::component-source{name="progress"}
-::

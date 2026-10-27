@@ -1,14 +1,16 @@
 ---
 title: Radio Group
-description: A group of radio buttons where only one can be selected at a time.
+description: Choose one option from a group.
 navigation:
   icon: tabler:circle-dot
 ---
 
+## Demos
+
 ::component-example{name="radio-group" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -25,7 +27,16 @@ const options = [
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `RadioGroup.vue` and `index.ts` into `app/components/ui/radio-group/`.
+
+::component-source{name="radio-group"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
@@ -33,7 +44,7 @@ const options = [
 
 Radio Group uses 8, 10, 12, 14, and 16px spacing for xs through xl. Selection fades and scales the inner dot over 180ms; reduced motion disables the transition.
 
-## Props
+### Props
 
 | Prop              | Type                         | Default         | Description                                            |
 | ----------------- | ---------------------------- | --------------- | ------------------------------------------------------ |
@@ -53,20 +64,20 @@ Radio Group uses 8, 10, 12, 14, and 16px spacing for xs through xl. Selection fa
 | `as`              | `string`                     | `"div"`         | Root element tag.                                      |
 | `ui`              | `RadioGroupUi`               | —               | CSS class overrides.                                   |
 
-## Slots
+### Slots
 
 | Slot     | Scoped props                                                           | Description                                 |
 | -------- | ---------------------------------------------------------------------- | ------------------------------------------- |
 | `legend` | `{ legend }`                                                           | Group label. Defaults to the `legend` prop. |
 | `item`   | `{ option, value, label, description, isChecked, isDisabled, select }` | Each radio option.                          |
 
-## Emits
+### Events
 
 | Event          | Payload                    | Description                        |
 | -------------- | -------------------------- | ---------------------------------- |
 | `value-change` | `[value: string, details]` | Fired when selected value changes. |
 
-## Keyboard
+### Keyboard
 
 | Key                        | Behavior                                                             |
 | -------------------------- | -------------------------------------------------------------------- |
@@ -77,10 +88,3 @@ Radio Group uses 8, 10, 12, 14, and 16px spacing for xs through xl. Selection fa
 | `Tab`                      | Enters group at selected item, or first enabled item.                |
 
 Arrow navigation wraps when `loop` is true and skips disabled items.
-
-## Source
-
-Copy `RadioGroup.vue` and `index.ts` into `components/ui/radio-group` after [installation](/getting-started/installation).
-
-::component-source{name="radio-group"}
-::

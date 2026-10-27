@@ -1,14 +1,16 @@
 ---
 title: Navigation Menu
-description: Horizontal flyout and vertical application navigation from one items API.
+description: Build navigation links with flyouts or expandable groups.
 navigation:
   icon: tabler:compass
 ---
 
+## Demos
+
 ::component-example{name="navigation-menu" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -27,13 +29,22 @@ const items = [
 
 Flyouts sit 2px from their trigger. Flyout links stack their title above the description. The hover highlight slides between top-level controls in 180ms and follows keyboard focus. Hovering a link without children closes the previous flyout. Reduced motion disables the slide.
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `NavigationMenu.vue` and `index.ts` into `app/components/ui/navigation-menu/`.
+
+::component-source{name="navigation-menu"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Models
+### Models
 
 | Model              | Type             | Default                             | Description                                                             |
 | ------------------ | ---------------- | ----------------------------------- | ----------------------------------------------------------------------- |
@@ -41,7 +52,7 @@ Flyouts sit 2px from their trigger. Flyout links stack their title above the des
 | `v-model:open`     | `string \| null` | `null`                              | Active horizontal or side flyout item.                                  |
 | `v-model:expanded` | `string[]`       | `defaultExpanded` and item defaults | Expanded inline item values. Multiple branches may remain open.         |
 
-## Props
+### Props
 
 Use `highlight-mode="selection"` to keep the shared indicator on the current item; the default `hover` mode follows pointer and focus movement. Use `selection-hover` to retain selection and track hover with a separate marker. Sidebar uses these modes for its line and rail designs.
 
@@ -64,7 +75,7 @@ Use `highlight-mode="selection"` to keep the shared indicator on the current ite
 | `ariaLabel`       | `string`                         | `"Primary"`    | Accessible nav label.                                                                                             |
 | `ui`              | `NavigationMenuUi`               | —              | Classes for structural parts.                                                                                     |
 
-## Slots
+### Slots
 
 | Slot              | Props                     | Description                                   |
 | ----------------- | ------------------------- | --------------------------------------------- |
@@ -79,7 +90,7 @@ Use `highlight-mode="selection"` to keep the shared indicator on the current ite
 
 `NavigationMenuSlotProps` exposes `item`, `isOpen`, `isActive`, `depth`, `collapsed`, and a native-handler-safe `toggle` action.
 
-## Emits
+### Events
 
 | Event             | Payload                            | Description                                                                                                         |
 | ----------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
@@ -88,7 +99,7 @@ Use `highlight-mode="selection"` to keep the shared indicator on the current ite
 | `value-change`    | `(value, details)`                 | Fired before the selected value changes. Details include `item`; call `details.cancel()` to reject it.              |
 | `select`          | `(item, details)`                  | Fired when a link/item is selected.                                                                                 |
 
-## Keyboard
+### Keyboard
 
 | Key                               | Behavior                                                                                                                                                              |
 | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -99,10 +110,3 @@ Use `highlight-mode="selection"` to keep the shared indicator on the current ite
 | Character keys                    | Typeahead across flyout triggers.                                                                                                                                     |
 | `ArrowDown` / `ArrowUp` in flyout | Move through enabled flyout links.                                                                                                                                    |
 | `Escape`                          | Close the active flyout.                                                                                                                                              |
-
-## Source
-
-Copy `NavigationMenu.vue` and `index.ts` into `components/ui/navigation-menu` after [installation](/getting-started/installation).
-
-::component-source{name="navigation-menu"}
-::

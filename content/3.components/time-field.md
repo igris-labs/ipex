@@ -1,14 +1,16 @@
 ---
 title: Time Field
-description: Locale-aware segmented time input with keyboard editing, constraints, granularity, and native forms.
+description: Enter a time with separate editable segments.
 navigation:
   icon: tabler:clock
 ---
 
+## Demos
+
 ::component-example{name="time-field" size-options="xs,sm,md,lg,xl" default-size="sm" variant-options="outline,soft,bare" default-variant="outline"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,21 +22,30 @@ import { TimeField } from '~/components/ui/time-field'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `TimeField.vue` and `index.ts` into `app/components/ui/time-field/`.
+
+::component-source{name="time-field"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop      | Values                       | Default   |
 | --------- | ---------------------------- | --------- |
 | `size`    | `xs`, `sm`, `md`, `lg`, `xl` | `sm`      |
 | `variant` | `outline`, `soft`, `bare`    | `outline` |
 
-## Models
+### Models
 
 | Model                 | Type                     | Default                   | Description                                                      |
 | --------------------- | ------------------------ | ------------------------- | ---------------------------------------------------------------- |
 | `v-model`             | `TimeValue \| undefined` | `undefined`               | Accepted clock value. Existing date and zone data are preserved. |
 | `v-model:placeholder` | `TimeValue \| undefined` | `placeholder` or midnight | Base value used before a model exists; accepted edits update it. |
 
-## Props
+### Props
 
 | Prop                | Type                             | Default                     | Description                                                          |
 | ------------------- | -------------------------------- | --------------------------- | -------------------------------------------------------------------- |
@@ -62,7 +73,7 @@ import { TimeField } from '~/components/ui/time-field'
 | `ariaDescribedby`   | `string`                         | Field description/error ids | Explicit description relation.                                       |
 | `ui`                | `TimeFieldUi`                    | —                           | Classes for generated parts.                                         |
 
-## Slots
+### Slots
 
 | Slot         | Props                      | Description                                         |
 | ------------ | -------------------------- | --------------------------------------------------- |
@@ -70,7 +81,7 @@ import { TimeField } from '~/components/ui/time-field'
 | `day-period` | `value`, `label`, `toggle` | AM/PM control content and event-safe toggle action. |
 | `time-zone`  | `value`                    | Zone identifier content.                            |
 
-## Emits
+### Events
 
 | Event                | Payload                  | Description                                                                     |
 | -------------------- | ------------------------ | ------------------------------------------------------------------------------- |
@@ -79,7 +90,7 @@ import { TimeField } from '~/components/ui/time-field'
 | `value-change`       | `(value, details)`       | Fires before model mutation. `details.cancel()` rejects it.                     |
 | `value-commit`       | `(value, details)`       | Fires after complete input, keyboard, paste, day-period, blur, or clear commit. |
 
-## Keyboard
+### Keyboard
 
 | Key                        | Behavior                                                        |
 | -------------------------- | --------------------------------------------------------------- |
@@ -93,10 +104,3 @@ import { TimeField } from '~/components/ui/time-field'
 | Paste                      | Distributes colon- or space-separated time parts.               |
 
 Each numeric segment uses `role="spinbutton"` with value bounds. Native inputs and button semantics provide keyboard, mouse, touch, and screen-reader behavior.
-
-## Source
-
-Copy `TimeField.vue` and `index.ts` into `components/ui/time-field` after [installation](/getting-started/installation).
-
-::component-source{name="time-field"}
-::

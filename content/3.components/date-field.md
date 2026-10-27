@@ -1,14 +1,16 @@
 ---
 title: Date Field
-description: Locale-ordered segmented date input with keyboard editing, optional Calendar, validation, paste, and native forms.
+description: Enter a date by typing or selecting from a calendar.
 navigation:
   icon: tabler:calendar-event
 ---
 
+## Demos
+
 ::component-example{name="date-field" size-options="xs,sm,md,lg,xl" default-size="sm" variant-options="outline,soft,bare" default-variant="outline"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,18 +22,27 @@ import { DateField } from '~/components/ui/date-field'
 </template>
 ```
 
-## Typing and calendar selection
+### Typing and calendar selection
 
 Click a date segment to type or use the calendar button to choose a date. Focus and text selection use the neutral secondary fill with its paired foreground. A subtle ring marks the active segment. Slashes have their own spacing. The calendar opens outside the preview frame and follows the same size as the field.
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `DateField.vue` and `index.ts` into `app/components/ui/date-field/`. Also copy the required components: [Calendar](/components/calendar).
+
+::component-source{name="date-field"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop      | Values                       | Default   |
 | --------- | ---------------------------- | --------- |
 | `size`    | `xs`, `sm`, `md`, `lg`, `xl` | `sm`      |
 | `variant` | `outline`, `soft`, `bare`    | `outline` |
 
-## Props
+### Props
 
 | Prop                 | Type                                     | Default                     | Description                                             |
 | -------------------- | ---------------------------------------- | --------------------------- | ------------------------------------------------------- |
@@ -62,7 +73,7 @@ Click a date segment to type or use the calendar button to choose a date. Focus 
 
 Date Field accepts calendar dates at day granularity. Use [Time Field](/components/time-field) for clock values.
 
-## Slots
+### Slots
 
 | Slot               | Props                               | Description                                                                    |
 | ------------------ | ----------------------------------- | ------------------------------------------------------------------------------ |
@@ -70,7 +81,7 @@ Date Field accepts calendar dates at day granularity. Use [Time Field](/componen
 | `calendar-trigger` | `isOpen`, `open`, `close`, `toggle` | Replaces optional trigger content. Actions accept native event-first handlers. |
 | `calendar`         | `value`, `select`, `close`          | Replaces built-in Calendar content while retaining popup behavior.             |
 
-## Emits
+### Events
 
 | Event                  | Payload                          | Description                                                          |
 | ---------------------- | -------------------------------- | -------------------------------------------------------------------- |
@@ -82,7 +93,7 @@ Date Field accepts calendar dates at day granularity. Use [Time Field](/componen
 
 Value `details.reason` can be `input`, `keyboard`, `paste`, `blur`, `clear`, or `calendar`. Calendar-open reasons include `trigger`, `select`, `escape`, and `outside-click`.
 
-## Keyboard
+### Keyboard
 
 | Key                                   | Behavior                                                                  |
 | ------------------------------------- | ------------------------------------------------------------------------- |
@@ -98,12 +109,3 @@ Value `details.reason` can be `input`, `keyboard`, `paste`, `blur`, `clear`, or 
 Each editable part uses `role="spinbutton"` with `aria-valuemin`, `aria-valuemax`, `aria-valuenow`, and a localized accessible label. Touch users can tap and edit any segment with the numeric keyboard.
 
 Partial segment text remains internal. Date Field updates `v-model` only after day, month, and year are complete and valid.
-
-## Source
-
-Copy `DateField.vue` and `index.ts` into `components/ui/date-field` after [installation](/getting-started/installation).
-
-Also copy [Calendar](/components/calendar); this recipe uses their styled parts.
-
-::component-source{name="date-field"}
-::

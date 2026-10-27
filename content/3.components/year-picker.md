@@ -1,14 +1,16 @@
 ---
 title: Year Picker
-description: Accessible paged year grid with constraints and single or multiple selection.
+description: Select one or more years from a grid.
 navigation:
   icon: tabler:calendar-due
 ---
 
+## Demos
+
 ::component-example{name="year-picker" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,20 +22,29 @@ import { YearPicker } from '~/components/ui/year-picker'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `YearPicker.vue` and `index.ts` into `app/components/ui/year-picker/`.
+
+::component-source{name="year-picker"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Models
+### Models
 
 | Model                 | Type                                                    | Default                | Description                                |
 | --------------------- | ------------------------------------------------------- | ---------------------- | ------------------------------------------ |
 | `v-model`             | `CalendarDateValue \| CalendarDateValue[] \| undefined` | `undefined`            | Selected year(s), normalized to January 1. |
 | `v-model:placeholder` | `CalendarDateValue`                                     | selected year or today | First year displayed on current page.      |
 
-## Props
+### Props
 
 | Prop                    | Type                                 | Default         | Description                             |
 | ----------------------- | ------------------------------------ | --------------- | --------------------------------------- |
@@ -53,7 +64,7 @@ import { YearPicker } from '~/components/ui/year-picker'
 | `nextPage` / `prevPage` | `(placeholder) => CalendarDateValue` | page arithmetic | Replaces default page calculation.      |
 | `ui`                    | `YearPickerUi`                       | —               | Classes for generated parts.            |
 
-## Slots
+### Slots
 
 | Slot       | Props                                                                      | Description                    |
 | ---------- | -------------------------------------------------------------------------- | ------------------------------ |
@@ -63,7 +74,7 @@ import { YearPicker } from '~/components/ui/year-picker'
 | `year`     | `date`, `label`, `selected`, `today`, `disabled`, `unavailable`, `focused` | Year button content and state. |
 | `footer`   | `value`, `placeholder`                                                     | Optional content after grid.   |
 
-## Emits
+### Events
 
 | Event                | Payload            | Description                                                 |
 | -------------------- | ------------------ | ----------------------------------------------------------- |
@@ -72,7 +83,7 @@ import { YearPicker } from '~/components/ui/year-picker'
 | `value-change`       | `(value, details)` | Fires before selection. `details.cancel()` prevents update. |
 | `placeholder-change` | `(date, details)`  | Fires before paging. `details.cancel()` prevents update.    |
 
-## Keyboard
+### Keyboard
 
 | Key                                   | Behavior                         |
 | ------------------------------------- | -------------------------------- |
@@ -82,10 +93,3 @@ import { YearPicker } from '~/components/ui/year-picker'
 | `PageUp` / `PageDown`                 | Moves one `yearsPerPage` page.   |
 | `Shift + PageUp` / `Shift + PageDown` | Moves ten pages.                 |
 | `Enter` / `Space`                     | Selects focused year.            |
-
-## Source
-
-Copy `YearPicker.vue` and `index.ts` into `components/ui/year-picker` after [installation](/getting-started/installation).
-
-::component-source{name="year-picker"}
-::

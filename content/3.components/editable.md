@@ -1,14 +1,16 @@
 ---
 title: Editable
-description: Inline text editing with preview, draft, submit, cancel, and native form behavior.
+description: Edit text in place, then save or cancel the change.
 navigation:
   icon: tabler:pencil
 ---
 
+## Demos
+
 ::component-example{name="editable" size-options="xs,sm,md,lg,xl" default-size="sm" variant-options="outline,soft,bare" default-variant="outline"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,18 +22,27 @@ import { Editable } from '~/components/ui/editable'
 </template>
 ```
 
-## Editing behavior
+### Editing behavior
 
 Click the preview or Edit to begin. Submit commits the draft; Cancel restores the previous value. The preview, input, and action buttons share the selected size. Open **Options and states** to try activation mode, submit mode, multiline input, disabled, and read-only states.
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Editable.vue` and `index.ts` into `app/components/ui/editable/`. Also copy the required components: [Button](/components/button).
+
+::component-source{name="editable"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop      | Values                       | Default   |
 | --------- | ---------------------------- | --------- |
 | `size`    | `xs`, `sm`, `md`, `lg`, `xl` | `sm`      |
 | `variant` | `outline`, `soft`, `bare`    | `outline` |
 
-## Props
+### Props
 
 | Prop                | Type                                            | Default            | Description                                  |
 | ------------------- | ----------------------------------------------- | ------------------ | -------------------------------------------- |
@@ -55,7 +66,7 @@ Click the preview or Edit to begin. Submit commits the draft; Cancel restores th
 | `ariaDescribedby`   | `string`                                        | field ids          | Accessible description ids.                  |
 | `ui`                | `EditableUi`                                    | —                  | Classes for structural parts.                |
 
-## Slots
+### Slots
 
 | Slot      | Props                                                                | Description                      |
 | --------- | -------------------------------------------------------------------- | -------------------------------- |
@@ -65,7 +76,7 @@ Click the preview or Edit to begin. Submit commits the draft; Cancel restores th
 | `cancel`  | —                                                                    | Cancel button content.           |
 | `state`   | `value`, `draft`, `isEditing`, `isEmpty`, `edit`, `submit`, `cancel` | Optional state-driven custom UI. |
 
-## Emits
+### Events
 
 | Event               | Payload                     | Description                                          |
 | ------------------- | --------------------------- | ---------------------------------------------------- |
@@ -76,7 +87,7 @@ Click the preview or Edit to begin. Submit commits the draft; Cancel restores th
 | `submit`            | `(value, details)`          | Fired before submission completes. Cancelable.       |
 | `cancel`            | `(committedValue, details)` | Fired before draft cancellation. Cancelable.         |
 
-## Keyboard
+### Keyboard
 
 | Key                        | Behavior                                                            |
 | -------------------------- | ------------------------------------------------------------------- |
@@ -84,10 +95,3 @@ Click the preview or Edit to begin. Submit commits the draft; Cancel restores th
 | `Ctrl+Enter` / `Cmd+Enter` | Submits a multiline value.                                          |
 | `Escape`                   | Cancels the draft and returns to preview mode.                      |
 | `Tab`                      | Uses native focus order; blur may submit depending on `submitMode`. |
-
-## Source
-
-Copy `Editable.vue` and `index.ts` into `components/ui/editable` after [installation](/getting-started/installation).
-
-::component-source{name="editable"}
-::

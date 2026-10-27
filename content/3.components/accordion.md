@@ -1,14 +1,16 @@
 ---
 title: Accordion
-description: A set of collapsible sections with headings.
+description: Show related content in sections that expand and collapse.
 navigation:
   icon: tabler:arrows-vertical
 ---
 
+## Demos
+
 ::component-example{name="accordion" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -26,7 +28,7 @@ const items = [
 
 The open item can be closed again by default. Set `:collapsible="false"` when one selected item must remain open. Headers and content follow the selected size, and expansion respects reduced motion.
 
-## Appearance and sizing
+### Appearance and sizing
 
 A single rounded border contains the disclosure. Accordion items share full-width dividers. The open header has a light tint, and body text aligns with its label. Focus stays inside the outer border.
 
@@ -40,7 +42,16 @@ A single rounded border contains the disclosure. Accordion items share full-widt
 
 These headers have 16px more height than compact controls to support longer labels and the expanded body. Coarse-pointer targets stay at least 44px tall.
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Accordion.vue` and `index.ts` into `app/components/ui/accordion/`.
+
+::component-source{name="accordion"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
@@ -48,7 +59,7 @@ These headers have 16px more height than compact controls to support longer labe
 
 The preview controls size, selection type, keyboard orientation, collapsibility, disabled state, and content mounting. Open sections by clicking their headers; switching selection type resets the open value. Orientation changes the layout and arrow-key navigation. Horizontal sections appear side by side.
 
-## Props
+### Props
 
 | Prop            | Type                                   | Default      | Description                                                                              |
 | --------------- | -------------------------------------- | ------------ | ---------------------------------------------------------------------------------------- |
@@ -70,7 +81,7 @@ The preview controls size, selection type, keyboard orientation, collapsibility,
 
 `items` and the key props describe your data. Use `as`, `class`, and `ui` in code to customize markup and styling.
 
-## Slots
+### Slots
 
 | Slot          | Scoped props                      | Description                                      |
 | ------------- | --------------------------------- | ------------------------------------------------ |
@@ -79,14 +90,14 @@ The preview controls size, selection type, keyboard orientation, collapsibility,
 | `content`     | `{ item, value, isOpen }`         | Panel body content for every item.               |
 | `[item.slot]` | `{ item, value, isOpen }`         | Per-item panel override when `item.slot` is set. |
 
-## Emits
+### Events
 
 | Event               | Payload                                | Description                         |
 | ------------------- | -------------------------------------- | ----------------------------------- |
 | `update:modelValue` | `[value: string \| string[]]`          | Updates the controlled open value.  |
 | `value-change`      | `[value: string \| string[], details]` | Fired when the open item(s) change. |
 
-## Keyboard
+### Keyboard
 
 | Key                        | Behavior                                                            |
 | -------------------------- | ------------------------------------------------------------------- |
@@ -94,10 +105,3 @@ The preview controls size, selection type, keyboard orientation, collapsibility,
 | `ArrowDown` / `ArrowUp`    | Moves between enabled triggers in vertical orientation and loops.   |
 | `ArrowRight` / `ArrowLeft` | Moves between enabled triggers in horizontal orientation and loops. |
 | `Home` / `End`             | Focuses first or last enabled trigger.                              |
-
-## Source
-
-Copy `Accordion.vue` and `index.ts` into `components/ui/accordion` after [installation](/getting-started/installation).
-
-::component-source{name="accordion"}
-::

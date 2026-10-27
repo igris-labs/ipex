@@ -1,14 +1,16 @@
 ---
 title: Slider
-description: Single-value or range slider with pointer drag, keyboard step, and ARIA metadata.
+description: Choose a value or range by dragging a handle or using the keyboard.
 navigation:
   icon: tabler:adjustments-horizontal
 ---
 
+## Demos
+
 ::component-example{name="slider" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,13 +22,22 @@ import { Slider } from '~/components/ui/slider'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Slider.vue` and `index.ts` into `app/components/ui/slider/`.
+
+::component-source{name="slider"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Props
+### Props
 
 | Prop                    | Type                                  | Default                 | Description                                              |
 | ----------------------- | ------------------------------------- | ----------------------- | -------------------------------------------------------- |
@@ -49,21 +60,21 @@ import { Slider } from '~/components/ui/slider'
 | `getValueLabel`         | `(value, max) => string \| undefined` | —                       | Human-readable `aria-valuetext`.                         |
 | `ui`                    | `SliderUi`                            | —                       | Classes for structural parts.                            |
 
-## Slots
+### Slots
 
 | Slot    | Props                                                   | Description           |
 | ------- | ------------------------------------------------------- | --------------------- |
 | `range` | `value`, `values`, `percentage`, `percentages`          | Custom range content. |
 | `thumb` | `value`, `values`, `index`, `percentage`, `percentages` | Custom thumb content. |
 
-## Emits
+### Events
 
 | Event          | Payload                                | Description                                                         |
 | -------------- | -------------------------------------- | ------------------------------------------------------------------- |
 | `value-change` | `(value: number \| number[], details)` | Fired before model updates. `details.cancel()` prevents the update. |
 | `value-commit` | `(value: number \| number[], details)` | Fired at the end of pointer or keyboard interaction.                |
 
-## Keyboard
+### Keyboard
 
 | Key                       | Behavior                            |
 | ------------------------- | ----------------------------------- |
@@ -71,10 +82,3 @@ import { Slider } from '~/components/ui/slider'
 | `ArrowLeft` / `ArrowDown` | Decrement by `step`.                |
 | `PageUp` / `PageDown`     | Increment/decrement by `step * 10`. |
 | `Home` / `End`            | Set to min/max.                     |
-
-## Source
-
-Copy `Slider.vue` and `index.ts` into `components/ui/slider` after [installation](/getting-started/installation).
-
-::component-source{name="slider"}
-::

@@ -1,14 +1,16 @@
 ---
 title: Switch
-description: A toggle control for binary or custom on/off values.
+description: Turn a setting on or off.
 navigation:
   icon: tabler:toggle-left
 ---
 
+## Demos
+
 ::component-example{name="switch" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -20,13 +22,22 @@ import { Switch } from '~/components/ui/switch'
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `Switch.vue` and `index.ts` into `app/components/ui/switch/`.
+
+::component-source{name="switch"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Props
+### Props
 
 | Prop          | Type                          | Default | Description                                                |
 | ------------- | ----------------------------- | ------- | ---------------------------------------------------------- |
@@ -41,7 +52,7 @@ import { Switch } from '~/components/ui/switch'
 | `ariaLabel`   | `string`                      | —       | `aria-label` for icon-only switches with no visible label. |
 | `ui`          | `SwitchUi`                    | —       | CSS class overrides.                                       |
 
-## Slots
+### Slots
 
 | Slot          | Scoped props  | Description                                           |
 | ------------- | ------------- | ----------------------------------------------------- |
@@ -49,13 +60,13 @@ import { Switch } from '~/components/ui/switch'
 | `label`       | —             | Label text. Defaults to the `label` prop.             |
 | `description` | —             | Description text. Defaults to the `description` prop. |
 
-## Emits
+### Events
 
 | Event          | Payload                         | Description                          |
 | -------------- | ------------------------------- | ------------------------------------ |
 | `value-change` | `[value: SwitchValue, details]` | Fired when the switch state changes. |
 
-## Keyboard
+### Keyboard
 
 | Key                   | Behavior                          |
 | --------------------- | --------------------------------- |
@@ -63,10 +74,3 @@ import { Switch } from '~/components/ui/switch'
 | `Tab` / `Shift + Tab` | Uses native document focus order. |
 
 Visible label is associated with switch, so mouse and touch activation on label also toggles it.
-
-## Source
-
-Copy `Switch.vue` and `index.ts` into `components/ui/switch` after [installation](/getting-started/installation).
-
-::component-source{name="switch"}
-::

@@ -1,14 +1,16 @@
 ---
 title: Checkbox Group
-description: Items-based multi-select built on Checkbox.
+description: Select one or more options from a group of checkboxes.
 navigation:
   icon: tabler:list-check
 ---
 
+## Demos
+
 ::component-example{name="checkbox-group" size-options="xs,sm,md,lg,xl" default-size="sm"}
 ::
 
-## Usage
+### Usage
 
 ```vue
 <script setup lang="ts">
@@ -25,13 +27,22 @@ const options = [
 </template>
 ```
 
-## Variants and defaults
+## Installation
+
+Complete the [shared installation](/getting-started/installation). Copy `CheckboxGroup.vue` and `index.ts` into `app/components/ui/checkbox-group/`. Also copy the required components: [Checkbox](/components/checkbox).
+
+::component-source{name="checkbox-group"}
+::
+
+## API
+
+### Variants and defaults
 
 | Prop   | Values                       | Default |
 | ------ | ---------------------------- | ------- |
 | `size` | `xs`, `sm`, `md`, `lg`, `xl` | `sm`    |
 
-## Props
+### Props
 
 | Prop                | Type                         | Default         | Description                                                    |
 | ------------------- | ---------------------------- | --------------- | -------------------------------------------------------------- |
@@ -53,7 +64,7 @@ const options = [
 | `ariaLabelledby`    | `string`                     | —               | External accessible label id.                                  |
 | `ui`                | `CheckboxGroupUi`            | —               | Classes for root, legend, item, and nested checkbox parts.     |
 
-## Slots
+### Slots
 
 | Slot               | Scoped props                             | Description                                                                      |
 | ------------------ | ---------------------------------------- | -------------------------------------------------------------------------------- |
@@ -61,13 +72,13 @@ const options = [
 | `indicator`        | `option`, `checked`                      | Child checkbox indicator.                                                        |
 | `parent-indicator` | `checked`                                | Parent checkbox indicator.                                                       |
 
-## Emits
+### Events
 
 | Event          | Payload            | Description                                                         |
 | -------------- | ------------------ | ------------------------------------------------------------------- |
 | `value-change` | `(value, details)` | Fired before model updates. `details.cancel()` prevents the update. |
 
-## Keyboard
+### Keyboard
 
 | Key                   | Behavior                                                                   |
 | --------------------- | -------------------------------------------------------------------------- |
@@ -75,12 +86,3 @@ const options = [
 | `Enter` / `Space`     | Toggles focused checkbox. Parent control selects or clears allowed values. |
 
 Each checkbox remains in the native tab order. The group does not use roving focus.
-
-## Source
-
-Copy `CheckboxGroup.vue` and `index.ts` into `components/ui/checkbox-group` after [installation](/getting-started/installation).
-
-Also copy [Checkbox](/components/checkbox); this recipe uses their styled parts.
-
-::component-source{name="checkbox-group"}
-::
