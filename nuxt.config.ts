@@ -28,12 +28,26 @@ export default defineNuxtConfig({
     },
   },
   css: ['~/assets/main.css'],
+  icon: {
+    provider: 'none',
+    clientBundle: {
+      scan: { globInclude: ['app/**/*.{vue,ts}', 'content/**/*.{md,yml}'] },
+    },
+  },
   content: {
     renderer: { alias: { kbd: 'ProseKbd' } },
     build: {
       markdown: {
         highlight: false,
       },
+    },
+  },
+  nitro: {
+    preset: 'static',
+    prerender: {
+      routes: ['/'],
+      crawlLinks: true,
+      failOnError: true,
     },
   },
   colorMode: { classSuffix: '', preference: 'system', fallback: 'light' },

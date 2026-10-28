@@ -4,7 +4,8 @@ import config from '../ui/ui.config.ts?raw'
 import types from '../ui/ui.types.ts?raw'
 import DocsCode from './DocsCode.vue'
 
-import css from '../../assets/main.css?raw'
+// Keep displayed CSS source out of Nuxt's static stylesheet extraction.
+const { default: css } = await import('../../assets/main.css?raw')
 
 defineProps<{ file: 'config' | 'types' | 'utils' | 'css' }>()
 const files = {

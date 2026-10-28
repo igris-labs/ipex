@@ -5,6 +5,11 @@ import DocsCode from './DocsCode.vue'
 
 const props = defineProps<{ commands: Record<PackageManager, string> }>()
 const active = useState<PackageManager>('docs-package-manager', () => 'pnpm')
+const packageIcons: Record<string, string> = {
+  pnpm: 'tabler:brand-pnpm',
+  yarn: 'tabler:brand-yarn',
+  npm: 'tabler:brand-npm',
+}
 const items = packageManagers.map((manager) => ({ value: manager, label: manager }))
 </script>
 
@@ -39,7 +44,7 @@ const items = packageManagers.map((manager) => ({ value: manager, label: manager
       </svg>
       <Icon
         v-else
-        :name="`tabler:brand-${item.value}`"
+        :name="packageIcons[item.value] ?? 'tabler:package'"
         class="size-4 shrink-0"
         :class="{
           'text-warning': item.value === 'pnpm',

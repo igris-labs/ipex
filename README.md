@@ -68,6 +68,21 @@ tests/                     Playwright interaction and regression checks
 
 Nuxt Content builds navigation from the content tree. Category metadata lives in `.navigation.yml`; component filenames have no numeric prefixes. Each component guide follows **Demos → Installation → API**.
 
+## Deployment
+
+IPEX uses Nitro's static preset. `pnpm build` prerenders the homepage and crawls internal links to generate the documentation pages. Build errors, including broken page links found during prerendering, fail the build. The output includes the content database needed for browser navigation and search. Icons used in application source and Markdown are bundled locally, without runtime icon API requests.
+
+For Cloudflare Pages, use these build settings:
+
+| Setting                | Value            |
+| ---------------------- | ---------------- |
+| Build command          | `pnpm build`     |
+| Build output directory | `.output/public` |
+
+Deploy the generated output after rebuilding. Cloudflare Pages serves the generated page files directly; no Nuxt server or Pages Function is required.
+
+`pnpm generate` also produces the static export in `.output/public`.
+
 ## Checks
 
 ```sh
