@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Sidebar as Primitive } from 'akaza-ui'
 import type { AkazaChangeEventDetails, NavigationMenuValueChangeEventDetails } from 'akaza-ui'
-import { computed, ref, watch, useAttrs, useTemplateRef } from 'vue'
+import { computed, nextTick, ref, watch, useAttrs, useTemplateRef } from 'vue'
 
 import { cn } from '../../../utils/ui'
 import { NavigationMenu } from '../navigation-menu'
@@ -144,6 +144,60 @@ const primitiveProps = computed(() => {
   return native
 })
 const primitive = useTemplateRef<InstanceType<typeof Primitive>>('primitive')
+const content = useTemplateRef<HTMLElement>('content')
+let scrollTop = 0
+function scrollBody() {
+  return content.value?.closest<HTMLElement>('.akaza-sidebar-body')
+}
+watch(
+  content,
+  (_, __, onCleanup) => {
+    const body = scrollBody()
+    if (!body) return
+    // The mobile drawer recreates its body; keep navigation at the user's last position.
+    body.scrollTop = scrollTop
+    const rememberScroll = () => {
+      scrollTop = body.scrollTop
+    }
+    body.addEventListener('scroll', rememberScroll, { passive: true })
+    onCleanup(() => body.removeEventListener('scroll', rememberScroll))
+  },
+  { flush: 'post' },
+)
+watch(
+  () => props.modelValue,
+  async () => {
+    const body = scrollBody()
+    if (!body) return
+    const position = body.scrollTop
+    await nextTick()
+    if (body.isConnected) body.scrollTop = position
+  },
+)
+watch(
+  () => primitive.value?.isMobile,
+  async (mobile, wasMobile) => {
+    if (mobile !== false || wasMobile !== true) return
+    await nextTick()
+    const body = scrollBody()
+    const active = body?.querySelector<HTMLElement>(
+      '.akaza-navigation-menu-link[data-akaza-active], .akaza-navigation-menu-trigger[data-akaza-active]',
+    )
+    if (!body || !active) return
+    const viewport = body.getBoundingClientRect()
+    const row = active.getBoundingClientRect()
+    const offset =
+      row.top < viewport.top ? row.top - viewport.top : Math.max(0, row.bottom - viewport.bottom)
+    if (offset)
+      body.scrollTo({
+        top: body.scrollTop + offset,
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? 'instant'
+          : 'smooth',
+      })
+  },
+  { flush: 'post' },
+)
 defineExpose({
   get openValue() {
     return primitive.value!.openValue
@@ -200,42 +254,46 @@ defineExpose({
     :ui="mergedUi"
   >
     <template #default="scope">
-      <slot v-bind="scope">
-        <NavigationMenu
-          v-if="items"
-          :items="navigationItems"
-          v-model:expanded="expanded"
-          :size="resolvedVariants.itemSize"
-          :highlight-mode="
-            resolvedVariants.design === 'rail'
-              ? 'selection-hover'
-              : resolvedVariants.design === 'line'
-                ? 'selection'
-                : 'hover'
-          "
-          :model-value="modelValue"
-          :collapsed="scope.collapsed"
-          orientation="vertical"
-          content-mode="inline"
-          :aria-label="navigationLabel ?? ariaLabel ?? 'Navigation'"
-          :ui="navigationUi"
-          @update:model-value="emit('update:modelValue', $event)"
-          @select="onSelect"
-          @value-change="onValueChange"
-        >
-          <template v-if="resolvedVariants.mode === 'grouped'" #item-label="itemScope">
-            <span
-              :data-sidebar-group="itemScope.item.sidebarGroup || undefined"
-              :class="itemScope.item.sidebarGroup ? cn(navigationUi.groupLabel, 'p-0') : undefined"
-            >
-              <slot name="item-label" v-bind="itemScope">{{ itemScope.item.label }}</slot>
-            </span>
-          </template>
-          <template v-for="name in navigationSlots" #[name]="itemScope">
-            <slot :name="name" v-bind="itemScope" />
-          </template>
-        </NavigationMenu>
-      </slot>
+      <div ref="content" class="contents">
+        <slot v-bind="scope">
+          <NavigationMenu
+            v-if="items"
+            :items="navigationItems"
+            v-model:expanded="expanded"
+            :size="resolvedVariants.itemSize"
+            :highlight-mode="
+              resolvedVariants.design === 'rail'
+                ? 'selection-hover'
+                : resolvedVariants.design === 'line'
+                  ? 'selection'
+                  : 'hover'
+            "
+            :model-value="modelValue"
+            :collapsed="scope.collapsed"
+            orientation="vertical"
+            content-mode="inline"
+            :aria-label="navigationLabel ?? ariaLabel ?? 'Navigation'"
+            :ui="navigationUi"
+            @update:model-value="emit('update:modelValue', $event)"
+            @select="onSelect"
+            @value-change="onValueChange"
+          >
+            <template v-if="resolvedVariants.mode === 'grouped'" #item-label="itemScope">
+              <span
+                :data-sidebar-group="itemScope.item.sidebarGroup || undefined"
+                :class="
+                  itemScope.item.sidebarGroup ? cn(navigationUi.groupLabel, 'p-0') : undefined
+                "
+              >
+                <slot name="item-label" v-bind="itemScope">{{ itemScope.item.label }}</slot>
+              </span>
+            </template>
+            <template v-for="name in navigationSlots" #[name]="itemScope">
+              <slot :name="name" v-bind="itemScope" />
+            </template>
+          </NavigationMenu>
+        </slot>
+      </div>
     </template>
     <template v-for="name in forwardedSlots" #[name]="scope"
       ><slot :name="name as keyof SidebarSlots" v-bind="scope ?? {}"

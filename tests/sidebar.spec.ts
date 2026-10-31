@@ -10,6 +10,79 @@ async function open(page: Page, path: string) {
   })
 }
 
+test('Sidebar keeps a scrolled selection in place across navigation and mobile reopening', async ({
+  page,
+}) => {
+  await open(page, '/components/button')
+  const nav = page.getByRole('navigation', { name: 'Documentation', exact: true })
+  const tree = nav.getByRole('link', { name: 'Tree', exact: true })
+  await tree.hover()
+  const body = page.locator('.akaza-sidebar-body').first()
+  const scrollTop = await body.evaluate((el) => el.scrollTop)
+  const top = (await tree.boundingBox())!.y
+  expect(scrollTop).toBeGreaterThan(0)
+  await tree.click()
+  await expect(page).toHaveURL(/\/components\/tree$/)
+  await expect(tree).toHaveAttribute('data-akaza-active', 'true')
+  await expect.poll(() => body.evaluate((el) => el.scrollTop)).toBe(scrollTop)
+  await expect.poll(async () => (await tree.boundingBox())!.y).toBe(top)
+
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.getByRole('button', { name: 'Open navigation', exact: true }).click()
+  const dialog = page.getByRole('dialog')
+  const timeField = dialog.getByRole('link', { name: 'Time Field', exact: true })
+  await timeField.hover()
+  const mobileBody = dialog.locator('.akaza-sidebar-body')
+  const mobileScrollTop = await mobileBody.evaluate((el) => el.scrollTop)
+  const mobileTop = (await timeField.boundingBox())!.y
+  expect(mobileScrollTop).toBeGreaterThan(0)
+  await timeField.click()
+  await expect(page).toHaveURL(/\/components\/time-field$/)
+  await expect(dialog).toHaveCount(0)
+  await page.getByRole('button', { name: 'Open navigation', exact: true }).click()
+  await expect(timeField).toHaveAttribute('data-akaza-active', 'true')
+  await expect.poll(() => mobileBody.evaluate((el) => el.scrollTop)).toBe(mobileScrollTop)
+  await expect.poll(async () => (await timeField.boundingBox())!.y).toBe(mobileTop)
+})
+
+for (const reducedMotion of ['no-preference', 'reduce'] as const) {
+  test(`Sidebar brings the active mobile route into view on desktop (${reducedMotion})`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion })
+    await page.setViewportSize({ width: 390, height: 844 })
+    await open(page, '/components/button')
+    await page.getByRole('button', { name: 'Open navigation', exact: true }).click()
+    const dialog = page.getByRole('dialog')
+    await dialog.getByRole('link', { name: 'Tree', exact: true }).click()
+    await expect(page).toHaveURL(/\/components\/tree$/)
+    await expect(dialog).toHaveCount(0)
+    await page.getByRole('button', { name: 'Open navigation', exact: true }).click()
+    await dialog.locator('.akaza-sidebar-body').evaluate((el) => {
+      el.scrollTop = 0
+    })
+    await expect
+      .poll(() => dialog.locator('.akaza-sidebar-body').evaluate((el) => el.scrollTop))
+      .toBe(0)
+    await page.getByRole('button', { name: 'Close', exact: true }).click()
+    await expect(dialog).toHaveCount(0)
+    await page.setViewportSize({ width: 1440, height: 850 })
+    const nav = page.getByRole('navigation', { name: 'Documentation', exact: true })
+    const active = nav.getByRole('link', { name: 'Tree', exact: true })
+    await expect(active).toHaveAttribute('data-akaza-active', 'true')
+    await expect
+      .poll(() =>
+        active.evaluate((el) => {
+          const row = el.getBoundingClientRect()
+          const body = el.closest('.akaza-sidebar-body')!.getBoundingClientRect()
+          return row.top >= body.top && row.bottom <= body.bottom
+        }),
+      )
+      .toBe(true)
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
+  })
+}
+
 test('soft Sidebar renders labels, nested links, disabled items and selection from its items API', async ({
   page,
 }) => {
